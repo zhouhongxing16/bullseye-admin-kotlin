@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--Created by  on Mon Dec 28 2020 18:10:53 GMT+0800 (中国标准时间)-->
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.chris.bullseye.mapper.OrderListMapper">
+    <resultMap id="BaseResultMap" type="com.chris.bullseye.pojo.OrderList">
+        <id column="id" jdbcType="VARCHAR" property="id" />
+        <result column="order_id" jdbcType="VARCHAR" property="orderId" />
+        <result column="goods_id" jdbcType="VARCHAR" property="goodsId" />
+        <result column="goods_name" jdbcType="VARCHAR" property="goodsName" />
+        <result column="goods_img" jdbcType="VARCHAR" property="goodsImg" />
+        <result column="goods_type" jdbcType="VARCHAR" property="goodsType" />
+        <result column="price" jdbcType="INTEGER" property="price" />
+        <result column="nums" jdbcType="INTEGER" property="nums" />
+        <result column="total" jdbcType="INTEGER" property="total" />
+        <result column="pay_total" jdbcType="INTEGER" property="payTotal" />
+        <result column="created" jdbcType="TIMESTAMP" property="created" />
+        
+    </resultMap>
+
+    <resultMap id="BaseResultMapDto" type="com.chris.bullseye.dto.OrderListDto" extends="BaseResultMap">
+       <result column="userName" jdbcType="VARCHAR" property="userName"/>
+    </resultMap>
+    
+    <sql id="basic_list">
+		a.id, a.order_id, a.goods_id, a.goods_name, a.goods_img, a.goods_type, a.price, a.nums, a.total, a.pay_total, a.created
+	</sql>
+
+    <select id="getListByParams" resultMap="BaseResultMapDto" parameterType="map">
+        SELECT
+        <include refid="basic_list"/>,staff.name as userName
+        FROM kb_order_list a
+        left join kb_accounts act on act.id = a.user_id
+        left join kb_staffs staff on staff.id = act.staff_id
+        <where>
+            <if test="id!=null and id!='' ">
+                and a.id=#{ id }
+            </if>
+            <if test="orderId!=null and orderId!='' ">
+                and a.order_id=#{ orderId }
+            </if>
+            <if test="goodsId!=null and goodsId!='' ">
+                and a.goods_id=#{ goodsId }
+            </if>
+            <if test="goodsName!=null and goodsName!='' ">
+                and a.goods_name LIKE CONCAT('%', #{ goodsName }, '%')
+            </if>
+            <if test="goodsImg!=null and goodsImg!='' ">
+                and a.goods_img LIKE CONCAT('%', #{ goodsImg }, '%')
+            </if>
+            <if test="goodsType!=null and goodsType!='' ">
+                and a.goods_type LIKE CONCAT('%', #{ goodsType }, '%')
+            </if>
+            <if test="price!=null and price!='' ">
+                and a.price LIKE CONCAT('%', #{ price }, '%')
+            </if>
+            <if test="nums!=null and nums!='' ">
+                and a.nums LIKE CONCAT('%', #{ nums }, '%')
+            </if>
+            <if test="total!=null and total!='' ">
+                and a.total LIKE CONCAT('%', #{ total }, '%')
+            </if>
+            <if test="payTotal!=null and payTotal!='' ">
+                and a.pay_total LIKE CONCAT('%', #{ payTotal }, '%')
+            </if>
+            <if test="created!=null and created!='' ">
+                and a.created LIKE CONCAT('%', #{ created }, '%')
+            </if>
+        </where>
+        order by a.created desc
+    </select>
+
+       <select id="getByParams" resultMap="BaseResultMapDto" parameterType="map">
+        SELECT
+        <include refid="basic_list"/>,staff.name as userName
+        FROM kb_order_list a
+        left join kb_accounts act on act.id = a.user_id
+        left join kb_staffs staff on staff.id = act.staff_id
+        <where>
+            <if test="id!=null and id!='' ">
+                and a.id=#{ id }
+            </if>
+            <if test="orderId!=null and orderId!='' ">
+                and a.order_id=#{ orderId }
+            </if>
+            <if test="goodsId!=null and goodsId!='' ">
+                and a.goods_id=#{ goodsId }
+            </if>
+            <if test="goodsName!=null and goodsName!='' ">
+                and a.goods_name LIKE CONCAT('%', #{ goodsName }, '%')
+            </if>
+            <if test="goodsImg!=null and goodsImg!='' ">
+                and a.goods_img LIKE CONCAT('%', #{ goodsImg }, '%')
+            </if>
+            <if test="goodsType!=null and goodsType!='' ">
+                and a.goods_type LIKE CONCAT('%', #{ goodsType }, '%')
+            </if>
+            <if test="price!=null and price!='' ">
+                and a.price LIKE CONCAT('%', #{ price }, '%')
+            </if>
+            <if test="nums!=null and nums!='' ">
+                and a.nums LIKE CONCAT('%', #{ nums }, '%')
+            </if>
+            <if test="total!=null and total!='' ">
+                and a.total LIKE CONCAT('%', #{ total }, '%')
+            </if>
+            <if test="payTotal!=null and payTotal!='' ">
+                and a.pay_total LIKE CONCAT('%', #{ payTotal }, '%')
+            </if>
+            <if test="created!=null and created!='' ">
+                and a.created LIKE CONCAT('%', #{ created }, '%')
+            </if>
+        </where>
+        limit 1
+    </select>
+</mapper>

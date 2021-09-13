@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--Created by  on Fri Dec 25 2020 19:25:54 GMT+0800 (中国标准时间)-->
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.chris.bullseye.mapper.ConfigParameterMapper">
+    <resultMap id="BaseResultMap" type="com.chris.bullseye.pojo.ConfigParameter">
+        <id column="id" jdbcType="VARCHAR" property="id" />
+        <result column="data_id" jdbcType="VARCHAR" property="dataId" />
+        <result column="code" jdbcType="VARCHAR" property="code" />
+        <result column="name" jdbcType="VARCHAR" property="name" />
+        <result column="display_type" jdbcType="INTEGER" property="displayType" />
+        <result column="default_value" jdbcType="VARCHAR" property="defaultValue" />
+        <result column="config_value" jdbcType="VARCHAR" property="configValue" />
+        <result column="status" jdbcType="INTEGER" property="status" />
+        <result column="created" jdbcType="TIMESTAMP" property="created" />
+        
+    </resultMap>
+
+    <resultMap id="BaseResultMapDto" type="com.chris.bullseye.dto.ConfigParameterDto" extends="BaseResultMap">
+       <result column="userName" jdbcType="VARCHAR" property="userName"/>
+    </resultMap>
+    
+    <sql id="basic_list">
+		a.id, a.data_id, a.code, a.name, a.display_type, a.default_value, a.config_value, a.status, a.created
+	</sql>
+
+    <select id="getListByParams" resultMap="BaseResultMapDto" parameterType="map">
+        SELECT
+        <include refid="basic_list"/>,staff.name as userName
+        FROM kb_config_parameters a
+        left join kb_accounts act on act.id = a.user_id
+        left join kb_staffs staff on staff.id = act.staff_id
+        <where>
+            <if test="id!=null and id!='' ">
+                and a.id=#{ id }
+            </if>
+            <if test="dataId!=null and dataId!='' ">
+                and a.data_id=#{ dataId }
+            </if>
+            <if test="code!=null and code!='' ">
+                and a.code LIKE CONCAT('%', #{ code }, '%')
+            </if>
+            <if test="name!=null and name!='' ">
+                and a.name LIKE CONCAT('%', #{ name }, '%')
+            </if>
+            <if test="displayType!=null and displayType!='' ">
+                and a.display_type LIKE CONCAT('%', #{ displayType }, '%')
+            </if>
+            <if test="defaultValue!=null and defaultValue!='' ">
+                and a.default_value LIKE CONCAT('%', #{ defaultValue }, '%')
+            </if>
+            <if test="configValue!=null and configValue!='' ">
+                and a.config_value LIKE CONCAT('%', #{ configValue }, '%')
+            </if>
+            <if test="status!=null and status!='' ">
+                and a.status = #{ status }
+            </if>
+            <if test="created!=null and created!='' ">
+                and a.created LIKE CONCAT('%', #{ created }, '%')
+            </if>
+        </where>
+        order by a.created desc
+    </select>
+
+       <select id="getByParams" resultMap="BaseResultMapDto" parameterType="map">
+        SELECT
+        <include refid="basic_list"/>,staff.name as userName
+        FROM kb_config_parameters a
+        left join kb_accounts act on act.id = a.user_id
+        left join kb_staffs staff on staff.id = act.staff_id
+        <where>
+            <if test="id!=null and id!='' ">
+                and a.id=#{ id }
+            </if>
+            <if test="dataId!=null and dataId!='' ">
+                and a.data_id=#{ dataId }
+            </if>
+            <if test="code!=null and code!='' ">
+                and a.code LIKE CONCAT('%', #{ code }, '%')
+            </if>
+            <if test="name!=null and name!='' ">
+                and a.name LIKE CONCAT('%', #{ name }, '%')
+            </if>
+            <if test="displayType!=null and displayType!='' ">
+                and a.display_type LIKE CONCAT('%', #{ displayType }, '%')
+            </if>
+            <if test="defaultValue!=null and defaultValue!='' ">
+                and a.default_value LIKE CONCAT('%', #{ defaultValue }, '%')
+            </if>
+            <if test="configValue!=null and configValue!='' ">
+                and a.config_value LIKE CONCAT('%', #{ configValue }, '%')
+            </if>
+            <if test="status!=null and status!='' ">
+                and a.status = #{ status }
+            </if>
+            <if test="created!=null and created!='' ">
+                and a.created LIKE CONCAT('%', #{ created }, '%')
+            </if>
+        </where>
+        limit 1
+    </select>
+</mapper>

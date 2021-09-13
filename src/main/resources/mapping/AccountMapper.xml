@@ -1,0 +1,296 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.chris.bullseye.mapper.AccountMapper">
+    <resultMap id="BaseResultMap" type="com.chris.bullseye.pojo.Account">
+        <id column="id" jdbcType="VARCHAR" property="id" />
+        <result column="username" jdbcType="VARCHAR" property="username" />
+        <result column="nick_name" jdbcType="VARCHAR" property="nickName" />
+        <result column="password" jdbcType="VARCHAR" property="password" />
+        <result column="email" jdbcType="VARCHAR" property="email" />
+        <result column="mobile" jdbcType="VARCHAR" property="mobile" />
+        <result column="mobile_login_flag" jdbcType="BIT" property="mobileLoginFlag" />
+        <result column="account_locked" jdbcType="BIT" property="accountLocked" />
+        <result column="account_expired" jdbcType="BIT" property="accountExpired" />
+        <result column="type_flag" jdbcType="INTEGER" property="typeFlag" />
+        <result column="level_id" jdbcType="VARCHAR" property="levelId" />
+        <result column="staff_id" jdbcType="VARCHAR" property="staffId" />
+        <result column="organization_id" jdbcType="VARCHAR" property="organizationId" />
+        <result column="wx_openid" jdbcType="VARCHAR" property="wxOpenid" />
+        <result column="alipay_openid" jdbcType="VARCHAR" property="alipayOpenid" />
+        <result column="avatar" jdbcType="VARCHAR" property="avatar" />
+        <result column="status" jdbcType="INTEGER" property="status" />
+        <result column="remark" jdbcType="VARCHAR" property="remark" />
+        <result column="user_id" jdbcType="VARCHAR" property="userId" />
+        <result column="modified" jdbcType="TIMESTAMP" property="modified" />
+        <result column="expired_date" jdbcType="TIMESTAMP" property="expiredDate" />
+        <result column="created" jdbcType="TIMESTAMP" property="created" />
+
+    </resultMap>
+
+    <resultMap id="BaseResultMapDto" type="com.chris.bullseye.dto.AccountDto">
+        <result column="organizationName" jdbcType="VARCHAR" property="organizationName"/>
+        <result column="levelName" jdbcType="VARCHAR" property="levelName"/>
+        <result column="staffName" jdbcType="VARCHAR" property="staffName"/>
+    </resultMap>
+
+    <sql id="basic_list">
+        a.id, a.username, a.nick_name, a.password, a.email, a.mobile, a.mobile_login_flag, a.account_locked, a.account_expired, a.type_flag, a.level_id, a.staff_id, a.organization_id, a.wx_openid, a.alipay_openid, a.avatar, a.status, a.remark, a.user_id, a.modified, a.expired_date, a.created
+    </sql>
+
+
+    <select id="getListByParams" resultMap="BaseResultMapDto" parameterType="map">
+        SELECT
+        <include refid="basic_list"/>,l.name as levelName,s.name as staffName,org.name as organizationName
+        FROM kb_accounts a
+        left join kb_levels l on l.id = a.level_id
+        left join kb_staffs s on s.id = a.staff_id
+        left join kb_organizations org on org.id = a.organization_id
+        <where>
+            <if test="id!=null and id!='' ">
+                and a.id=#{ id }
+            </if>
+            <if test="username!=null and username!='' ">
+                and a.username LIKE CONCAT('%', #{ username }, '%')
+            </if>
+            <if test="nickName!=null and nickName!='' ">
+                and a.nick_name LIKE CONCAT('%', #{ nickName }, '%')
+            </if>
+            <if test="password!=null and password!='' ">
+                and a.password LIKE CONCAT('%', #{ password }, '%')
+            </if>
+            <if test="email!=null and email!='' ">
+                and a.email LIKE CONCAT('%', #{ email }, '%')
+            </if>
+            <if test="mobile!=null and mobile!='' ">
+                and a.mobile LIKE CONCAT('%', #{ mobile }, '%')
+            </if>
+            <if test="mobileLoginFlag!=null and mobileLoginFlag!='' ">
+                and a.mobile_login_flag LIKE CONCAT('%', #{ mobileLoginFlag }, '%')
+            </if>
+            <if test="accountLocked!=null and accountLocked!='' ">
+                and a.account_locked LIKE CONCAT('%', #{ accountLocked }, '%')
+            </if>
+            <if test="accountExpired!=null and accountExpired!='' ">
+                and a.account_expired LIKE CONCAT('%', #{ accountExpired }, '%')
+            </if>
+            <if test="typeFlag!=null and typeFlag!='' ">
+                and a.type_flag LIKE CONCAT('%', #{ typeFlag }, '%')
+            </if>
+            <if test="levelId!=null and levelId!='' ">
+                and a.level_id=#{ levelId }
+            </if>
+            <if test="staffId!=null and staffId!='' ">
+                and a.staff_id=#{ staffId }
+            </if>
+            <if test="organizationId!=null and organizationId!='' ">
+                and a.organization_id=#{ organizationId }
+            </if>
+            <if test="wxOpenid!=null and wxOpenid!='' ">
+                and a.wx_openid=#{ wxOpenid }
+            </if>
+            <if test="alipayOpenid!=null and alipayOpenid!='' ">
+                and a.alipay_openid=#{ alipayOpenid }
+            </if>
+            <if test="avatar!=null and avatar!='' ">
+                and a.avatar LIKE CONCAT('%', #{ avatar }, '%')
+            </if>
+            <if test="status!=null and status!='' ">
+                and a.status = #{ status }
+            </if>
+            <if test="remark!=null and remark!='' ">
+                and a.remark LIKE CONCAT('%', #{ remark }, '%')
+            </if>
+            <if test="userId!=null and userId!='' ">
+                and a.user_id=#{ userId }
+            </if>
+            <if test="modified!=null and modified!='' ">
+                and a.modified LIKE CONCAT('%', #{ modified }, '%')
+            </if>
+            <if test="expiredDate!=null and expiredDate!='' ">
+                and a.expired_date LIKE CONCAT('%', #{ expiredDate }, '%')
+            </if>
+            <if test="created!=null and created!='' ">
+                and a.created LIKE CONCAT('%', #{ created }, '%')
+            </if>
+        </where>
+        order by a.created
+    </select>
+
+
+    <select id="getDtoListByParams" resultMap="BaseResultMapDto" parameterType="map">
+        SELECT distinct
+        <include refid="basic_list"/>,l.name as levelName,s.name as staffName,org.name as organizationName
+        FROM kb_accounts a
+        left join kb_levels l on l.id = a.level_id
+        left join kb_staffs s on s.id = a.staff_id
+        left join kb_account_role ar on ar.account_id = a.id
+        left join kb_roles r on r.id = ar.role_id
+        left join kb_organizations org on org.id = a.organization_id
+        <where>
+            <if test="id!=null and id!='' ">
+                and a.id=#{ id }
+            </if>
+            <if test="username!=null and username!='' ">
+                and a.username LIKE CONCAT('%', #{ username }, '%')
+            </if>
+            <if test="nickName!=null and nickName!='' ">
+                and a.nick_name LIKE CONCAT('%', #{ nickName }, '%')
+            </if>
+            <if test="password!=null and password!='' ">
+                and a.password LIKE CONCAT('%', #{ password }, '%')
+            </if>
+            <if test="email!=null and email!='' ">
+                and a.email LIKE CONCAT('%', #{ email }, '%')
+            </if>
+            <if test="mobile!=null and mobile!='' ">
+                and a.mobile LIKE CONCAT('%', #{ mobile }, '%')
+            </if>
+            <if test="mobileLoginFlag!=null and mobileLoginFlag!='' ">
+                and a.mobile_login_flag LIKE CONCAT('%', #{ mobileLoginFlag }, '%')
+            </if>
+            <if test="accountLocked!=null and accountLocked!='' ">
+                and a.account_locked LIKE CONCAT('%', #{ accountLocked }, '%')
+            </if>
+            <if test="accountExpired!=null and accountExpired!='' ">
+                and a.account_expired LIKE CONCAT('%', #{ accountExpired }, '%')
+            </if>
+            <if test="typeFlag!=null and typeFlag!='' ">
+                and a.type_flag LIKE CONCAT('%', #{ typeFlag }, '%')
+            </if>
+            <if test="levelId!=null and levelId!='' ">
+                and a.level_id=#{ levelId }
+            </if>
+            <if test="staffId!=null and staffId!='' ">
+                and a.staff_id=#{ staffId }
+            </if>
+            <if test="organizationId!=null and organizationId!='' ">
+                and a.organization_id=#{ organizationId }
+            </if>
+            <if test="wxOpenid!=null and wxOpenid!='' ">
+                and a.wx_openid=#{ wxOpenid }
+            </if>
+            <if test="alipayOpenid!=null and alipayOpenid!='' ">
+                and a.alipay_openid=#{ alipayOpenid }
+            </if>
+            <if test="avatar!=null and avatar!='' ">
+                and a.avatar LIKE CONCAT('%', #{ avatar }, '%')
+            </if>
+            <if test="status!=null and status!='' ">
+                and a.status = #{ status }
+            </if>
+            <if test="remark!=null and remark!='' ">
+                and a.remark LIKE CONCAT('%', #{ remark }, '%')
+            </if>
+            <if test="userId!=null and userId!='' ">
+                and a.user_id=#{ userId }
+            </if>
+            <if test="roleCode!=null and roleCode!='' ">
+                and r.code=#{roleCode}
+            </if>
+            <if test="modified!=null and modified!='' ">
+                and a.modified LIKE CONCAT('%', #{ modified }, '%')
+            </if>
+            <if test="expiredDate!=null and expiredDate!='' ">
+                and a.expired_date LIKE CONCAT('%', #{ expiredDate }, '%')
+            </if>
+            <if test="created!=null and created!='' ">
+                and a.created LIKE CONCAT('%', #{ created }, '%')
+            </if>
+        </where>
+        order by a.created
+    </select>
+
+
+    <select id="getNotInRoleCodeListByParams" resultMap="BaseResultMapDto" parameterType="map">
+        SELECT distinct
+        <include refid="basic_list"/>,l.name as levelName,s.name as staffName,org.name as organizationName
+        FROM kb_accounts a
+        left join kb_levels l on l.id = a.level_id
+        left join kb_staffs s on s.id = a.staff_id
+        left join kb_account_role ar on ar.account_id = a.id
+        left join kb_roles r on r.id = ar.role_id
+        left join kb_organizations org on org.id = a.organization_id
+        <where>
+            <if test="id!=null and id!='' ">
+                and a.id=#{ id }
+            </if>
+            <if test="username!=null and username!='' ">
+                and a.username LIKE CONCAT('%', #{ username }, '%')
+            </if>
+            <if test="nickName!=null and nickName!='' ">
+                and a.nick_name LIKE CONCAT('%', #{ nickName }, '%')
+            </if>
+            <if test="email!=null and email!='' ">
+                and a.email LIKE CONCAT('%', #{ email }, '%')
+            </if>
+            <if test="mobile!=null and mobile!='' ">
+                and a.mobile LIKE CONCAT('%', #{ mobile }, '%')
+            </if>
+            <if test="mobileLoginFlag!=null and mobileLoginFlag!='' ">
+                and a.mobile_login_flag = #{ mobileLoginFlag }
+            </if>
+            <if test="accountLocked!=null and accountLocked!='' ">
+                and a.account_locked = #{ accountLocked }
+            </if>
+            <if test="accountExpired!=null and accountExpired!='' ">
+                and a.account_expired = #{ accountExpired }
+            </if>
+            <if test="typeFlag!=null and typeFlag!='' ">
+                and a.type_flag LIKE CONCAT('%', #{ typeFlag }, '%')
+            </if>
+            <if test="levelId!=null and levelId!='' ">
+                and a.level_id=#{ levelId }
+            </if>
+            <if test="staffId!=null and staffId!='' ">
+                and a.staff_id=#{ staffId }
+            </if>
+            <if test="organizationId!=null and organizationId!='' ">
+                and a.organization_id=#{ organizationId }
+            </if>
+            <if test="wxOpenid!=null and wxOpenid!='' ">
+                and a.wx_openid=#{ wxOpenid }
+            </if>
+            <if test="alipayOpenid!=null and alipayOpenid!='' ">
+                and a.alipay_openid=#{ alipayOpenid }
+            </if>
+            <if test="status!=null and status!='' ">
+                and a.status = #{ status }
+            </if>
+            <if test="userId!=null and userId!='' ">
+                and a.user_id=#{ userId }
+            </if>
+            <if test="roleCode!=null and roleCode!='' ">
+                and r.code!=#{roleCode}
+            </if>
+        </where>
+        order by a.created
+    </select>
+
+    <select id="getAccountByUserName" resultMap="BaseResultMap" parameterType="String">
+        select a.*
+        from kb_accounts a
+        where a.username = #{0}
+    </select>
+
+    <select id="getAccountByStaffMobile" resultMap="BaseResultMap" parameterType="String">
+        select a.*
+        from kb_accounts a
+        left join kb_staff s on s.id = a.staff_id
+        where s.mobile = #{0} limit 1
+    </select>
+
+    <select id="getAccountByStaffId" resultMap="BaseResultMap" parameterType="String">
+        select a.*
+        from kb_accounts a
+        left join kb_staff s on s.id = a.staff_id
+        where s.id = #{0}
+    </select>
+
+
+    <select id="getById" resultMap="BaseResultMap" parameterType="String">
+        select
+        <include refid="basic_list"/>
+        from kb_accounts a
+        where a.id = #{0} limit 1
+    </select>
+</mapper>

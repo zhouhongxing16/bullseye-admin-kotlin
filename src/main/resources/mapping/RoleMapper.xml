@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--Created by  on Sun Apr 28 2019 22:55:10 GMT+0800 (中国标准时间)-->
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.chris.bullseye.mapper.RoleMapper">
+    <resultMap id="BaseResultMap" type="com.chris.bullseye.pojo.Role">
+        <id column="id" jdbcType="VARCHAR" property="id" />
+        <result column="code" jdbcType="VARCHAR" property="code" />
+        <result column="name" jdbcType="VARCHAR" property="name" />
+        <result column="data_auth_flag" jdbcType="VARCHAR" property="dataAuthFlag" />
+        <result column="remark" jdbcType="VARCHAR" property="remark" />
+        <result column="user_id" jdbcType="VARCHAR" property="userId" />
+        <result column="status" jdbcType="INTEGER" property="status" />
+        <result column="created" jdbcType="TIMESTAMP" property="created" />
+
+    </resultMap>
+
+    <resultMap id="BaseResultMapDto" type="com.chris.bullseye.dto.RoleDto" extends="BaseResultMap">
+        <result column="userName" jdbcType="VARCHAR" property="userName"/>
+    </resultMap>
+
+    <sql id="basic_list">
+        a.id, a.code, a.name, a.data_auth_flag, a.remark, a.user_id, a.status, a.created
+    </sql>
+
+    <select id="getListByParams" resultMap="BaseResultMapDto" parameterType="map">
+        SELECT
+        <include refid="basic_list"/>,staff.name as userName
+        FROM kb_roles a
+        left join kb_accounts act on act.id = a.user_id
+        left join kb_staffs staff on staff.id = act.staff_id
+        <where>
+            <if test="id!=null and id!='' ">
+                and a.id=#{ id }
+            </if>
+            <if test="code!=null and code!='' ">
+                and a.code LIKE CONCAT('%', #{ code }, '%')
+            </if>
+            <if test="name!=null and name!='' ">
+                and a.name LIKE CONCAT('%', #{ name }, '%')
+            </if>
+            <if test="dataAuthFlag!=null and dataAuthFlag!='' ">
+                and a.data_auth_flag LIKE CONCAT('%', #{ dataAuthFlag }, '%')
+            </if>
+            <if test="remark!=null and remark!='' ">
+                and a.remark LIKE CONCAT('%', #{ remark }, '%')
+            </if>
+            <if test="userId!=null and userId!='' ">
+                and a.user_id=#{ userId }
+            </if>
+            <if test="status!=null and status!='' ">
+                and a.status = #{ status }
+            </if>
+            <if test="created!=null and created!='' ">
+                and a.created LIKE CONCAT('%', #{ created }, '%')
+            </if>
+        </where>
+        order by a.created desc
+    </select>
+
+    <select id="getByParams" resultMap="BaseResultMapDto" parameterType="map">
+        SELECT
+        <include refid="basic_list"/>,staff.name as userName
+        FROM kb_roles a
+        left join kb_accounts act on act.id = a.user_id
+        left join kb_staffs staff on staff.id = act.staff_id
+        <where>
+            <if test="id!=null and id!='' ">
+                and a.id=#{ id }
+            </if>
+            <if test="code!=null and code!='' ">
+                and a.code LIKE CONCAT('%', #{ code }, '%')
+            </if>
+            <if test="name!=null and name!='' ">
+                and a.name LIKE CONCAT('%', #{ name }, '%')
+            </if>
+            <if test="dataAuthFlag!=null and dataAuthFlag!='' ">
+                and a.data_auth_flag LIKE CONCAT('%', #{ dataAuthFlag }, '%')
+            </if>
+            <if test="remark!=null and remark!='' ">
+                and a.remark LIKE CONCAT('%', #{ remark }, '%')
+            </if>
+            <if test="userId!=null and userId!='' ">
+                and a.user_id=#{ userId }
+            </if>
+            <if test="status!=null and status!='' ">
+                and a.status = #{ status }
+            </if>
+            <if test="created!=null and created!='' ">
+                and a.created LIKE CONCAT('%', #{ created }, '%')
+            </if>
+            <if test="roleCode!=null and roleCode!='' ">
+                and a.code = #{roleCode}
+            </if>
+        </where>
+        limit 1
+    </select>
+
+    <select id="getRolesByAccountId" parameterType="String" resultMap="BaseResultMap">
+    select distinct * from kb_roles r
+    where r.id in
+    (select role_id from kb_account_role ar where ar.account_id =#{accountId})
+  </select>
+</mapper>

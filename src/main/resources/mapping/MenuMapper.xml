@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.chris.bullseye.mapper.MenuMapper">
+    <resultMap id="BaseResultMap" type="com.chris.bullseye.pojo.Menu">
+        <id column="id" jdbcType="VARCHAR" property="id" />
+        <result column="parent_id" jdbcType="VARCHAR" property="parentId" />
+        <result column="code" jdbcType="VARCHAR" property="code" />
+        <result column="title" jdbcType="VARCHAR" property="title" />
+        <result column="icon" jdbcType="VARCHAR" property="icon" />
+        <result column="path" jdbcType="VARCHAR" property="path" />
+        <result column="user_id" jdbcType="VARCHAR" property="userId" />
+        <result column="status" jdbcType="INTEGER" property="status" />
+        <result column="sequence" jdbcType="INTEGER" property="sequence" />
+        <result column="created" jdbcType="TIMESTAMP" property="created" />
+
+    </resultMap>
+
+
+    <resultMap id="BaseResultMapDto" type="com.chris.bullseye.dto.MenuDto" extends="BaseResultMap">
+        <result column="menu_value" jdbcType="VARCHAR" property="value"/>
+        <result column="menu_key" jdbcType="VARCHAR" property="key"/>
+        <result column="userName" jdbcType="VARCHAR" property="userName"/>
+        <result column="childNum" jdbcType="VARCHAR" property="childNum"/>
+    </resultMap>
+
+
+    <sql id="basic_list">
+        a.id, a.parent_id, a.code, a.title, a.icon, a.path, a.user_id, a.status, a.sequence, a.created
+    </sql>
+
+    <select id="getListByParams" resultMap="BaseResultMapDto" parameterType="map">
+        SELECT
+        <include refid="basic_list"/>,a.id as menu_key,a.id as menu_value
+        FROM kb_menus a
+        <where>
+            <if test="id!=null and id!='' ">
+                and a.id=#{ id }
+            </if>
+            <if test="parentId!=null and parentId!='' ">
+                and a.parent_id=#{ parentId }
+            </if>
+            <if test="code!=null and code!='' ">
+                and a.code LIKE CONCAT('%', #{ code }, '%')
+            </if>
+            <if test="title!=null and title!='' ">
+                and a.title LIKE CONCAT('%', #{ title }, '%')
+            </if>
+            <if test="icon!=null and icon!='' ">
+                and a.icon LIKE CONCAT('%', #{ icon }, '%')
+            </if>
+            <if test="path!=null and path!='' ">
+                and a.path LIKE CONCAT('%', #{ path }, '%')
+            </if>
+            <if test="userId!=null and userId!='' ">
+                and a.user_id=#{ userId }
+            </if>
+            <if test="status!=null and status!='' ">
+                and a.status = #{ status }
+            </if>
+            <if test="sequence!=null and sequence!='' ">
+                and a.sequence LIKE CONCAT('%', #{ sequence }, '%')
+            </if>
+            <if test="created!=null and created!='' ">
+                and a.created LIKE CONCAT('%', #{ created }, '%')
+            </if>
+        </where>
+        order by a.sequence desc
+    </select>
+
+
+    <select id="getDtoListByParams" resultMap="BaseResultMapDto" parameterType="map">
+        SELECT
+        <include refid="basic_list"/>,staff.name as userName,ifnull(temp.num,0) as childNum
+        FROM kb_menus a
+        left join kb_accounts act on act.id = a.user_id
+        left join kb_staffs staff on staff.id = act.staff_id
+        left join (
+        select cc.parent_id AS parent_id,count(cc.id) AS num from  kb_menus cc
+        WHERE cc.parent_id IS not NULL  GROUP BY cc.parent_id
+        )  temp ON  temp.parent_id = a.id
+        <where>
+            <if test="id!=null and id!='' ">
+                and a.id=#{ id }
+            </if>
+            <if test="parentId!=null and parentId!='' ">
+                and a.parent_id=#{ parentId }
+            </if>
+            <if test="code!=null and code!='' ">
+                and a.code LIKE CONCAT('%', #{ code }, '%')
+            </if>
+            <if test="title!=null and title!='' ">
+                and a.title LIKE CONCAT('%', #{ title }, '%')
+            </if>
+            <if test="icon!=null and icon!='' ">
+                and a.icon LIKE CONCAT('%', #{ icon }, '%')
+            </if>
+            <if test="path!=null and path!='' ">
+                and a.path LIKE CONCAT('%', #{ path }, '%')
+            </if>
+            <if test="userId!=null and userId!='' ">
+                and a.user_id=#{ userId }
+            </if>
+            <if test="status!=null and status!='' ">
+                and a.status = #{ status }
+            </if>
+            <if test="sequence!=null and sequence!='' ">
+                and a.sequence LIKE CONCAT('%', #{ sequence }, '%')
+            </if>
+            <if test="created!=null and created!='' ">
+                and a.created LIKE CONCAT('%', #{ created }, '%')
+            </if>
+            <if test="isFirst!=null and isFirst!='' and isFirst=='true' ">
+                and (a.parent_id is null or a.parent_id ='')
+            </if>
+        </where>
+        order by a.sequence desc
+    </select>
+
+    <select id="getMenusByAccountId" parameterType="map" resultMap="BaseResultMapDto">
+  		SELECT DISTINCT
+			m.*
+		FROM
+			kb_menus m
+		LEFT JOIN kb_role_menu rm ON rm.menu_id = m.id
+		WHERE
+			rm.role_id IN ( SELECT DISTINCT ar.role_id FROM b_account_role ar where ar.account_id = #{accountId})
+
+		order BY m.sequence desc
+    </select>
+
+    <select id="getMenusByRoleId" parameterType="String" resultMap="BaseResultMapDto">
+  		SELECT
+			m.*
+		FROM
+			kb_menus m
+			LEFT JOIN kb_role_menu rm ON rm.menu_id = m.id
+		WHERE
+			rm.role_id = #{roleId}
+		ORDER BY m.sequence desc
+  </select>
+
+    <select id="getAllMenus" parameterType="String" resultMap="BaseResultMapDto">
+  		SELECT
+			m.*,m.id as menu_key,m.id as menu_value
+		FROM
+			kb_menus m
+		ORDER BY
+			m.sequence asc
+  </select>
+
+    <select id="getOrganizationAuthMenus" parameterType="String" resultMap="BaseResultMapDto">
+        select m.*,m.id as menu_key,m.id as menu_value from kb_organization_menu om
+        left join kb_menus m on m.id = om.menu_id
+
+        <where>
+            <if test="id!=null and id!='' ">
+                and a.id=#{ id }
+            </if>
+            <if test="parentId!=null and parentId!='' ">
+                and a.parent_id=#{ parentId }
+            </if>
+            <if test="code!=null and code!='' ">
+                and a.code LIKE CONCAT('%', #{ code }, '%')
+            </if>
+            <if test="title!=null and title!='' ">
+                and a.title LIKE CONCAT('%', #{ title }, '%')
+            </if>
+            <if test="icon!=null and icon!='' ">
+                and a.icon LIKE CONCAT('%', #{ icon }, '%')
+            </if>
+            <if test="path!=null and path!='' ">
+                and a.path LIKE CONCAT('%', #{ path }, '%')
+            </if>
+            <if test="userId!=null and userId!='' ">
+                and a.user_id=#{ userId }
+            </if>
+            <if test="status!=null and status!='' ">
+                and a.status = #{ status }
+            </if>
+            <if test="sequence!=null and sequence!='' ">
+                and a.sequence LIKE CONCAT('%', #{ sequence }, '%')
+            </if>
+            <if test="created!=null and created!='' ">
+                and a.created LIKE CONCAT('%', #{ created }, '%')
+            </if>
+        </where>
+        order by m.sequence ASC
+    </select>
+</mapper>

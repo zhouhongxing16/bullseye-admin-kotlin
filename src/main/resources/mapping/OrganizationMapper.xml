@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--Created by  on Fri Dec 25 2020 19:44:19 GMT+0800 (中国标准时间)-->
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.chris.bullseye.mapper.OrganizationMapper">
+    <resultMap id="BaseResultMap" type="com.chris.bullseye.pojo.Organization">
+        <id column="id" jdbcType="VARCHAR" property="id" />
+        <result column="logo" jdbcType="VARCHAR" property="logo" />
+        <result column="code" jdbcType="VARCHAR" property="code" />
+        <result column="name" jdbcType="VARCHAR" property="name" />
+        <result column="contact_name" jdbcType="VARCHAR" property="contactName" />
+        <result column="contact_phone" jdbcType="VARCHAR" property="contactPhone" />
+        <result column="brief" jdbcType="LONGVARCHAR" property="brief" />
+        <result column="user_id" jdbcType="VARCHAR" property="userId" />
+        <result column="status" jdbcType="INTEGER" property="status" />
+        <result column="created" jdbcType="TIMESTAMP" property="created" />
+
+    </resultMap>
+
+    <resultMap id="BaseResultMapDto" type="com.chris.bullseye.dto.OrganizationDto" extends="BaseResultMap">
+        <result column="userName" jdbcType="VARCHAR" property="userName"/>
+    </resultMap>
+
+    <sql id="basic_list">
+        a.id, a.logo, a.code, a.name, a.contact_name, a.contact_phone, a.brief, a.user_id, a.status, a.created
+    </sql>
+
+    <select id="getListByParams" resultMap="BaseResultMapDto" parameterType="map">
+        SELECT
+        <include refid="basic_list"/>,staff.name as userName
+        FROM kb_organizations a
+        left join kb_accounts act on act.id = a.user_id
+        left join kb_staffs staff on staff.id = act.staff_id
+        <where>
+            <if test="id!=null and id!='' ">
+                and a.id=#{ id }
+            </if>
+            <if test="logo!=null and logo!='' ">
+                and a.logo LIKE CONCAT('%', #{ logo }, '%')
+            </if>
+            <if test="code!=null and code!='' ">
+                and a.code LIKE CONCAT('%', #{ code }, '%')
+            </if>
+            <if test="name!=null and name!='' ">
+                and a.name LIKE CONCAT('%', #{ name }, '%')
+            </if>
+            <if test="contactName!=null and contactName!='' ">
+                and a.contact_name LIKE CONCAT('%', #{ contactName }, '%')
+            </if>
+            <if test="contactPhone!=null and contactPhone!='' ">
+                and a.contact_phone LIKE CONCAT('%', #{ contactPhone }, '%')
+            </if>
+            <if test="brief!=null and brief!='' ">
+                and a.brief LIKE CONCAT('%', #{ brief }, '%')
+            </if>
+            <if test="userId!=null and userId!='' ">
+                and a.user_id=#{ userId }
+            </if>
+            <if test="status!=null and status!='' ">
+                and a.status = #{ status }
+            </if>
+            <if test="created!=null and created!='' ">
+                and a.created LIKE CONCAT('%', #{ created }, '%')
+            </if>
+        </where>
+        order by a.created desc
+    </select>
+
+    <select id="getByParams" resultMap="BaseResultMapDto" parameterType="map">
+        SELECT
+        <include refid="basic_list"/>,staff.name as userName
+        FROM kb_organizations a
+        left join kb_account act on act.id = a.user_id
+        left join kb_staff staff on staff.id = act.staff_id
+        <where>
+            <if test="id!=null and id!='' ">
+                and a.id=#{ id }
+            </if>
+            <if test="logo!=null and logo!='' ">
+                and a.logo LIKE CONCAT('%', #{ logo }, '%')
+            </if>
+            <if test="code!=null and code!='' ">
+                and a.code LIKE CONCAT('%', #{ code }, '%')
+            </if>
+            <if test="name!=null and name!='' ">
+                and a.name LIKE CONCAT('%', #{ name }, '%')
+            </if>
+            <if test="contactName!=null and contactName!='' ">
+                and a.contact_name LIKE CONCAT('%', #{ contactName }, '%')
+            </if>
+            <if test="contactPhone!=null and contactPhone!='' ">
+                and a.contact_phone LIKE CONCAT('%', #{ contactPhone }, '%')
+            </if>
+            <if test="brief!=null and brief!='' ">
+                and a.brief LIKE CONCAT('%', #{ brief }, '%')
+            </if>
+            <if test="userId!=null and userId!='' ">
+                and a.user_id=#{ userId }
+            </if>
+            <if test="status!=null and status!='' ">
+                and a.status = #{ status }
+            </if>
+            <if test="created!=null and created!='' ">
+                and a.created LIKE CONCAT('%', #{ created }, '%')
+            </if>
+        </where>
+        limit 1
+    </select>
+</mapper>
