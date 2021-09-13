@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--Created by  on Fri Dec 25 2020 19:08:46 GMT+0800 (中国标准时间)-->
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.chris.bullseye.system.mapper.LogsMapper">
+    <resultMap id="BaseResultMap" type="com.chris.bullseye.system.pojo.Logs">
+        <id column="id" jdbcType="VARCHAR" property="id"/>
+        <result column="organization_id" jdbcType="VARCHAR" property="organizationId"/>
+        <result column="option_name" jdbcType="VARCHAR" property="optionName"/>
+        <result column="option_type" jdbcType="VARCHAR" property="optionType"/>
+        <result column="method" jdbcType="VARCHAR" property="method"/>
+        <result column="params" jdbcType="LONGVARCHAR" property="params"/>
+        <result column="user_id" jdbcType="VARCHAR" property="userId"/>
+        <result column="ip" jdbcType="VARCHAR" property="ip"/>
+        <result column="execution_time" jdbcType="INTEGER" property="executionTime"/>
+        <result column="status" jdbcType="INTEGER" property="status"/>
+        <result column="remark" jdbcType="VARCHAR" property="remark"/>
+        <result column="created" jdbcType="TIMESTAMP" property="created"/>
+
+    </resultMap>
+
+    <resultMap id="BaseResultMapDto" type="com.chris.bullseye.system.dto.LogsDto" extends="BaseResultMap">
+        <result column="userName" jdbcType="VARCHAR" property="userName"/>
+    </resultMap>
+
+    <sql id="basic_list">
+        a
+        .
+        id
+        , a.organization_id, a.option_name, a.option_type, a.method, a.params, a.user_id, a.ip, a.execution_time, a.status, a.remark, a.created
+    </sql>
+
+    <select id="getListByParams" resultMap="BaseResultMapDto" parameterType="map">
+        SELECT
+        <include refid="basic_list"/>,staff.name as userName
+        FROM b_logs a
+        left join b_account act on act.id = a.user_id
+        left join b_staff staff on staff.id = act.staff_id
+        <where>
+            <if test="id!=null and id!='' ">
+                and a.id=#{ id }
+            </if>
+            <if test="organizationId!=null and organizationId!='' ">
+                and a.organization_id=#{ organizationId }
+            </if>
+            <if test="optionName!=null and optionName!='' ">
+                and a.option_name LIKE CONCAT('%', #{ optionName }, '%')
+            </if>
+            <if test="optionType!=null and optionType!='' ">
+                and a.option_type LIKE CONCAT('%', #{ optionType }, '%')
+            </if>
+            <if test="method!=null and method!='' ">
+                and a.method LIKE CONCAT('%', #{ method }, '%')
+            </if>
+            <if test="params!=null and params!='' ">
+                and a.params LIKE CONCAT('%', #{ params }, '%')
+            </if>
+            <if test="userId!=null and userId!='' ">
+                and a.user_id=#{ userId }
+            </if>
+            <if test="ip!=null and ip!='' ">
+                and a.ip LIKE CONCAT('%', #{ ip }, '%')
+            </if>
+            <if test="executionTime!=null and executionTime!='' ">
+                and a.execution_time LIKE CONCAT('%', #{ executionTime }, '%')
+            </if>
+            <if test="status!=null and status!='' ">
+                and a.status = #{ status }
+            </if>
+            <if test="status!=null and status!='' ">
+                and a.status = #{ status }
+            </if>
+            <if test="created!=null and created!='' ">
+                and a.created LIKE CONCAT('%', #{ created }, '%')
+            </if>
+        </where>
+        order by a.created desc
+    </select>
+
+    <select id="getByParams" resultMap="BaseResultMapDto" parameterType="map">
+        SELECT
+        <include refid="basic_list"/>,staff.name as userName
+        FROM b_logs a
+        left join b_account act on act.id = a.user_id
+        left join b_staff staff on staff.id = act.staff_id
+        <where>
+            <if test="id!=null and id!='' ">
+                and a.id=#{ id }
+            </if>
+            <if test="organizationId!=null and organizationId!='' ">
+                and a.organization_id=#{ organizationId }
+            </if>
+            <if test="optionName!=null and optionName!='' ">
+                and a.option_name LIKE CONCAT('%', #{ optionName }, '%')
+            </if>
+            <if test="optionType!=null and optionType!='' ">
+                and a.option_type LIKE CONCAT('%', #{ optionType }, '%')
+            </if>
+            <if test="method!=null and method!='' ">
+                and a.method LIKE CONCAT('%', #{ method }, '%')
+            </if>
+            <if test="params!=null and params!='' ">
+                and a.params LIKE CONCAT('%', #{ params }, '%')
+            </if>
+            <if test="userId!=null and userId!='' ">
+                and a.user_id=#{ userId }
+            </if>
+            <if test="ip!=null and ip!='' ">
+                and a.ip LIKE CONCAT('%', #{ ip }, '%')
+            </if>
+            <if test="executionTime!=null and executionTime!='' ">
+                and a.execution_time LIKE CONCAT('%', #{ executionTime }, '%')
+            </if>
+            <if test="status!=null and status!='' ">
+                and a.status = #{ status }
+            </if>
+            <if test="remark!=null and remark!='' ">
+                and a.remark LIKE CONCAT('%', #{ remark }, '%')
+            </if>
+            <if test="created!=null and created!='' ">
+                and a.created LIKE CONCAT('%', #{ created }, '%')
+            </if>
+        </where>
+        limit 1
+    </select>
+</mapper>

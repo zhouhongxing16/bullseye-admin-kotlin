@@ -3,12 +3,12 @@ drop procedure if exists createOrganization;
 delimiter $$
 create procedure createOrganization() begin
 
-    if not exists (select * FROM information_schema.columns WHERE table_schema = DATABASE()  AND table_name = 'kb_organizations') then
+    if not exists (select * FROM information_schema.columns WHERE table_schema = DATABASE()  AND table_name = 'b_organization') then
 
     /*==============================================================*/
-    /* Table: kb_organizations                                      */
+    /* Table: b_organization                                      */
     /*==============================================================*/
-    create table kb_organizations
+    create table b_organization
     (
         id                   varchar(40) not null comment '唯一标识',
         logo                 varchar(300) comment 'LOGO',

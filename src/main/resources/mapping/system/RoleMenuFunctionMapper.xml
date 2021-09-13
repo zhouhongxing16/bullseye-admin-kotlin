@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--Created by  on Thu May 16 2019 21:29:06 GMT+0800 (中国标准时间)-->
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.chris.bullseye.system.mapper.RoleMenuFunctionMapper">
+    <resultMap id="BaseResultMap" type="com.chris.bullseye.system.pojo.RoleMenuFunction">
+        <id column="id" jdbcType="VARCHAR" property="id" />
+        <result column="role_id" jdbcType="VARCHAR" property="roleId" />
+        <result column="menu_function_id" jdbcType="VARCHAR" property="menuFunctionId" />
+        <result column="user_id" jdbcType="VARCHAR" property="userId" />
+        <result column="status" jdbcType="INTEGER" property="status" />
+        <result column="created" jdbcType="TIMESTAMP" property="created" />
+
+    </resultMap>
+
+    <resultMap id="BaseResultMapDto" type="com.chris.bullseye.system.dto.RoleMenuFunctionDto" extends="BaseResultMap">
+        <result column="userName" jdbcType="VARCHAR" property="userName"/>
+    </resultMap>
+
+    <sql id="basic_list">
+        a.id, a.role_id, a.menu_function_id, a.user_id, a.status, a.created
+    </sql>
+
+    <select id="getListByParams" resultMap="BaseResultMapDto" parameterType="map">
+        SELECT
+        <include refid="basic_list"/>,staff.name as userName
+        FROM b_role_menu_function a
+        left join b_account act on act.id = a.user_id
+        left join b_staff staff on staff.id = act.staff_id
+        <where>
+            <if test="id!=null and id!='' ">
+                and a.id=#{ id }
+            </if>
+            <if test="roleId!=null and roleId!='' ">
+                and a.role_id=#{ roleId }
+            </if>
+            <if test="menuFunctionId!=null and menuFunctionId!='' ">
+                and a.menu_function_id=#{ menuFunctionId }
+            </if>
+            <if test="userId!=null and userId!='' ">
+                and a.user_id=#{ userId }
+            </if>
+            <if test="status!=null and status!='' ">
+                and a.status = #{ status }
+            </if>
+            <if test="created!=null and created!='' ">
+                and a.created LIKE CONCAT('%', #{ created }, '%')
+            </if>
+        </where>
+        order by a.created desc
+    </select>
+
+    <select id="getByParams" resultMap="BaseResultMapDto" parameterType="map">
+        SELECT
+        <include refid="basic_list"/>,staff.name as userName
+        FROM b_role_menu_function a
+        left join b_account act on act.id = a.user_id
+        left join b_staff staff on staff.id = act.staff_id
+        <where>
+            <if test="id!=null and id!='' ">
+                and a.id=#{ id }
+            </if>
+            <if test="roleId!=null and roleId!='' ">
+                and a.role_id=#{ roleId }
+            </if>
+            <if test="menuFunctionId!=null and menuFunctionId!='' ">
+                and a.menu_function_id=#{ menuFunctionId }
+            </if>
+            <if test="userId!=null and userId!='' ">
+                and a.user_id=#{ userId }
+            </if>
+            <if test="status!=null and status!='' ">
+                and a.status = #{ status }
+            </if>
+            <if test="created!=null and created!='' ">
+                and a.created LIKE CONCAT('%', #{ created }, '%')
+            </if>
+        </where>
+        limit 1
+    </select>
+
+    <select id="getRoleAuthPaths" resultType="map">
+        select r.code,ma.path as path
+        from b_role_menu_function rma
+        left join b_role r on r.id = rma.role_id
+        left join b_menu_function ma on ma.id = rma.menu_function_id
+    </select>
+
+    <select id="getAuthByMenuAndRoleId" resultType="map">
+        select distinct ma.code
+        from b_role_menu_function rma
+        left join b_role r on r.id = rma.role_id
+        left join b_menu_function ma on ma.id = rma.menu_function_id
+        <where>
+	        rma.role_id = #{roleId}
+	        and
+            ma.menu_id = #{menuId}
+        </where>
+    </select>
+
+    <delete id="deleteByParams" parameterType="string">
+        delete from b_role_menu_function where role_id=#{roleId}
+    </delete>
+
+    <insert id="insertByList" parameterType="list">
+        insert into b_role_menu_function (id, role_id, menu_function_id, user_id, created) values
+        <foreach collection="list" item="item" index="index" separator=",">
+            (
+            #{item.id},
+            #{item.roleId},
+            #{item.menuAuthId},
+            #{item.userId},
+            #{item.created}
+            )
+        </foreach>
+    </insert>
+</mapper>

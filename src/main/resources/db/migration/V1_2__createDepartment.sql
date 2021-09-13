@@ -3,12 +3,12 @@ delimiter $$
 create procedure createDepartment()
 begin
 
-    if not exists (select * FROM information_schema.columns WHERE table_schema = DATABASE()  AND table_name = 'kb_departments') then
+    if not exists (select * FROM information_schema.columns WHERE table_schema = DATABASE()  AND table_name = 'b_department') then
 
     /*==============================================================*/
-    /* Table: kb_departments                                        */
+    /* Table: b_department                                        */
     /*==============================================================*/
-    create table kb_departments
+    create table b_department
     (
         id              varchar(40) not null comment '唯一标识',
         organization_id varchar(40) comment '组织标识',
@@ -25,9 +25,6 @@ begin
         primary key (id)
     ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='科室/部门';
 
-    alter table kb_departments
-        add constraint FK_Reference_4 foreign key (organization_id)
-            references kb_organizations (id) on delete restrict on update restrict;
 
 
 end if;
