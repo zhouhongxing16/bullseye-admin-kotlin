@@ -109,12 +109,13 @@ class LoggerAopService(var logsService: LogsService) {
         val ra = RequestContextHolder.getRequestAttributes()
         val sra = ra as ServletRequestAttributes?
         val req = sra!!.request
+        val methodType = req.method
 
         val signature = joinPoint.signature as MethodSignature
         val clz: Class<*> = joinPoint.target.javaClass
         var optionName = ""
         if (clz.isAnnotationPresent(OperationLog::class.java)) {
-            val opera  = clz.getAnnotation(OperationLog::class.java) as OperationLog
+            val opera = clz.getAnnotation(OperationLog::class.java) as OperationLog
             optionName = opera.value
         }
         if (StringUtils.isEmpty(optionName)) {
@@ -129,13 +130,13 @@ class LoggerAopService(var logsService: LogsService) {
             }
         }
         val logs = Logs()
-        logs.status= 1
+        logs.status = 1
         logs.optionType = optionType
         logs.optionName = optionName
         // 请求的方法名
         val className = joinPoint.target.javaClass.name
         val methodName = signature.name
-        logs.method  = "$className.$methodName()"
+        logs.method = "$className.$methodName()"
         // 请求的参数
         val args = joinPoint.args
         var params: String? = null
@@ -145,31 +146,30 @@ class LoggerAopService(var logsService: LogsService) {
         }
         //获取请求参数集合并进行遍历拼接
         if (!args.isNullOrEmpty()) {
-            if (RequestMethod.POST.toString() == logs.method) {
+            if (RequestMethod.POST.toString() == methodType) {
                 val obj = args[0]
                 val map: Map<String, Any>? = this.getKeyAndValue(obj)
                 params = JSON.toJSONString(map)
-            } else if (RequestMethod.GET.toString() == logs.method || RequestMethod.DELETE.toString() == logs.method) {
+            } else if (RequestMethod.GET.toString() == methodType || RequestMethod.DELETE.toString() == methodType) {
                 params = queryString
             }
 
             logs.params = params
         }
         if (AuthUtil.getCurrentUser() != null) {
-            logs.organizationId  = AuthUtil.getCurrentUser()?.organizationId
-            logs.userId  = AuthUtil.getCurrentUser()?.id
+            logs.organizationId = AuthUtil.getCurrentUser()?.organizationId
+            logs.userId = AuthUtil.getCurrentUser()?.id
         }
-        if (!StringUtils.isEmpty(params)) {
+        /*if (!StringUtils.isEmpty(params)) {
             val content = params!!.substring(1, params.length - 1)
-            logs.params  =Logger.formatJson(content)
-        }
+            logs.params = Logger.formatJson(content)
+        }*/
         // 获取request
-        val request = (RequestContextHolder.getRequestAttributes() as ServletRequestAttributes?)!!.request
         // 设置IP地址
-        logs.ip = IPUtils.getIpAddr(request)
+        logs.ip = IPUtils.getIpAddr(req)
         // 系统当前时间
         logs.created = Date()
-        logs.executionTime  = time.toInt()
+        logs.executionTime = time.toInt()
         // 保存系统日志
         logsService.add(logs)
     }
@@ -180,7 +180,7 @@ class LoggerAopService(var logsService: LogsService) {
      * @param obj
      * @return
      */
-    private  fun getKeyAndValue(obj: Any): Map<String, Any>? {
+    private fun getKeyAndValue(obj: Any): Map<String, Any>? {
         val map: MutableMap<String, Any> = HashMap(32)
         // 得到类对象
         val userCla: Class<*> = obj.javaClass
