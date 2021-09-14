@@ -1,11 +1,12 @@
 package com.chris.bullseye.system.service
 
+import com.alibaba.fastjson.JSON
 import com.alibaba.fastjson.JSONObject
-import com.chris.bullseye.system.entity.OperationLog
-import com.chris.bullseye.system.pojo.Logs
 import com.chris.bullseye.common.utils.AuthUtil
 import com.chris.bullseye.common.utils.IPUtils
 import com.chris.bullseye.common.utils.Logger
+import com.chris.bullseye.system.entity.OperationLog
+import com.chris.bullseye.system.pojo.Logs
 import org.apache.commons.lang3.StringUtils
 import org.aspectj.lang.ProceedingJoinPoint
 import org.aspectj.lang.annotation.Around
@@ -13,8 +14,10 @@ import org.aspectj.lang.annotation.Aspect
 import org.aspectj.lang.annotation.Pointcut
 import org.aspectj.lang.reflect.MethodSignature
 import org.springframework.stereotype.Component
+import org.springframework.web.bind.annotation.RequestMethod
 import org.springframework.web.context.request.RequestContextHolder
 import org.springframework.web.context.request.ServletRequestAttributes
+import java.net.URLDecoder
 import java.util.*
 
 /**
@@ -103,6 +106,10 @@ class LoggerAopService(var logsService: LogsService) {
     }
 
     fun saveLog(joinPoint: ProceedingJoinPoint, time: Long) {
+        val ra = RequestContextHolder.getRequestAttributes()
+        val sra = ra as ServletRequestAttributes?
+        val req = sra!!.request
+
         val signature = joinPoint.signature as MethodSignature
         val clz: Class<*> = joinPoint.target.javaClass
         var optionName = ""
@@ -122,7 +129,7 @@ class LoggerAopService(var logsService: LogsService) {
             }
         }
         val logs = Logs()
-        logs.status= 0
+        logs.status= 1
         logs.optionType = optionType
         logs.optionName = optionName
         // 请求的方法名
@@ -132,17 +139,21 @@ class LoggerAopService(var logsService: LogsService) {
         // 请求的参数
         val args = joinPoint.args
         var params: String? = null
-        try {
-            params = if(!args.isNullOrEmpty()){
-                JSONObject.toJSONString(args)
-            }else{
-                ""
+        var queryString: String? = req.queryString
+        if (!queryString.isNullOrEmpty()) {
+            queryString = URLDecoder.decode(req.queryString, "UTF-8")
+        }
+        //获取请求参数集合并进行遍历拼接
+        if (!args.isNullOrEmpty()) {
+            if (RequestMethod.POST.toString() == logs.method) {
+                val obj = args[0]
+                val map: Map<String, Any>? = this.getKeyAndValue(obj)
+                params = JSON.toJSONString(map)
+            } else if (RequestMethod.GET.toString() == logs.method || RequestMethod.DELETE.toString() == logs.method) {
+                params = queryString
             }
 
             logs.params = params
-        } catch (e: Exception) {
-//            e.printStackTrace()
-            Logger.error("转化失败")
         }
         if (AuthUtil.getCurrentUser() != null) {
             logs.organizationId  = AuthUtil.getCurrentUser()?.organizationId
@@ -161,5 +172,31 @@ class LoggerAopService(var logsService: LogsService) {
         logs.executionTime  = time.toInt()
         // 保存系统日志
         logsService.add(logs)
+    }
+
+
+    /***
+     * 解析参数
+     * @param obj
+     * @return
+     */
+    private  fun getKeyAndValue(obj: Any): Map<String, Any>? {
+        val map: MutableMap<String, Any> = HashMap(32)
+        // 得到类对象
+        val userCla: Class<*> = obj.javaClass
+        /* 得到类中的所有属性集合 */
+        val fsArray = userCla.declaredFields
+        for (fs in fsArray) {
+            fs.isAccessible = true // 设置些属性是可以访问的
+            var `val`: Any
+            try {
+                `val` = fs[obj]
+                // 得到此属性的值
+                map[fs.name] = `val` // 设置键值
+            } catch (e: IllegalAccessException) {
+                e.printStackTrace()
+            }
+        }
+        return map
     }
 }

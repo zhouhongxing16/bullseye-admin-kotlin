@@ -125,7 +125,6 @@ class AccountController(
         var result = JsonResult<AccountDto>()
         result.status = HttpStatus.OK.value()
         var params: MutableMap<String, String?> = HashMap(2)
-//        params["roleCode"] = "organizationAdmin"
         params["organizationId"] = organizationId
         if (params["pageNum"].isNullOrEmpty()) {
             params["pageNum"] = "1"
@@ -135,10 +134,6 @@ class AccountController(
         }
         PageHelper.startPage<AccountDto>(params)
         val list = accountService.getNotInRoleCodeListByParams(params)
-        params.clear()
-        params["organizationId"] = organizationId
-        params["roleCode"] = "organizationAdmin"
-        val notInList = accountService.getDtoListByParams(params)
         var pageInfo = PageInfo(list)
         return JsonResult.success(pageInfo, "查询成功！")
     }

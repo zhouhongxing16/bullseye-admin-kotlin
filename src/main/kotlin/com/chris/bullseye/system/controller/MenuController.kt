@@ -9,6 +9,7 @@ import com.chris.bullseye.system.pojo.Menu
 import com.chris.bullseye.system.service.BaseService
 import com.chris.bullseye.system.service.MenuService
 import com.chris.bullseye.common.utils.AuthUtil
+import com.chris.bullseye.system.pojo.LoginRecord
 import io.swagger.annotations.Api
 import io.swagger.annotations.ApiImplicitParam
 import io.swagger.annotations.ApiOperation
@@ -22,7 +23,8 @@ import org.springframework.web.bind.annotation.*
 @OperationLog("菜单管理")
 @RestController
 @RequestMapping("/menu")
-class MenuController(var menuService: MenuService)  {
+class MenuController(var menuService: MenuService,
+                    var jsonResult: JsonResult<Menu?>)  {
 
 
 
@@ -30,9 +32,9 @@ class MenuController(var menuService: MenuService)  {
     @GetMapping("/getAllMenuByTree")
     @ApiOperation(value = "获取所有菜单(树形)", notes = "获取所有菜单(树形)")
     @ApiImplicitParam(name = "获取所有菜单(树形)", value = "")
-    fun getAllMenuByTree(): JsonResult<Any> {
+    fun getAllMenuByTree(): JsonResult<Menu?> {
         val menuList = menuService.getAllMenus()
-        return JsonResult.success(menuList, "获取成功")
+        return jsonResult.success(menuList, "获取成功")
     }
 
     @OperationLog("获取登录用户菜单")

@@ -21,7 +21,9 @@ data class JsonResult<T>(
 
         var status: Int? = null,
 
-        var data: Any? = null,
+        var data:Any? = null,
+
+        var list:List<T>? = null,
 
         var time: String? = DateUtils.getCurrentTime()
 ):Serializable {
@@ -30,6 +32,7 @@ data class JsonResult<T>(
         result.success = false
         result.message = msg
         result.status = HttpStatus.OK.value()
+        result.time =  DateUtils.getCurrentTime()
         return result
     }
 
@@ -38,6 +41,7 @@ data class JsonResult<T>(
         result.success = false
         result.message = msg
         result.status = status
+        result.time =  DateUtils.getCurrentTime()
         return result
     }
 
@@ -47,6 +51,17 @@ data class JsonResult<T>(
         result.message = msg
         result.data = data
         result.status = HttpStatus.OK.value()
+        result.time =  DateUtils.getCurrentTime()
+        return result
+    }
+
+    fun success(list: List<T>?, msg: String): JsonResult<T> {
+        var result = JsonResult<T>()
+        result.success = true
+        result.message = msg
+        result.list = list
+        result.status = HttpStatus.OK.value()
+        result.time =  DateUtils.getCurrentTime()
         return result
     }
 
@@ -55,6 +70,7 @@ data class JsonResult<T>(
             var result = JsonResult<Any>()
             result.success = false
             result.message = msg
+            result.time =  DateUtils.getCurrentTime()
             return result
         }
 
@@ -63,6 +79,7 @@ data class JsonResult<T>(
             result.success = false
             result.message = msg
             result.status = status
+            result.time =  DateUtils.getCurrentTime()
             return result
         }
 
@@ -72,6 +89,7 @@ data class JsonResult<T>(
             result.message = msg
             result.data = data
             result.status = HttpStatus.OK.value()
+            result.time =  DateUtils.getCurrentTime()
             return result
         }
     }
