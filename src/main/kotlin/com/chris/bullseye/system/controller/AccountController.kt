@@ -1,6 +1,7 @@
 package com.chris.bullseye.system.controller
 
 import com.alibaba.fastjson.JSONObject
+import com.chris.bullseye.common.utils.*
 import com.chris.bullseye.system.dto.AccountDto
 import com.chris.bullseye.system.entity.JsonResult
 import com.chris.bullseye.system.entity.OperationLog
@@ -10,10 +11,6 @@ import com.chris.bullseye.system.pojo.Account
 import com.chris.bullseye.system.pojo.LoginRecord
 import com.chris.bullseye.system.pojo.Staff
 import com.chris.bullseye.system.service.*
-import com.chris.bullseye.common.utils.AuthUtil
-import com.chris.bullseye.common.utils.IPUtils
-import com.chris.bullseye.common.utils.JwtHelper
-import com.chris.bullseye.common.utils.ValidateCodeUtils
 import com.github.pagehelper.PageHelper
 import com.github.pagehelper.PageInfo
 import eu.bitwalker.useragentutils.UserAgent
@@ -29,6 +26,7 @@ import org.springframework.web.context.request.RequestContextHolder
 import org.springframework.web.context.request.ServletRequestAttributes
 import java.io.IOException
 import java.util.*
+import java.util.concurrent.TimeUnit
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
 
@@ -45,6 +43,7 @@ class AccountController(
         var staffService: StaffService,
         var loginRecordService: LoginRecordService,
         var roleService: RoleService,
+        var redisUtil: RedisUtil,
         var jsonResult: JsonResult<Account>
 ) {
 
@@ -64,6 +63,7 @@ class AccountController(
     @OperationLog("管理员登录")
     @PostMapping("/adminLogin")
     fun adminLogin(@RequestBody user: LoginRequest): JsonResult<Any> {
+        redisUtil.setEx("user:token:utils","123",20L, TimeUnit.MINUTES);
         return if (user.username.isNullOrEmpty() || user.password.isNullOrEmpty()) {
             JsonResult.failed("用戶名或密码不能为空！")
         } else {
@@ -76,6 +76,7 @@ class AccountController(
     @OperationLog("(web)用户登录登录")
     @PostMapping("/webLogin")
     fun webLogin(@RequestBody user: LoginRequest): JsonResult<Any> {
+
         return if (user.username.isNullOrEmpty() || user.password.isNullOrEmpty()) {
             JsonResult.failed("用戶名或密码不能为空！")
         } else {

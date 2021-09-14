@@ -1,12 +1,10 @@
 package com.chris.bullseye.common.utils
 
-import org.springframework.data.redis.core.Cursor
-import org.springframework.data.redis.core.ScanOptions
-import org.springframework.data.redis.core.StringRedisTemplate
-import org.springframework.data.redis.core.ZSetOperations
+import org.springframework.data.redis.core.*
 import org.springframework.stereotype.Component
 import java.util.*
 import java.util.concurrent.TimeUnit
+import javax.annotation.Resource
 
 /**
  * @author Chris
@@ -17,11 +15,9 @@ class RedisUtil {
 
     private val separator = ':'
 
-    private var redisTemplate: StringRedisTemplate = null
+    @Resource
+    private lateinit var redisTemplate: RedisTemplate<String,Any>
 
-    fun RedisUtil(redisTemplate: StringRedisTemplate?) {
-        this.redisTemplate = redisTemplate
-    }
 
     fun generateKey(clazz: Class<*>, key: Any): String? {
         val stringBuilder = StringBuilder(20)
@@ -30,9 +26,6 @@ class RedisUtil {
         return stringBuilder.toString()
     }
 
-    fun setRedisTemplate(redisTemplate: StringRedisTemplate?) {
-        this.redisTemplate = redisTemplate
-    }
 
     /** -------------------key相关操作--------------------- */
 
@@ -51,7 +44,7 @@ class RedisUtil {
      *
      * @param keys
      */
-    fun delete(keys: Collection<String?>?) {
+    fun delete(keys: Collection<String?>) {
         redisTemplate.delete(keys)
     }
 
@@ -83,7 +76,7 @@ class RedisUtil {
      * @param unit
      * @return
      */
-    fun expire(key: String, timeout: Long, unit: TimeUnit?): Boolean? {
+    fun expire(key: String, timeout: Long, unit: TimeUnit): Boolean? {
         return redisTemplate.expire(key, timeout, unit)
     }
 
@@ -94,7 +87,7 @@ class RedisUtil {
      * @param date
      * @return
      */
-    fun expireAt(key: String, date: Date?): Boolean? {
+    fun expireAt(key: String, date: Date): Boolean? {
         return redisTemplate.expireAt(key, date)
     }
 
@@ -104,7 +97,7 @@ class RedisUtil {
      * @param pattern
      * @return
      */
-    fun keys(pattern: String?): Set<String?>? {
+    fun keys(pattern: String): Set<String?>? {
         return redisTemplate.keys(pattern)
     }
 
@@ -136,7 +129,7 @@ class RedisUtil {
      * @param unit
      * @return
      */
-    fun getExpire(key: String, unit: TimeUnit?): Long? {
+    fun getExpire(key: String, unit: TimeUnit): Long? {
         return redisTemplate.getExpire(key, unit)
     }
 
@@ -165,7 +158,7 @@ class RedisUtil {
      * @param oldKey
      * @param newKey
      */
-    fun rename(oldkey: String, newkey: String) {
+    fun rename(oldKey: String, newKey: String) {
         redisTemplate.rename(oldKey, newKey)
     }
 
@@ -176,7 +169,7 @@ class RedisUtil {
      * @param newKey
      * @return
      */
-    fun renameIfAbsent(oldkey: String, newkey: String): Boolean? {
+    fun renameIfAbsent(oldKey: String, newKey: String): Boolean? {
         return redisTemplate.renameIfAbsent(oldKey, newKey)
     }
 
@@ -200,7 +193,7 @@ class RedisUtil {
      * @param key
      * @return
      */
-    operator fun get(key: String): String? {
+    operator fun get(key: String): Any? {
         return redisTemplate.opsForValue().get(key)
     }
 
@@ -223,7 +216,7 @@ class RedisUtil {
      * @param value
      * @return
      */
-    fun getAndSet(key: String, value: String): String? {
+    fun getAndSet(key: String, value: String): Any? {
         return redisTemplate.opsForValue().getAndSet(key, value)
     }
 
@@ -244,7 +237,7 @@ class RedisUtil {
      * @param keys
      * @return
      */
-    fun multiGet(keys: Collection<String?>?): List<String?>? {
+    fun multiGet(keys: Collection<String>): List<Any?>? {
         return redisTemplate.opsForValue().multiGet(keys)
     }
 
@@ -255,7 +248,7 @@ class RedisUtil {
      * @param value   值,true为1, false为0
      * @return
      */
-    fun setBit(key: String, offset: Long, value: Boolean): Boolean {
+    fun setBit(key: String, offset: Long, value: Boolean): Boolean? {
         return redisTemplate.opsForValue().setBit(key, offset, value)
     }
 
@@ -268,7 +261,7 @@ class RedisUtil {
      * @param unit    时间单位, 天:TimeUnit.DAYS 小时:TimeUnit.HOURS 分钟:TimeUnit.MINUTES
      * 秒:TimeUnit.SECONDS 毫秒:TimeUnit.MILLISECONDS
      */
-    fun setEx(key: String, value: String, timeout: Long, unit: TimeUnit?) {
+    fun setEx(key: String, value: String, timeout: Long, unit: TimeUnit) {
         redisTemplate.opsForValue().set(key, value, timeout, unit)
     }
 
@@ -279,7 +272,7 @@ class RedisUtil {
      * @param value
      * @return 之前已经存在返回false, 不存在返回true
      */
-    fun setIfAbsent(key: String, value: String): Boolean {
+    fun setIfAbsent(key: String, value: String): Boolean? {
         return redisTemplate.opsForValue().setIfAbsent(key, value)
     }
 
@@ -309,7 +302,7 @@ class RedisUtil {
      *
      * @param maps
      */
-    fun multiSet(maps: Map<String?, String?>?) {
+    fun multiSet(maps: Map<String?, String?>) {
         redisTemplate.opsForValue().multiSet(maps)
     }
 
@@ -319,7 +312,7 @@ class RedisUtil {
      * @param maps
      * @return 之前已经存在返回false, 不存在返回true
      */
-    fun multiSetIfAbsent(maps: Map<String?, String?>?): Boolean {
+    fun multiSetIfAbsent(maps: Map<String?, String?>): Boolean? {
         return redisTemplate.opsForValue().multiSetIfAbsent(maps)
     }
 
@@ -362,8 +355,8 @@ class RedisUtil {
      * @param field
      * @return
      */
-    fun hGet(key: String, field: String?): Any {
-        return redisTemplate.opsForHash().get(key, field)
+    fun hGet(key: String, field: String): Any? {
+        return redisTemplate.opsForHash<Any,Any>().get(key, field)
     }
 
     /**
@@ -373,7 +366,7 @@ class RedisUtil {
      * @return
      */
     fun hGetAll(key: String): Map<Any?, Any?>? {
-        return redisTemplate.opsForHash().entries(key)
+        return redisTemplate.opsForHash<Any,Any>().entries(key)
     }
 
     /**
@@ -383,16 +376,16 @@ class RedisUtil {
      * @param fields
      * @return
      */
-    fun hMultiGet(key: String, fields: Collection<Any?>?): List<Any?>? {
-        return redisTemplate.opsForHash().multiGet(key, fields)
+    fun hMultiGet(key: String, fields: Collection<Any?>): List<Any?>? {
+        return redisTemplate.opsForHash<Any,Any>().multiGet(key, fields)
     }
 
     fun hPut(key: String, hashKey: String, value: String) {
-        redisTemplate.opsForHash().put(key, hashKey, value)
+        redisTemplate.opsForHash<Any,Any>().put(key, hashKey, value)
     }
 
-    fun hPutAll(key: String, maps: Map<String?, String?>?) {
-        redisTemplate.opsForHash().putAll(key, maps)
+    fun hPutAll(key: String, maps: Map<String?, String?>) {
+        redisTemplate.opsForHash<Any,Any>().putAll(key, maps)
     }
 
     /**
@@ -404,7 +397,7 @@ class RedisUtil {
      * @return
      */
     fun hPutIfAbsent(key: String, hashKey: String, value: String): Boolean? {
-        return redisTemplate.opsForHash().putIfAbsent(key, hashKey, value)
+        return redisTemplate.opsForHash<Any,Any>().putIfAbsent(key, hashKey, value)
     }
 
     /**
@@ -415,7 +408,7 @@ class RedisUtil {
      * @return
      */
     fun hDelete(key: String, vararg fields: Any?): Long? {
-        return redisTemplate.opsForHash().delete(key, fields)
+        return redisTemplate.opsForHash<Any,Any>().delete(key, fields)
     }
 
     /**
@@ -425,8 +418,8 @@ class RedisUtil {
      * @param field
      * @return
      */
-    fun hExists(key: String, field: String?): Boolean {
-        return redisTemplate.opsForHash().hasKey(key, field)
+    fun hExists(key: String, field: String): Boolean {
+        return redisTemplate.opsForHash<Any,Any>().hasKey(key, field)
     }
 
     /**
@@ -437,8 +430,8 @@ class RedisUtil {
      * @param increment
      * @return
      */
-    fun hIncrBy(key: String, field: Any?, increment: Long): Long? {
-        return redisTemplate.opsForHash().increment(key, field, increment)
+    fun hIncrBy(key: String, field: Any, increment: Long): Long? {
+        return redisTemplate.opsForHash<Any,Any>().increment(key, field, increment)
     }
 
     /**
@@ -449,8 +442,8 @@ class RedisUtil {
      * @param delta
      * @return
      */
-    fun hIncrByFloat(key: String, field: Any?, delta: Double): Double? {
-        return redisTemplate.opsForHash().increment(key, field, delta)
+    fun hIncrByFloat(key: String, field: Any, delta: Double): Double? {
+        return redisTemplate.opsForHash<Any,Any>().increment(key, field, delta)
     }
 
     /**
@@ -460,7 +453,7 @@ class RedisUtil {
      * @return
      */
     fun hKeys(key: String): Set<Any?>? {
-        return redisTemplate.opsForHash().keys(key)
+        return redisTemplate.opsForHash<Any,Any>().keys(key)
     }
 
     /**
@@ -470,7 +463,7 @@ class RedisUtil {
      * @return
      */
     fun hSize(key: String): Long? {
-        return redisTemplate.opsForHash().size(key)
+        return redisTemplate.opsForHash<Any,Any>().size(key)
     }
 
     /**
@@ -480,7 +473,7 @@ class RedisUtil {
      * @return
      */
     fun hValues(key: String): List<Any?>? {
-        return redisTemplate.opsForHash().values(key)
+        return redisTemplate.opsForHash<Any,Any>().values(key)
     }
 
 
@@ -494,7 +487,7 @@ class RedisUtil {
      * @param index
      * @return
      */
-    fun lIndex(key: String, index: Long): String? {
+    fun lIndex(key: String, index: Long): Any? {
         return redisTemplate.opsForList().index(key, index)
     }
 
@@ -506,7 +499,7 @@ class RedisUtil {
      * @param end   结束位置, -1返回所有
      * @return
      */
-    fun lRange(key: String, start: Long, end: Long): List<String?>? {
+    fun lRange(key: String, start: Long, end: Long): List<Any?>? {
         return redisTemplate.opsForList().range(key, start, end)
     }
 
@@ -535,9 +528,9 @@ class RedisUtil {
      * @param value
      * @return
      */
-    fun lLeftPushAll(key: String, value: Collection<String?>): Long? {
+   /* fun lLeftPushAll(key: String, value: Collection<String?>): Long? {
         return redisTemplate.opsForList().leftPushAll(key, value)
-    }
+    }*/
 
     /**
      * 当list存在的时候才加入
@@ -585,9 +578,9 @@ class RedisUtil {
      * @param value
      * @return
      */
-    fun lRightPushAll(key: String, value: Collection<String?>): Long? {
+   /* fun lRightPushAll(key: String, value: Collection<String?>): Long? {
         return redisTemplate.opsForList().rightPushAll(key, value)
-    }
+    }*/
 
     /**
      * 为已存在的列表添加值
@@ -629,7 +622,7 @@ class RedisUtil {
      * @param key
      * @return 删除的元素
      */
-    fun lLeftPop(key: String): String? {
+    fun lLeftPop(key: String): Any? {
         return redisTemplate.opsForList().leftPop(key)
     }
 
@@ -641,7 +634,7 @@ class RedisUtil {
      * @param unit    时间单位
      * @return
      */
-    fun lBLeftPop(key: String, timeout: Long, unit: TimeUnit): String? {
+    fun lBLeftPop(key: String, timeout: Long, unit: TimeUnit): Any? {
         return redisTemplate.opsForList().leftPop(key, timeout, unit)
     }
 
@@ -651,7 +644,7 @@ class RedisUtil {
      * @param key
      * @return 删除的元素
      */
-    fun lRightPop(key: String): String? {
+    fun lRightPop(key: String): Any? {
         return redisTemplate.opsForList().rightPop(key)
     }
 
@@ -663,7 +656,7 @@ class RedisUtil {
      * @param unit    时间单位
      * @return
      */
-    fun lBRightPop(key: String, timeout: Long, unit: TimeUnit?): String? {
+    fun lBRightPop(key: String, timeout: Long, unit: TimeUnit): Any? {
         return redisTemplate.opsForList().rightPop(key, timeout, unit)
     }
 
@@ -674,7 +667,7 @@ class RedisUtil {
      * @param destinationKey
      * @return
      */
-    fun lRightPopAndLeftPush(sourceKey: String, destinationKey: String): String? {
+    fun lRightPopAndLeftPush(sourceKey: String, destinationKey: String): Any? {
         return redisTemplate.opsForList().rightPopAndLeftPush(sourceKey,
                 destinationKey)
     }
@@ -689,7 +682,7 @@ class RedisUtil {
      * @return
      */
     fun lBRightPopAndLeftPush(sourceKey: String, destinationKey: String,
-                              timeout: Long, unit: TimeUnit): String? {
+                              timeout: Long, unit: TimeUnit): Any? {
         return redisTemplate.opsForList().rightPopAndLeftPush(sourceKey,
                 destinationKey, timeout, unit)
     }
@@ -759,7 +752,7 @@ class RedisUtil {
      * @param key
      * @return
      */
-    fun sPop(key: String): String? {
+    fun sPop(key: String): Any? {
         return redisTemplate.opsForSet().pop(key)
     }
 
@@ -803,7 +796,7 @@ class RedisUtil {
      * @param otherKey
      * @return
      */
-    fun sIntersect(key: String, otherKey: String): Set<String?>? {
+    fun sIntersect(key: String, otherKey: String): Set<Any?>? {
         return redisTemplate.opsForSet().intersect(key, otherKey)
     }
 
@@ -814,7 +807,7 @@ class RedisUtil {
      * @param otherKeys
      * @return
      */
-    fun sIntersect(key: String, otherKeys: Collection<String?>): Set<String?>? {
+    fun sIntersect(key: String, otherKeys: Collection<String?>): Set<Any?>? {
         return redisTemplate.opsForSet().intersect(key, otherKeys)
     }
 
@@ -852,7 +845,7 @@ class RedisUtil {
      * @param otherKeys
      * @return
      */
-    fun sUnion(key: String, otherKeys: String): Set<String?>? {
+    fun sUnion(key: String, otherKeys: String): Set<Any?>? {
         return redisTemplate.opsForSet().union(key, otherKeys)
     }
 
@@ -863,7 +856,7 @@ class RedisUtil {
      * @param otherKeys
      * @return
      */
-    fun sUnion(key: String, otherKeys: Collection<String?>): Set<String?>? {
+    fun sUnion(key: String, otherKeys: Collection<String?>): Set<Any?>? {
         return redisTemplate.opsForSet().union(key, otherKeys)
     }
 
@@ -899,7 +892,7 @@ class RedisUtil {
      * @param otherKey
      * @return
      */
-    fun sDifference(key: String, otherKey: String): Set<String?>? {
+    fun sDifference(key: String, otherKey: String): Set<Any?>? {
         return redisTemplate.opsForSet().difference(key, otherKey)
     }
 
@@ -910,7 +903,7 @@ class RedisUtil {
      * @param otherKeys
      * @return
      */
-    fun sDifference(key: String, otherKeys: Collection<String?>): Set<String?>? {
+    fun sDifference(key: String, otherKeys: Collection<String?>): Set<Any?>? {
         return redisTemplate.opsForSet().difference(key, otherKeys)
     }
 
@@ -947,7 +940,7 @@ class RedisUtil {
      * @param key
      * @return
      */
-    fun setMembers(key: String): Set<String?>? {
+    fun setMembers(key: String): Set<Any?>? {
         return redisTemplate.opsForSet().members(key)
     }
 
@@ -957,7 +950,7 @@ class RedisUtil {
      * @param key
      * @return
      */
-    fun sRandomMember(key: String): String? {
+    fun sRandomMember(key: String): Any? {
         return redisTemplate.opsForSet().randomMember(key)
     }
 
@@ -968,7 +961,7 @@ class RedisUtil {
      * @param count
      * @return
      */
-    fun sRandomMembers(key: String, count: Long): List<String?>? {
+    fun sRandomMembers(key: String, count: Long): List<Any?>? {
         return redisTemplate.opsForSet().randomMembers(key, count)
     }
 
@@ -979,7 +972,7 @@ class RedisUtil {
      * @param count
      * @return
      */
-    fun sDistinctRandomMembers(key: String, count: Long): Set<String?>? {
+    fun sDistinctRandomMembers(key: String, count: Long): Set<Any?>? {
         return redisTemplate.opsForSet().distinctRandomMembers(key, count)
     }
 
@@ -988,7 +981,7 @@ class RedisUtil {
      * @param options
      * @return
      */
-    fun sScan(key: String, options: ScanOptions): Cursor<String?>? {
+    fun sScan(key: String, options: ScanOptions): Cursor<Any?>? {
         return redisTemplate.opsForSet().scan(key, options)
     }
 
@@ -1012,7 +1005,7 @@ class RedisUtil {
      * @param values
      * @return
      */
-    fun zAdd(key: String, values: Set<ZSetOperations.TypedTuple<String?>?>): Long? {
+    fun zAdd(key: String, values: Set<ZSetOperations.TypedTuple<Any?>?>): Long? {
         return redisTemplate.opsForZSet().add(key, values)
     }
 
@@ -1067,7 +1060,7 @@ class RedisUtil {
      * @param end   结束位置, -1查询所有
      * @return
      */
-    fun zRange(key: String, start: Long, end: Long): Set<String?>? {
+    fun zRange(key: String, start: Long, end: Long): Set<Any?>? {
         return redisTemplate.opsForZSet().range(key, start, end)
     }
 
@@ -1080,7 +1073,7 @@ class RedisUtil {
      * @return
      */
     fun zRangeWithScores(key: String, start: Long,
-                         end: Long): Set<ZSetOperations.TypedTuple<String?>?>? {
+                         end: Long): Set<ZSetOperations.TypedTuple<Any?>?>? {
         return redisTemplate.opsForZSet().rangeWithScores(key, start, end)
     }
 
@@ -1092,7 +1085,7 @@ class RedisUtil {
      * @param max 最大值
      * @return
      */
-    fun zRangeByScore(key: String, min: Double, max: Double): Set<String?>? {
+    fun zRangeByScore(key: String, min: Double, max: Double): Set<Any?>? {
         return redisTemplate.opsForZSet().rangeByScore(key, min, max)
     }
 
@@ -1105,7 +1098,7 @@ class RedisUtil {
      * @return
      */
     fun zRangeByScoreWithScores(key: String,
-                                min: Double, max: Double): Set<ZSetOperations.TypedTuple<String?>?>? {
+                                min: Double, max: Double): Set<ZSetOperations.TypedTuple<Any?>?>? {
         return redisTemplate.opsForZSet().rangeByScoreWithScores(key, min, max)
     }
 
@@ -1118,7 +1111,7 @@ class RedisUtil {
      * @return
      */
     fun zRangeByScoreWithScores(key: String,
-                                min: Double, max: Double, start: Long, end: Long): Set<ZSetOperations.TypedTuple<String?>?>? {
+                                min: Double, max: Double, start: Long, end: Long): Set<ZSetOperations.TypedTuple<Any?>?>? {
         return redisTemplate.opsForZSet().rangeByScoreWithScores(key, min, max,
                 start, end)
     }
@@ -1131,7 +1124,7 @@ class RedisUtil {
      * @param end
      * @return
      */
-    fun zReverseRange(key: String, start: Long, end: Long): Set<String?>? {
+    fun zReverseRange(key: String, start: Long, end: Long): Set<Any?>? {
         return redisTemplate.opsForZSet().reverseRange(key, start, end)
     }
 
@@ -1144,7 +1137,7 @@ class RedisUtil {
      * @return
      */
     fun zReverseRangeWithScores(key: String,
-                                start: Long, end: Long): Set<ZSetOperations.TypedTuple<String?>?>? {
+                                start: Long, end: Long): Set<ZSetOperations.TypedTuple<Any?>?>? {
         return redisTemplate.opsForZSet().reverseRangeWithScores(key, start,
                 end)
     }
@@ -1158,7 +1151,7 @@ class RedisUtil {
      * @return
      */
     fun zReverseRangeByScore(key: String, min: Double,
-                             max: Double): Set<String?>? {
+                             max: Double): Set<Any?>? {
         return redisTemplate.opsForZSet().reverseRangeByScore(key, min, max)
     }
 
@@ -1171,7 +1164,7 @@ class RedisUtil {
      * @return
      */
     fun zReverseRangeByScoreWithScores(
-            key: String, min: Double, max: Double): Set<ZSetOperations.TypedTuple<String?>?>? {
+            key: String, min: Double, max: Double): Set<ZSetOperations.TypedTuple<Any?>?>? {
         return redisTemplate.opsForZSet().reverseRangeByScoreWithScores(key,
                 min, max)
     }
@@ -1185,7 +1178,7 @@ class RedisUtil {
      * @return
      */
     fun zReverseRangeByScore(key: String, min: Double,
-                             max: Double, start: Long, end: Long): Set<String?>? {
+                             max: Double, start: Long, end: Long): Set<Any?>? {
         return redisTemplate.opsForZSet().reverseRangeByScore(key, min, max,
                 start, end)
     }
@@ -1314,7 +1307,7 @@ class RedisUtil {
      * @param options
      * @return
      */
-    fun zScan(key: String, options: ScanOptions): Cursor<ZSetOperations.TypedTuple<String?>?>? {
+    fun zScan(key: String, options: ScanOptions): Cursor<ZSetOperations.TypedTuple<Any?>?> {
         return redisTemplate.opsForZSet().scan(key, options)
     }
 }

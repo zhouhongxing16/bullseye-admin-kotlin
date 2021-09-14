@@ -5,6 +5,9 @@ spring:
     hikari:
       username: root
       password: zhx8302812@#$
+  redis:
+    host: 118.24.91.197
+    password: chris950602
 uploadConfig:
   uploadPath: c:/aaa
   uploadUrl: http://localhost:8008
