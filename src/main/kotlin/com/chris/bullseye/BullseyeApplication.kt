@@ -15,4 +15,5 @@ fun main(args: Array<String>) {
     val logger: Logger = LoggerFactory.getLogger(BullseyeApplication::class.java)
     val activeProfiles = ctx.environment.activeProfiles
     logger.info("当前使用的 profile 是:{}", StringUtils.join(activeProfiles, "、"))
+    logger.info("当前启动端口号:{}", ctx.environment.getProperty("local.server.port"))
 }

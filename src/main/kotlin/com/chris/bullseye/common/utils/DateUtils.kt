@@ -6,6 +6,8 @@ import org.springframework.util.AntPathMatcher
 import java.lang.management.ManagementFactory
 import java.text.ParseException
 import java.text.SimpleDateFormat
+import java.time.Duration
+import java.time.LocalDateTime
 import java.util.*
 
 /**
@@ -150,13 +152,17 @@ class DateUtils {
             return day.toString() + "天" + hour + "小时" + min + "分钟"
         }
 
-        @Throws(ParseException::class)
-        fun getMinutes(startDate: String?, endDate: String?): String? {
-            val simpleFormat = SimpleDateFormat(YYYY_MM_DD_HH_MM_SS)
-            val from = simpleFormat.parse(startDate).time
-            val to = simpleFormat.parse(endDate).time
-            return ((to - from) / 60000L).toString()
+        /***
+         * 获取2个时间间隔的分钟数
+         * @param begin
+         * @param end
+         * @return
+         */
+        fun getDurationMinute(begin: LocalDateTime?, end: LocalDateTime?): Long {
+            val duration = Duration.between(begin, end)
+            return duration.toMinutes()
         }
+
     }
 
 }
