@@ -1,16 +1,11 @@
 package com.chris.bullseye.system.security
 
-import com.alibaba.fastjson.JSONObject
 import com.chris.bullseye.common.utils.AuthUtil
-import com.chris.bullseye.system.entity.JsonResult
-import com.chris.bullseye.system.entity.User
-import com.chris.bullseye.system.pojo.Role
 import com.chris.bullseye.common.utils.Logger
-import com.chris.bullseye.common.utils.RedisUtil
+import com.chris.bullseye.system.entity.JsonResult
 import org.springframework.http.HttpStatus
 import org.springframework.security.authentication.AuthenticationManager
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
-import org.springframework.security.core.GrantedAuthority
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter
 import java.io.IOException
@@ -69,7 +64,7 @@ class JWTAuthenticationFilter(manager: AuthenticationManager): BasicAuthenticati
         } else {
             val user = authUtil.getCurrentLoginUser()
             if (user != null) {
-                UsernamePasswordAuthenticationToken(user, null, user.getAuthorities())
+                UsernamePasswordAuthenticationToken(user, null, user.authorities)
             } else {
                 UsernamePasswordAuthenticationToken(null, null, null)
             }

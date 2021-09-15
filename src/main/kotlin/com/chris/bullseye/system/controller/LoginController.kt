@@ -134,7 +134,17 @@ class LoginController(
                 var token = UUID.randomUUID().toString()
                 var expireTime = LocalDateTime.now().plusHours(2)
                 println("当前用户角色:$rolestr")
-                val user = User(accountDto.id, accountDto.username, accountDto.password,token, accountDto.organizationId, staff.id, staff.departmentId, accountDto.accountLocked, accountDto.accountExpired,expireTime, grantedAuthorities)
+                val user = User()
+                user.id =accountDto.id
+                user.username =accountDto.username
+                user.token =token
+                user.organizationId =accountDto.organizationId
+                user.departmentId =staff.departmentId
+                user.staffId =staff.id
+                user.accountLocked =accountDto.accountLocked
+                user.accountExpired =accountDto.accountExpired
+                user.authorities =grantedAuthorities
+//                    User    (accountDto.id, accountDto.username, accountDto.password,token, accountDto.organizationId, staff.id, staff.departmentId, accountDto.accountLocked, accountDto.accountExpired,expireTime, grantedAuthorities)
                 println(grantedAuthorities)
                 //默认获取第一个角色为当前角色
                 var currentRole = roles?.get(0)

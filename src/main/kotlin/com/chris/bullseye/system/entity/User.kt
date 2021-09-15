@@ -3,16 +3,15 @@ package com.chris.bullseye.system.entity
 import com.chris.bullseye.system.pojo.Role
 import org.springframework.security.core.GrantedAuthority
 import org.springframework.security.core.userdetails.User
-import java.time.LocalDate
 import java.time.LocalDateTime
 
 /**
  * @author Chris
  * @date2020 12 01 17:21
  */
-class User : User {
+class User  {
 
-    constructor(
+    /*constructor(
             id: String?,
             username: String?,
             password: String?,
@@ -33,17 +32,17 @@ class User : User {
         this.accountLocked = accountLocked
         this.accountExpired = accountExpired
         this.expireTime = expireTime
-    }
-
-    constructor(username: String?, password: String?, authorities: Collection<GrantedAuthority>) : super(username, password, authorities) {
-
-    }
+    }*/
 
     var id: String? = null
+    
+    var authorities: MutableCollection<out GrantedAuthority?>? = null
 
     var organizationId: String? = null
 
     var staffId: String? = null
+
+    var username: String? = null
 
     var token: String? = null
 
@@ -73,5 +72,6 @@ class User : User {
      * 当前角色
      */
     var currentRole: Role? = null
+
 
 }
