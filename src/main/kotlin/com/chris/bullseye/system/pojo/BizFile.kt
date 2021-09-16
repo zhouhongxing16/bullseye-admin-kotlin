@@ -41,11 +41,11 @@ open class BizFile(
         var suffix: String? = null,
 
         /**
-         * 图片略缩图
+         * 图片略缩图相对地址
          */
-        @ApiModelProperty(name = "图片略缩图")
-        @Column(name = "thumbnail")
-        var thumbnail: String? = null,
+        @ApiModelProperty(name = "图片略缩图相对地址")
+        @Column(name = "thumbnail_path")
+        var thumbnailPath: String? = null,
 
         /**
          * 图片文件的宽
@@ -69,18 +69,18 @@ open class BizFile(
         var fileHash: String? = null,
 
         /**
-         * 文件路径 （不带域名）
+         * 相对路径
          */
-        @ApiModelProperty(name = "文件路径 （不带域名）")
+        @ApiModelProperty(name = "相对路径")
         @Column(name = "file_path")
-        var filePath: String? = null,
+        var relativePath: String? = null,
 
         /**
-         * 文件全路径 （带域名）
+         * 域名
          */
-        @ApiModelProperty(name = "件全路径 （带域名）")
-        @Column(name = "full_file_path")
-        var fullFilePath: String? = null,
+        @ApiModelProperty(name = "域名")
+        @Column(name = "域名")
+        var domain: String? = null,
 
         /**
          * 原始文件名
@@ -90,7 +90,7 @@ open class BizFile(
         var originalFileName: String? = null,
 
         /**
-         * 原始文件名
+         * bucketName
          */
         @ApiModelProperty(name = "bucketName")
         @Column(name = "bucket_name")
@@ -116,14 +116,6 @@ open class BizFile(
         @ApiModelProperty(name = "文件上传结束的时间")
         @Column(name = "upload_end_time")
         var uploadEndTime: LocalDateTime? = null,
-
-        /**
-         * 创建时间
-         */
-        @ApiModelProperty(name = "创建时间")
-        @Column(name = "created")
-        var created: LocalDateTime? = null,
-
         /**
          * 修改时间
          */
@@ -141,6 +133,10 @@ open class BizFile(
 
         @ApiModelProperty(name = "创建日期")
         @Column(name = "create_time")
-        var createTime: LocalDateTime? = null
+        var createTime: LocalDateTime? = null,
 
-        )
+
+        @ApiModelProperty(name = "状态")
+        @Column(name = "status")
+        var status: Int? = null,
+)

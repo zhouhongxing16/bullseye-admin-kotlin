@@ -41,6 +41,9 @@ class BizFileService(var bizFileMapper: BizFileMapper, var aliOSSConfig: AliConf
     @Value("\${uploadConfig.uploadPath}")
     private val uploadPath: String? = null
 
+    @Value("\${uploadConfig.domain}")
+    private val domain: String? = null
+
     @Value("\${uploadConfig.storageType}")
     private val storageType: String? = null
 
@@ -69,10 +72,12 @@ class BizFileService(var bizFileMapper: BizFileMapper, var aliOSSConfig: AliConf
                 val objectResult = ossClient.putObject(aliOSSConfig.bucketName, filename, multipartFile.inputStream)
                 file.uploadEndTime = LocalDateTime.now()
                 file.storageType = "AliOSS"
-                file.filePath = aliOSSConfig.bucketName + "/" + filename
-                file.fullFilePath = aliOSSConfig.bucketName + filename
+                file.relativePath = aliOSSConfig.bucketName + "/" + filename
                 file.bucketName = aliOSSConfig.bucketName
-                file.userId = user!!.id
+
+                file.domain = domain
+                file.creatorId = user!!.id
+                file.creatorName = user!!.name
                 file.status = 1
                 val count: Int = bizFileMapper.insert(file)
             }
@@ -106,44 +111,52 @@ class BizFileService(var bizFileMapper: BizFileMapper, var aliOSSConfig: AliConf
         var filename =  System.currentTimeMillis().toString() + FileUtil.getSuffix(multipartFile.originalFilename)
         val organizationPath = user!!.organizationId
         val path = "$uploadPath/$organizationPath"
-        val viewPath = "$prefix/$organizationPath/$filename"
-
+        val reMap: MutableMap<String, String?> = HashMap(2)
         //计算文件hash
-        val hash = Hashing.sha1().hashBytes(multipartFile.bytes)
-        val file = BizFile()
-        file.organizationId = user!!.organizationId
-        file.departmentId = user!!.departmentId
-        file.uploadStartTime = LocalDateTime.now()
-        //上传文件
-        FileUtil.uploadFile(multipartFile, path, filename)
-        if (FileUtil.getSuffix(filename)?.let { FileUtil.isPicture(it) } == true) {
-            val p = "$uploadPath/$organizationPath/thumbnail"
-            val targetFile = File(p)
-            if (!targetFile.exists()) {
-                targetFile.mkdirs()
+        val hash = Hashing.hmacSha1(multipartFile.bytes)
+        var bizFile = bizFileMapper.getByFileHash(hash.toString())
+        if(bizFile==null){
+            bizFile = BizFile()
+            bizFile.organizationId = user!!.organizationId
+            bizFile.departmentId = user!!.departmentId
+            bizFile.uploadStartTime = LocalDateTime.now()
+            //上传文件
+            FileUtil.uploadFile(multipartFile, path, filename)
+            //如果是图片则计算长宽并且压缩
+            if (FileUtil.getSuffix(filename)?.let { FileUtil.isPicture(it) } == true) {
+                val p = "$uploadPath/$organizationPath/thumbnail"
+                val targetFile = File(p)
+                if (!targetFile.exists()) {
+                    targetFile.mkdirs()
+                }
+                val bi: Image = ImageIO.read(File("$path/$filename"))
+                bizFile.width = bi.getWidth(null)
+                bizFile.height = bi.getHeight(null)
+                val thumbnailPath = "$prefix/$organizationPath/thumbnail/$filename"
+                bizFile.thumbnailPath = thumbnailPath
+                //图片压缩
+                Thumbnails.of("$path/$filename").size(500, 500).toFile("$path/thumbnail/$filename")
             }
-            val bi: Image = ImageIO.read(File("$path/$filename"))
-            file.width = bi.getWidth(null)
-            file.height = bi.getHeight(null)
-            val thumbnailPath = "$prefix/$organizationPath/thumbnail/$filename"
-            file.thumbnail = thumbnailPath
-            //图片压缩
-            Thumbnails.of("$path/$filename").size(500, 500).toFile("$path/thumbnail/$filename")
-        }
-        file.size = multipartFile.size
-        file.fileHash = hash.toString()
-        file.originalFileName = multipartFile.originalFilename
-        file.suffix = FileUtil.getSuffix(multipartFile.originalFilename)
+            bizFile.size = multipartFile.size
+            bizFile.fileHash = hash.toString()
+            bizFile.originalFileName = multipartFile.originalFilename
+            bizFile.suffix = FileUtil.getSuffix(multipartFile.originalFilename)
 
-        file.uploadEndTime = LocalDateTime.now()
-        file.storageType = storageType
-        file.filePath = path
-        file.fullFilePath = viewPath
-        file.userId = user!!.id
-        file.status = 1
-        val count: Int = bizFileMapper.insert(file)
-        result.success = if (count > 0) true else false
-        result.data = file
+            bizFile.uploadEndTime = LocalDateTime.now()
+            bizFile.storageType = storageType
+            bizFile.relativePath = path
+            bizFile.domain = domain
+            bizFile.creatorId = user!!.id
+            bizFile.creatorName = user!!.name
+            bizFile.status = 1
+            val count: Int = bizFileMapper.insert(bizFile)
+            result.success = if (count > 0) true else false
+        }
+
+        reMap["domain"] = domain
+        reMap["fileId"] = bizFile.id
+        reMap["relativePath"] = bizFile.relativePath
+        result.data = reMap
         result.status = HttpStatus.OK.value()
         return result
     }
@@ -172,10 +185,11 @@ class BizFileService(var bizFileMapper: BizFileMapper, var aliOSSConfig: AliConf
             val objectResult = ossClient.putObject(aliOSSConfig.bucketName, filename, multipartFile.inputStream)
             file.uploadEndTime = LocalDateTime.now()
             file.storageType = storageType
-            file.filePath = aliOSSConfig.bucketName + "/" + filename
-            file.fullFilePath = aliOSSConfig.domainName + filename
+            file.relativePath = aliOSSConfig.bucketName + "/" + filename
+            file.domain = aliOSSConfig.domainName
             file.bucketName = aliOSSConfig.bucketName
-            file.userId = user!!.id
+            file.creatorId = user!!.id
+            file.creatorName = user!!.name
             file.status = 1
             val count: Int = bizFileMapper.insert(file)
             result.success = if (count > 0) true else false

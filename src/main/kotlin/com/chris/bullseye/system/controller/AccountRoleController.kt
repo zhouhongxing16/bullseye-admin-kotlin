@@ -11,6 +11,7 @@ import com.chris.bullseye.common.utils.AuthUtil
 import io.swagger.annotations.Api
 import io.swagger.annotations.ApiOperation
 import org.springframework.web.bind.annotation.*
+import java.time.LocalDateTime
 
 /**
  * @author Chris
@@ -61,7 +62,9 @@ class AccountRoleController(var accountRoleService: AccountRoleService,
                 accountRole.roleId = role.id
                 accountRole.accountId = id
                 accountRole.id = null
-                accountRole.userId = user!!.id
+                accountRole.creatorId = user!!.id
+                accountRole.creatorName = user!!.name
+                accountRole.createTime = LocalDateTime.now()
                 accountRoleService.add(accountRole)
             }
             return jsonResult.success(null, "添加成功！")

@@ -169,7 +169,7 @@ class LoggerAopService(var logsService: LogsService) {
         // 设置IP地址
         logs.ip = IPUtils.getIpAddr(req)
         // 系统当前时间
-        logs.created = LocalDateTime.now()
+        logs.createTime = LocalDateTime.now()
         logs.executionTime = time.toInt()
         // 保存系统日志
         logsService.add(logs)

@@ -24,7 +24,8 @@ class StaffService(var staffMapper: StaffMapper, var accountMapper: AccountMappe
 
     fun createDto(dto: StaffDto): JsonResult<StaffDto> {
         var user = AuthUtil.getCurrentUser()
-        dto.userId = user!!.id
+        dto.creatorId = user!!.id
+        dto.creatorName = user!!.name
         var result = JsonResult<StaffDto>()
         result.status = HttpStatus.OK.value()
         var queryMap: MutableMap<String, String?> = HashMap(2)

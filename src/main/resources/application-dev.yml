@@ -10,7 +10,7 @@ spring:
     password: chris950602
 uploadConfig:
   uploadPath: c:/aaa
-  uploadUrl: http://localhost:8008
+  domain: http://localhost:8008
   prefix: /api/file
   storageType: local
 aliConfig:

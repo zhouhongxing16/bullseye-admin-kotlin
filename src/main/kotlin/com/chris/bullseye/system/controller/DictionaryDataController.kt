@@ -27,7 +27,8 @@ class DictionaryDataController(var dictionaryDataService: DictionaryDataService,
     @ApiImplicitParam(name = "obj", value = "")
     fun create(@RequestBody obj: DictionaryData): JsonResult<DictionaryData> {
         val user = AuthUtil.getCurrentUser()
-        obj.userId= user!!.id
+        obj.creatorId = user!!.id
+        obj.creatorName = user!!.name
         return dictionaryDataService.add(obj)
     }
 

@@ -3,6 +3,7 @@ package com.chris.bullseye.system.mapper
 import com.chris.bullseye.basemapper.BaseMapper
 import com.chris.bullseye.system.pojo.BizFile
 import org.apache.ibatis.annotations.Mapper
+import org.apache.ibatis.annotations.Param
 
 /**
  * @Author: Chris  E-mail:961860916@qq.com
@@ -11,4 +12,6 @@ import org.apache.ibatis.annotations.Mapper
  */
 @Mapper
 interface BizFileMapper: BaseMapper<BizFile> {
+
+    fun getByFileHash(@Param("fileHash") fileHash:String):BizFile
 }

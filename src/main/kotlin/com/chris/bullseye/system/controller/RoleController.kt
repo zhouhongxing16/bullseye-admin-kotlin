@@ -29,7 +29,8 @@ class RoleController(var roleService: RoleService){
     @PostMapping("/create")
     fun create(@RequestBody obj: Role): JsonResult<Role> {
         var user  = AuthUtil.getCurrentUser()
-        obj.userId = user!!.id
+        obj.creatorId = user!!.id
+        obj.creatorName = user!!.name
         return roleService.add(obj)
     }
     //增加

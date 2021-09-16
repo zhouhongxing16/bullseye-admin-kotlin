@@ -45,7 +45,8 @@ class OrganizationController(var organizationService: OrganizationService){
     @PostMapping("/create")
     fun create(@RequestBody obj: Organization): JsonResult<Organization> {
         var user  = AuthUtil.getCurrentUser()
-        obj.userId = user!!.id
+        obj.creatorId = user!!.id
+        obj.creatorName = user!!.name
         return organizationService.add(obj)
     }
 }

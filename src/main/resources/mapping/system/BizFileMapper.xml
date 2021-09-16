@@ -37,43 +37,14 @@
 
     <select id="getListByParams" resultMap="BaseResultMapDto" parameterType="map">
         SELECT
-        <include refid="basic_list"/>,staff.name as userName
+        <include refid="basic_list"/>
         FROM b_biz_file a
-        left join b_account act on act.id = a.user_id
-        left join b_staff staff on staff.id = act.staff_id
         <where>
-            <if test="id!=null and id!='' ">
-                and a.id=#{ id }
-            </if>
-            <if test="userId!=null and userId!='' ">
-                and a.user_id=#{ userId }
-            </if>
             <if test="storageType!=null and storageType!='' ">
                 and a.storage_type = #{ storageType }
             </if>
             <if test="originalFileName!=null and originalFileName!='' ">
                 and a.original_file_name LIKE CONCAT('%', #{ originalFileName }, '%')
-            </if>
-            <if test="size!=null and size!='' ">
-                and a.size LIKE CONCAT('%', #{ size }, '%')
-            </if>
-            <if test="suffix!=null and suffix!='' ">
-                and a.suffix LIKE CONCAT('%', #{ suffix }, '%')
-            </if>
-            <if test="width!=null and width!='' ">
-                and a.width=#{ width }
-            </if>
-            <if test="height!=null and height!='' ">
-                and a.height LIKE CONCAT('%', #{ height }, '%')
-            </if>
-            <if test="filePath!=null and filePath!='' ">
-                and a.file_path = #{ filePath }
-            </if>
-            <if test="fullFilePath!=null and fullFilePath!='' ">
-                and a.full_file_path LIKE CONCAT('%', #{ fullFilePath }, '%')
-            </if>
-            <if test="userId!=null and userId!='' ">
-                and a.user_id = #{ userId }
             </if>
         </where>
         order by a.created desc
@@ -81,17 +52,9 @@
 
     <select id="getByParams" resultMap="BaseResultMapDto" parameterType="map">
         SELECT
-        <include refid="basic_list"/>,staff.name as userName
+        <include refid="basic_list"/>
         FROM b_biz_file a
-        left join b_account act on act.id = a.user_id
-        left join b_staff staff on staff.id = act.staff_id
         <where>
-            <if test="id!=null and id!='' ">
-                and a.id=#{ id }
-            </if>
-            <if test="userId!=null and userId!='' ">
-                and a.user_id=#{ userId }
-            </if>
             <if test="storageType!=null and storageType!='' ">
                 and a.storage_type LIKE CONCAT('%', #{ storageType }, '%')
             </if>
@@ -104,24 +67,19 @@
             <if test="suffix!=null and suffix!='' ">
                 and a.suffix LIKE CONCAT('%', #{ suffix }, '%')
             </if>
-            <if test="width!=null and width!='' ">
-                and a.width=#{ width }
-            </if>
-            <if test="height!=null and height!='' ">
-                and a.height LIKE CONCAT('%', #{ height }, '%')
-            </if>
-            <if test="filePath!=null and filePath!='' ">
-                and a.file_path LIKE CONCAT('%', #{ filePath }, '%')
-            </if>
-            <if test="fullFilePath!=null and fullFilePath!='' ">
-                and a.full_file_path LIKE CONCAT('%', #{ fullFilePath }, '%')
-            </if>
             <if test="fileHash!=null and fileHash!='' ">
                 and a.file_hash LIKE CONCAT('%', #{ fileHash }, '%')
             </if>
-            <if test="userId!=null and userId!='' ">
-                and a.user_id = #{ userId }
-            </if>
+        </where>
+        limit 1
+    </select>
+
+    <select id="getByFileHash" resultMap="BaseResultMap" parameterType="map">
+        SELECT
+        <include refid="basic_list"/>
+        FROM biz_file a
+        <where>
+            a.file_hash = #{fileHash}
         </where>
         limit 1
     </select>

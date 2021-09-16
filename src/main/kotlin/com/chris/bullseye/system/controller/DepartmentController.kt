@@ -32,7 +32,8 @@ class DepartmentController(
     @PostMapping("/create")
     fun create(@RequestBody obj: Department): JsonResult<Department> {
         var user  = AuthUtil.getCurrentUser()
-        obj.userId = user!!.id
+        obj.creatorId = user!!.id
+        obj.creatorName = user!!.name
         return departmentService.add(obj)
     }
 

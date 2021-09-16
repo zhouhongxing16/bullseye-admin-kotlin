@@ -62,7 +62,8 @@ class MenuController(var menuService: MenuService,
     @PostMapping("/create")
     fun create(@RequestBody obj: Menu): JsonResult<Menu> {
         var user  = AuthUtil.getCurrentUser()
-        obj.userId = user!!.id
+        obj.creatorId = user!!.id
+        obj.creatorName = user!!.name
         return menuService.add(obj)
     }
 

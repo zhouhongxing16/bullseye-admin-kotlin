@@ -43,7 +43,8 @@ class NavigationController( val navigationService: NavigationService){
     @PostMapping("/create")
     fun create(@RequestBody obj: Navigation): JsonResult<Navigation> {
         var user  = AuthUtil.getCurrentUser()
-        obj.userId = user!!.id
+        obj.creatorId = user!!.id
+        obj.creatorName = user!!.name
         return navigationService.add(obj)
     }
 }

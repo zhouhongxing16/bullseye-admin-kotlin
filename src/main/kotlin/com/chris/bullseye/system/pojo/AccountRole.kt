@@ -40,7 +40,7 @@ open class AccountRole(
 
         @ApiModelProperty(name = "创建日期")
         @Column(name = "create_time")
-        var create_time: LocalDateTime? = null
+        var createTime: LocalDateTime? = null
 
 
 )
