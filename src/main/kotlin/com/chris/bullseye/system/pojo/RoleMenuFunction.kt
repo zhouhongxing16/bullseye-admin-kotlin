@@ -2,6 +2,7 @@ package com.chris.bullseye.system.pojo
 
 import com.fasterxml.jackson.annotation.JsonFormat
 import io.swagger.annotations.ApiModelProperty
+import java.time.LocalDateTime
 import java.util.*
 import javax.persistence.*
 
@@ -24,16 +25,20 @@ open class RoleMenuFunction(
         @Column(name = "menu_function_id")
         var menuFunctionId: String? = null,
 
-        @ApiModelProperty(name = "操作人")
-        @Column(name = "user_id")
-        var userId: String? = null,
-
         @ApiModelProperty(name = "状态")
         @Column(name = "status")
-        var status: Int? = null,
+        var status: String? = null,
 
-        @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+
+        @ApiModelProperty(name = "创建人ID")
+        @Column(name = "creator_id")
+        var creatorId: String? = null,
+
+        @ApiModelProperty(name = "创建人")
+        @Column(name = "creator_name")
+        var creatorName: String? = null,
+
         @ApiModelProperty(name = "创建日期")
-        @Column(name = "created")
-        var created: Date? = null
+        @Column(name = "create_time")
+        var createTime: LocalDateTime? = null,
 )

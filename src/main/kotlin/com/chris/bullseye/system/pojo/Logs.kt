@@ -4,6 +4,7 @@ import java.util.Date
 import javax.persistence.*
 import com.fasterxml.jackson.annotation.JsonFormat
 import io.swagger.annotations.ApiModelProperty
+import java.time.LocalDateTime
 
 /**
  * @Author: Chris  E-mail:961860916@qq.com
@@ -57,10 +58,9 @@ open class Logs(
         @Column(name = "remark")
         var remark: String? = null,
 
-        @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
-        @ApiModelProperty(name = "操作时间")
-        @Column(name = "created")
-        var created: Date? = null,
+        @ApiModelProperty(name = "创建日期")
+        @Column(name = "create_time")
+        var createTime: LocalDateTime? = null
 
 
         )

@@ -4,6 +4,7 @@ import com.chris.bullseye.common.utils.*
 import com.chris.bullseye.system.dto.AccountDto
 import com.chris.bullseye.system.entity.JsonResult
 import com.chris.bullseye.system.entity.OperationLog
+import com.chris.bullseye.system.entity.request.LoginRequest
 import com.chris.bullseye.system.pojo.Account
 import com.chris.bullseye.system.service.*
 import com.github.pagehelper.PageHelper
@@ -26,9 +27,7 @@ import java.util.*
 class AccountController(
         val accountService: AccountService,
         var staffService: StaffService,
-        var loginRecordService: LoginRecordService,
         var roleService: RoleService,
-        var redisUtil: RedisUtil,
         var jsonResult: JsonResult<Account>
 ) {
 
@@ -49,8 +48,8 @@ class AccountController(
     @ApiOperation(value = "修改密码", notes = "参数：旧密码oldPassword，新密码newPassword")
     @OperationLog("查询分页数据")
     @PostMapping("/changePassword")
-    fun changePassword(@RequestBody map: MutableMap<String, String?>): JsonResult<Any>? {
-        return accountService.changePassword(map)
+    fun changePassword(@RequestBody user: LoginRequest): JsonResult<Any>? {
+        return accountService.changePassword(user)
     }
 
     @ApiOperation(value = "重置密码", notes = "参数：accountId")

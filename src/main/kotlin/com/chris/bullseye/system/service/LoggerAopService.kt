@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMethod
 import org.springframework.web.context.request.RequestContextHolder
 import org.springframework.web.context.request.ServletRequestAttributes
 import java.net.URLDecoder
+import java.time.LocalDateTime
 import java.util.*
 
 /**
@@ -168,7 +169,7 @@ class LoggerAopService(var logsService: LogsService) {
         // 设置IP地址
         logs.ip = IPUtils.getIpAddr(req)
         // 系统当前时间
-        logs.created = Date()
+        logs.created = LocalDateTime.now()
         logs.executionTime = time.toInt()
         // 保存系统日志
         logsService.add(logs)

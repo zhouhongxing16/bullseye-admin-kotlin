@@ -1,6 +1,7 @@
 package com.chris.bullseye.system.pojo
 
 import io.swagger.annotations.ApiModelProperty
+import java.time.LocalDateTime
 import java.util.*
 import javax.persistence.*
 
@@ -107,41 +108,39 @@ open class BizFile(
          */
         @ApiModelProperty(name = "文件上传开始的时间")
         @Column(name = "upload_start_time")
-        var uploadStartTime: Date? = null,
+        var uploadStartTime: LocalDateTime? = null,
 
         /**
          * 文件上传结束的时间
          */
         @ApiModelProperty(name = "文件上传结束的时间")
         @Column(name = "upload_end_time")
-        var uploadEndTime: Date? = null,
+        var uploadEndTime: LocalDateTime? = null,
 
         /**
          * 创建时间
          */
         @ApiModelProperty(name = "创建时间")
         @Column(name = "created")
-        var created: Date? = null,
+        var created: LocalDateTime? = null,
 
         /**
          * 修改时间
          */
         @ApiModelProperty(name = "修改时间")
-        @Column(name = "updated")
-        var updated: Date? = null,
+        @Column(name = "update_time")
+        var updateTime: LocalDateTime? = null,
 
-        /**
-         * 创建人
-         */
+        @ApiModelProperty(name = "创建人ID")
+        @Column(name = "creator_id")
+        var creatorId: String? = null,
+
         @ApiModelProperty(name = "创建人")
-        @Column(name = "user_id")
-        var userId: String? = null,
+        @Column(name = "creator_name")
+        var creatorName: String? = null,
 
-        /**
-         * 文件上传结束的时间
-         */
-        @ApiModelProperty(name = "状态")
-        @Column(name = "status")
-        var status: Int? = null,
+        @ApiModelProperty(name = "创建日期")
+        @Column(name = "create_time")
+        var createTime: LocalDateTime? = null
 
         )

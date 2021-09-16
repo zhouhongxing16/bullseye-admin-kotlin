@@ -42,6 +42,8 @@ class User  {
 
     var staffId: String? = null
 
+    var name: String? = null
+    
     var username: String? = null
 
     var token: String? = null

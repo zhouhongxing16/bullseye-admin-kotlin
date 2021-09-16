@@ -266,20 +266,20 @@
         order by a.created
     </select>
 
-    <select id="getAccountByUserName" resultMap="BaseResultMap" parameterType="String">
+    <select id="getAccountByUserName" resultMap="BaseResultMapDto" parameterType="String">
         select a.*
         from b_account a
         where a.username = #{0}
     </select>
 
-    <select id="getAccountByStaffMobile" resultMap="BaseResultMap" parameterType="String">
+    <select id="getAccountByStaffMobile" resultMap="BaseResultMapDto" parameterType="String">
         select a.*
         from b_account a
         left join b_staff s on s.id = a.staff_id
         where s.mobile = #{0} limit 1
     </select>
 
-    <select id="getAccountByStaffId" resultMap="BaseResultMap" parameterType="String">
+    <select id="getAccountByStaffId" resultMap="BaseResultMapDto" parameterType="String">
         select a.*
         from b_account a
         left join b_staff s on s.id = a.staff_id

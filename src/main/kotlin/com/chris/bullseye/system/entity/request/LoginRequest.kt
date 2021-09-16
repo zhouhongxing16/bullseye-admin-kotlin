@@ -15,7 +15,7 @@ data class LoginRequest(
         var password: String? = null,
 
         @ApiModelProperty(name = "验证码")
-        var code : String? = null,
+        var validateCode : String? = null,
 
         @ApiModelProperty(name = "手机号")
         var mobile : String? = null,
@@ -25,4 +25,10 @@ data class LoginRequest(
 
         @ApiModelProperty(name = "组织标识")
         var organizationId: String? = null,
+
+        @ApiModelProperty(name = "旧密码")
+        var oldPassword: String? = null,
+
+        @ApiModelProperty(name = "新密码")
+        var newPassword: String? = null,
 )

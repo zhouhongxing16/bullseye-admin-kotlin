@@ -25,7 +25,7 @@
 
 
     <sql id="basic_list">
-        a.id, a.parent_id, a.code, a.title, a.icon, a.path, a.user_id, a.status, a.sequence, a.created
+        a.id, a.parent_id, a.code, a.title, a.icon, a.path, a.user_id, a.status, a.sort, a.created
     </sql>
 
     <select id="getListByParams" resultMap="BaseResultMapDto" parameterType="map">
@@ -57,14 +57,11 @@
             <if test="status!=null and status!='' ">
                 and a.status = #{ status }
             </if>
-            <if test="sequence!=null and sequence!='' ">
-                and a.sequence LIKE CONCAT('%', #{ sequence }, '%')
-            </if>
             <if test="created!=null and created!='' ">
                 and a.created LIKE CONCAT('%', #{ created }, '%')
             </if>
         </where>
-        order by a.sequence desc
+        order by a.sort desc
     </select>
 
 
@@ -103,9 +100,6 @@
             <if test="status!=null and status!='' ">
                 and a.status = #{ status }
             </if>
-            <if test="sequence!=null and sequence!='' ">
-                and a.sequence LIKE CONCAT('%', #{ sequence }, '%')
-            </if>
             <if test="created!=null and created!='' ">
                 and a.created LIKE CONCAT('%', #{ created }, '%')
             </if>
@@ -113,7 +107,7 @@
                 and (a.parent_id is null or a.parent_id ='')
             </if>
         </where>
-        order by a.sequence desc
+        order by a.sort desc
     </select>
 
     <select id="getMenusByAccountId" parameterType="map" resultMap="BaseResultMapDto">
@@ -176,9 +170,6 @@
             </if>
             <if test="status!=null and status!='' ">
                 and a.status = #{ status }
-            </if>
-            <if test="sequence!=null and sequence!='' ">
-                and a.sequence LIKE CONCAT('%', #{ sequence }, '%')
             </if>
             <if test="created!=null and created!='' ">
                 and a.created LIKE CONCAT('%', #{ created }, '%')

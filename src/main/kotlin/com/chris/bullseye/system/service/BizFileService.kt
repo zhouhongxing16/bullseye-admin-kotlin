@@ -17,6 +17,7 @@ import org.springframework.web.multipart.MultipartFile
 import java.awt.Image
 import java.io.File
 import java.io.IOException
+import java.time.LocalDateTime
 import java.util.*
 import javax.imageio.ImageIO
 
@@ -63,10 +64,10 @@ class BizFileService(var bizFileMapper: BizFileMapper, var aliOSSConfig: AliConf
                 file.size = multipartFile.size
                 file.originalFileName = multipartFile.originalFilename
                 file.suffix = FileUtil.getSuffix(multipartFile.originalFilename)
-                file.uploadStartTime = Date()
+                file.uploadStartTime = LocalDateTime.now()
                 val filename = multipartFile.originalFilename
                 val objectResult = ossClient.putObject(aliOSSConfig.bucketName, filename, multipartFile.inputStream)
-                file.uploadEndTime = Date()
+                file.uploadEndTime = LocalDateTime.now()
                 file.storageType = "AliOSS"
                 file.filePath = aliOSSConfig.bucketName + "/" + filename
                 file.fullFilePath = aliOSSConfig.bucketName + filename
@@ -112,7 +113,7 @@ class BizFileService(var bizFileMapper: BizFileMapper, var aliOSSConfig: AliConf
         val file = BizFile()
         file.organizationId = user!!.organizationId
         file.departmentId = user!!.departmentId
-        file.uploadStartTime = Date()
+        file.uploadStartTime = LocalDateTime.now()
         //上传文件
         FileUtil.uploadFile(multipartFile, path, filename)
         if (FileUtil.getSuffix(filename)?.let { FileUtil.isPicture(it) } == true) {
@@ -134,7 +135,7 @@ class BizFileService(var bizFileMapper: BizFileMapper, var aliOSSConfig: AliConf
         file.originalFileName = multipartFile.originalFilename
         file.suffix = FileUtil.getSuffix(multipartFile.originalFilename)
 
-        file.uploadEndTime = Date()
+        file.uploadEndTime = LocalDateTime.now()
         file.storageType = storageType
         file.filePath = path
         file.fullFilePath = viewPath
@@ -166,10 +167,10 @@ class BizFileService(var bizFileMapper: BizFileMapper, var aliOSSConfig: AliConf
             file.fileHash = hash.toString()
             file.originalFileName = multipartFile.originalFilename
             file.suffix = FileUtil.getSuffix(multipartFile.originalFilename)
-            file.uploadStartTime = Date()
+            file.uploadStartTime = LocalDateTime.now()
             val filename = multipartFile.originalFilename
             val objectResult = ossClient.putObject(aliOSSConfig.bucketName, filename, multipartFile.inputStream)
-            file.uploadEndTime = Date()
+            file.uploadEndTime = LocalDateTime.now()
             file.storageType = storageType
             file.filePath = aliOSSConfig.bucketName + "/" + filename
             file.fullFilePath = aliOSSConfig.domainName + filename

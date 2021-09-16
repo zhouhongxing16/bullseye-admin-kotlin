@@ -18,7 +18,7 @@
     </resultMap>
     
     <sql id="basic_list">
-		a.id, a.name, a.path, a.link, a.sequence, a.status,a.user_id
+		a.id, a.name, a.path, a.link, a.sort, a.status,a.user_id
 	</sql>
 
     <select id="getListByParams" resultMap="BaseResultMapDto" parameterType="map">
@@ -36,12 +36,6 @@
             </if>
             <if test="path!=null and path!='' ">
                 and a.path LIKE CONCAT('%', #{ path }, '%')
-            </if>
-            <if test="link!=null and link!='' ">
-                and a.link LIKE CONCAT('%', #{ link }, '%')
-            </if>
-            <if test="sequence!=null and sequence!='' ">
-                and a.sequence LIKE CONCAT('%', #{ sequence }, '%')
             </if>
             <if test="status!=null and status!='' ">
                 and a.status = #{ status }
@@ -72,9 +66,6 @@
             </if>
             <if test="link!=null and link!='' ">
                 and a.link LIKE CONCAT('%', #{ link }, '%')
-            </if>
-            <if test="sequence!=null and sequence!='' ">
-                and a.sequence LIKE CONCAT('%', #{ sequence }, '%')
             </if>
             <if test="status!=null and status!='' ">
                 and a.status = #{ status }

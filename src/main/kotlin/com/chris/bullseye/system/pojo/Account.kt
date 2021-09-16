@@ -8,6 +8,7 @@ import com.fasterxml.jackson.annotation.JsonFormat
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.core.JsonProcessingException
 import io.swagger.annotations.ApiModelProperty
+import java.time.LocalDateTime
 
 /**
  * @Author: Chris  E-mail:961860916@qq.com
@@ -20,6 +21,10 @@ open class Account(
         @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "select uuid()")
         @ApiModelProperty(name = "唯一标识")
         var id: String? = null,
+
+        @ApiModelProperty(name = "姓名")
+        @Column(name = "name")
+        var name: String? = null,
 
         @ApiModelProperty(name = "账户")
         @Column(name = "username")
@@ -89,24 +94,25 @@ open class Account(
         @Column(name = "remark")
         var remark: String? = null,
 
+        @ApiModelProperty(name = "创建人ID")
+        @Column(name = "creator_id")
+        var creatorId: String? = null,
+
         @ApiModelProperty(name = "创建人")
-        @Column(name = "user_id")
-        var userId: String? = null,
+        @Column(name = "creator_name")
+        var creatorName: String? = null,
 
-        @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
         @ApiModelProperty(name = "修改时间")
-        @Column(name = "modified")
-        var modified: Date? = null,
+        @Column(name = "update_time")
+        var updateTime: LocalDateTime? = null,
 
-        @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
         @ApiModelProperty(name = "账号过期时间")
         @Column(name = "expired_date")
-        var expiredDate: Date? = null,
+        var expiredDate: LocalDateTime? = null,
 
-        @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
-        @ApiModelProperty(name = "创建时间")
-        @Column(name = "created")
-        var created: Date? = null
+        @ApiModelProperty(name = "创建日期")
+        @Column(name = "create_time")
+        var create_time: LocalDateTime? = null
 
 
 )

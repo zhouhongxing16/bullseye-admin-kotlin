@@ -12,9 +12,11 @@ import org.apache.ibatis.annotations.Mapper
 @Mapper
 interface AccountMapper: BaseMapper<Account> {
 
-    fun getAccountByUserName(userName: String?): Account?
+    fun getAccountByUserName(userName: String?): AccountDto?
 
-    fun getAccountByStaffMobile(mobile: String?): Account?
+    fun getAccountByStaffMobile(mobile: String?): AccountDto?
+
+    fun getAccountByStaffId(mobile: String?): AccountDto?
 
     fun getById(id: String?): Account?
 

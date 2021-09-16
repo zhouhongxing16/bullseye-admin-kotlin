@@ -5,11 +5,13 @@ import com.chris.bullseye.common.utils.AuthUtil
 import com.chris.bullseye.common.utils.IPUtils
 import com.chris.bullseye.common.utils.RedisUtil
 import com.chris.bullseye.common.utils.ValidateCodeUtils
+import com.chris.bullseye.system.dto.AccountDto
 import com.chris.bullseye.system.entity.JsonResult
 import com.chris.bullseye.system.entity.OperationLog
 import com.chris.bullseye.system.entity.User
 import com.chris.bullseye.system.entity.request.LoginRequest
 import com.chris.bullseye.system.entity.response.LoginResponse
+import com.chris.bullseye.system.pojo.Account
 import com.chris.bullseye.system.pojo.LoginRecord
 import com.chris.bullseye.system.pojo.Staff
 import com.chris.bullseye.system.service.AccountService
@@ -84,8 +86,8 @@ class LoginController(
 
     @ApiOperation(value = "忘记密码", notes = "参数：密码password，手机号mobile,验证码validateCode")
     @PostMapping("/forgetPassword")
-    fun forgetPassword(@RequestBody map: MutableMap<String, String?>): JsonResult<Any>? {
-        return accountService.forgetPassword(map)
+    fun forgetPassword(@RequestBody user: LoginRequest): JsonResult<Any>? {
+        return accountService.forgetPassword(user)
     }
 
     @ApiOperation(value = "管理员短信登录", notes = "参数：用户名username，密码password")
@@ -93,7 +95,7 @@ class LoginController(
     @PostMapping("/adminMobileLogin")
     fun adminMobileLogin(@RequestBody login: LoginRequest): JsonResult<Any> {
         val result = JsonResult<Any>()
-        return if (login.code == ValidateCodeUtils.getRandomValidateCode(login.mobile)) {
+        return if (login.validateCode == ValidateCodeUtils.getRandomValidateCode(login.mobile)) {
             val accountDto = accountService.getAccountByStaffMobile(login.mobile)
             login(accountDto, accountDto?.username, "", "admin")
         } else {
@@ -105,15 +107,11 @@ class LoginController(
 
 
 
-    fun login(accountDto: com.chris.bullseye.system.pojo.Account?, username: String?, password: String?, loginType: String?): JsonResult<Any> {
+    fun login(accountDto: AccountDto?, username: String?, password: String?, loginType: String?): JsonResult<Any> {
         val result = JsonResult<Any>()
         if (accountDto != null && PasswordEncoderFactories.createDelegatingPasswordEncoder().matches(password, accountDto.password)) {
             //判断账号过期
-            if (accountDto.expiredDate != null && accountDto.accountExpired == true) {
-                accountDto.accountExpired = Date() > accountDto.expiredDate
-            } else {
-                accountDto.accountExpired = false
-            }
+            accountDto.accountExpired = accountDto.expiredDate != null && accountDto.accountExpired == true
             val grantedAuthorities: MutableList<GrantedAuthority> = ArrayList()
             var staff = Staff()
             if (StringUtils.isNotEmpty(accountDto.staffId)) {
@@ -139,6 +137,7 @@ class LoginController(
                 println("当前用户角色:$rolestr")
                 val user = User()
                 user.id =accountDto.id
+                user.name =accountDto.name
                 user.username =accountDto.username
                 user.token =token
                 user.organizationId =accountDto.organizationId

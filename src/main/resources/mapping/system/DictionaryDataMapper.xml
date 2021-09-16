@@ -19,7 +19,7 @@
     </resultMap>
 
     <sql id="basic_list">
-        a.id, a.type_id, a.code, a.name, a.remark, a.sequence, a.status, a.created, a.user_id
+        a.id, a.type_id, a.code, a.name, a.remark, a.sort, a.status, a.created, a.user_id
     </sql>
 
 
@@ -47,7 +47,7 @@
                 and a.remark LIKE CONCAT('%', #{ remark }, '%')
             </if>
             <if test="sequence!=null and sequence!='' ">
-                and a.sequence LIKE CONCAT('%', #{ sequence }, '%')
+                and a.sort LIKE CONCAT('%', #{ sequence }, '%')
             </if>
             <if test="status!=null and status!='' ">
                 and a.status = #{ status }
@@ -84,9 +84,6 @@
             </if>
             <if test="remark!=null and remark!='' ">
                 and a.remark LIKE CONCAT('%', #{ remark }, '%')
-            </if>
-            <if test="sequence!=null and sequence!='' ">
-                and a.sequence LIKE CONCAT('%', #{ sequence }, '%')
             </if>
             <if test="status!=null and status!='' ">
                 and a.status = #{ status }
@@ -126,9 +123,6 @@
             </if>
             <if test="remark!=null and remark!='' ">
                 and a.remark LIKE CONCAT('%', #{ remark }, '%')
-            </if>
-            <if test="sequence!=null and sequence!='' ">
-                and a.sequence LIKE CONCAT('%', #{ sequence }, '%')
             </if>
             <if test="status!=null and status!='' ">
                 and a.status = #{ status }

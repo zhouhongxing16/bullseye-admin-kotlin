@@ -5,6 +5,7 @@ import javax.persistence.*
 import java.io.Serializable
 import com.fasterxml.jackson.annotation.JsonFormat
 import io.swagger.annotations.ApiModelProperty
+import java.time.LocalDateTime
 
 /**
  * @Author: Chris  E-mail:961860916@qq.com
@@ -46,18 +47,21 @@ open class Department(
         @Column(name = "contact_phone")
         var contactPhone: String? = null,
 
+        @ApiModelProperty(name = "创建人ID")
+        @Column(name = "creator_id")
+        var creatorId: String? = null,
+
         @ApiModelProperty(name = "创建人")
-        @Column(name = "user_id")
-        var userId: String? = null,
+        @Column(name = "creator_name")
+        var creatorName: String? = null,
+
+        @ApiModelProperty(name = "创建日期")
+        @Column(name = "create_time")
+        var createTime: LocalDateTime? = null,
 
         @ApiModelProperty(name = "状态")
         @Column(name = "status")
         var status: Int? = null,
-
-        @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
-        @ApiModelProperty(name = "创建日期")
-        @Column(name = "created")
-        var created: Date? = null,
 
         @ApiModelProperty(name = "描述")
         @Column(name = "remark")

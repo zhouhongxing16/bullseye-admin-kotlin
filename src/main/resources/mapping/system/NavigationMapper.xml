@@ -20,7 +20,7 @@
     </resultMap>
     
     <sql id="basic_list">
-		a.id, a.name, a.level, a.parent_id, a.sequence, a.path, a.status, a.created, a.user_id
+		a.id, a.name, a.level, a.parent_id, a.sort, a.path, a.status, a.created, a.user_id
 	</sql>
 
     <select id="getListByParams" resultMap="BaseResultMapDto" parameterType="map">
@@ -41,9 +41,6 @@
             </if>
             <if test="parentId!=null and parentId!='' ">
                 and a.parent_id=#{ parentId }
-            </if>
-            <if test="sequence!=null and sequence!='' ">
-                and a.sequence LIKE CONCAT('%', #{ sequence }, '%')
             </if>
             <if test="path!=null and path!='' ">
                 and a.path LIKE CONCAT('%', #{ path }, '%')
@@ -79,9 +76,6 @@
             </if>
             <if test="parentId!=null and parentId!='' ">
                 and a.parent_id=#{ parentId }
-            </if>
-            <if test="sequence!=null and sequence!='' ">
-                and a.sequence LIKE CONCAT('%', #{ sequence }, '%')
             </if>
             <if test="path!=null and path!='' ">
                 and a.path LIKE CONCAT('%', #{ path }, '%')

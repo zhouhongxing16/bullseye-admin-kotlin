@@ -5,6 +5,8 @@ import javax.persistence.*
 import java.io.Serializable
 import com.fasterxml.jackson.annotation.JsonFormat
 import io.swagger.annotations.ApiModelProperty
+import java.time.LocalDateTime
+
 /**
  * @Author: Chris  E-mail:961860916@qq.com
  * @Date:  2020-12-25 19:11
@@ -45,10 +47,9 @@ open class LoginRecord (
         @Column(name = "message")
         var message: String? = null,
 
-        @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
-        @ApiModelProperty(name = "访问时间")
-        @Column(name = "created")
-        var created: Date? = null,
+        @ApiModelProperty(name = "创建日期")
+        @Column(name = "create_time")
+        var createTime: LocalDateTime? = null,
 
 
 

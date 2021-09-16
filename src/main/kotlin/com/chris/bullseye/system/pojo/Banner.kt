@@ -5,6 +5,8 @@ import javax.persistence.*
 import java.io.Serializable
 import com.fasterxml.jackson.annotation.JsonFormat
 import io.swagger.annotations.ApiModelProperty
+import java.time.LocalDateTime
+
 /**
  * @Author: Chris  E-mail:961860916@qq.com
  * @Date:  2020-12-28 11:24
@@ -34,12 +36,24 @@ open class Banner (
     var userId: String? = null,
 
     @ApiModelProperty(name = "显示顺序")
-    @Column(name = "sequence")
-    var sequence: Int? = null,
+    @Column(name = "sort")
+    var sort: Int? = null,
 
     @ApiModelProperty(name = "状态")
     @Column(name = "status")
     var status: Int? = null,
+
+    @ApiModelProperty(name = "创建人ID")
+    @Column(name = "creator_id")
+    var creatorId: String? = null,
+
+    @ApiModelProperty(name = "创建人")
+    @Column(name = "creator_name")
+    var creatorName: String? = null,
+
+    @ApiModelProperty(name = "创建日期")
+    @Column(name = "create_time")
+    var createTime: LocalDateTime? = null
 
     
 

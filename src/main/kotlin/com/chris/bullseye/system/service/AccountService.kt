@@ -8,6 +8,7 @@ import com.chris.bullseye.system.pojo.Account
 import com.chris.bullseye.common.utils.AuthUtil
 import com.chris.bullseye.common.utils.Logger
 import com.chris.bullseye.common.utils.ValidateCodeUtils
+import com.chris.bullseye.system.entity.request.LoginRequest
 import org.springframework.http.HttpStatus
 import org.springframework.security.crypto.factory.PasswordEncoderFactories
 import org.springframework.stereotype.Service
@@ -26,11 +27,11 @@ class AccountService(val accountMapper: AccountMapper) : BaseService<Account>(){
     }
 
 
-    fun getAccountByUserName(userName: String?): Account? {
+    fun getAccountByUserName(userName: String?): AccountDto? {
         return accountMapper.getAccountByUserName(userName)
     }
 
-    fun getAccountByStaffMobile(userName: String?): Account? {
+    fun getAccountByStaffMobile(userName: String?): AccountDto? {
         return accountMapper.getAccountByStaffMobile(userName)
     }
 
@@ -61,25 +62,23 @@ class AccountService(val accountMapper: AccountMapper) : BaseService<Account>(){
         }
     }
 
-    fun changePassword(map: MutableMap<String, String?>): JsonResult<Any> {
+    fun changePassword(obj:LoginRequest): JsonResult<Any> {
         var result = JsonResult<Any>()
         result.success  = false
         val user = AuthUtil.getCurrentUser()
         if (user == null) {
             result.message  = "未登录，非法访问！"
-        } else if (map["oldPassword"] == null) {
+        } else if (obj.oldPassword.isNullOrEmpty()) {
             result.message = "旧密码不能为空"
-        } else if (map["newPassword"] == null) {
+        } else if (obj.newPassword.isNullOrEmpty()) {
             result.message = "新密码不能为空"
         } else {
-            val oldPassword = map["oldPassword"]
             val accountDto  = accountMapper.getById(user.id)
             if (accountDto != null) {
-                if (!PasswordEncoderFactories.createDelegatingPasswordEncoder().matches(oldPassword, accountDto.password)) {
+                if (!PasswordEncoderFactories.createDelegatingPasswordEncoder().matches(obj.oldPassword, accountDto.password)) {
                     result.message = "密码验证错误！"
                 } else {
-                    var newPwd = map["newPassword"]
-                    newPwd = PasswordEncoderFactories.createDelegatingPasswordEncoder().encode(newPwd)
+                    var newPwd = PasswordEncoderFactories.createDelegatingPasswordEncoder().encode(obj.newPassword)
                     val account = Account()
                     account.id = accountDto.id
                     account.password = newPwd
@@ -99,24 +98,21 @@ class AccountService(val accountMapper: AccountMapper) : BaseService<Account>(){
 
 
     @Transactional(rollbackFor = [Exception::class])
-    fun forgetPassword(params: Map<String, String?>): JsonResult<Any> {
-        val validateCode = params["validateCode"]
-        val mobile = params["mobile"]
-        val password = params["password"]
+    fun forgetPassword(obj: LoginRequest): JsonResult<Any> {
         val result = JsonResult<Any>()
         result.success  = false
-        if (mobile.isNullOrEmpty()) {
+        if (obj.mobile.isNullOrEmpty()) {
             result.message  ="手机号不能为空！"
-        } else if (password.isNullOrEmpty()) {
+        } else if (obj.password.isNullOrEmpty()) {
             result.message  ="密码不能为空！"
-        } else if (validateCode.isNullOrEmpty()) {
+        } else if (obj.validateCode.isNullOrEmpty()) {
             result.message  ="验证码不能为空！"
-        } else if (validateCode != ValidateCodeUtils.getValidateCode(mobile)) {
+        } else if (obj.validateCode != ValidateCodeUtils.getValidateCode(obj.mobile)) {
             result.message  ="验证码错误！"
         } else {
-            val account = accountMapper.getAccountByStaffMobile(mobile)
+            val account = accountMapper.getAccountByStaffMobile(obj.mobile)
             if (account != null) {
-                val pwd: String = PasswordEncoderFactories.createDelegatingPasswordEncoder().encode(password)
+                val pwd: String = PasswordEncoderFactories.createDelegatingPasswordEncoder().encode(obj.password)
                 val a = Account()
                 a.id = account.id
                 a.password  =pwd
