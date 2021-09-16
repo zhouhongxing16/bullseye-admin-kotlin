@@ -8,21 +8,25 @@ import java.util.*
  */
 class WebFilter {
 
-    private var instance: WebFilter? = null
+    companion object {
+
+        private var instance: WebFilter? = null
+
+        fun getInstance(): WebFilter? {
+            if (null == instance) {
+                instance = WebFilter()
+                instance!!.init()
+            }
+            return instance
+        }
+    }
+
 
     var prop: Properties? = null
 
 
     private fun WeChatFilter() {}
 
-
-    fun getInstance(): WebFilter? {
-        if (null == instance) {
-            instance = WebFilter()
-            instance!!.init()
-        }
-        return instance
-    }
 
     @Synchronized
     private fun init() {
@@ -37,11 +41,24 @@ class WebFilter {
     }
 
     fun getUrlPassFlag(url: String): Boolean {
-        println(url)
-        return if (prop != null) {
-            prop!!.containsKey(url)
+//        println(url)
+        var flag = false
+        if (prop != null) {
+            if (prop!!.containsKey(url)) {
+                flag = true
+            } else {
+                for (item in prop!!) {
+                    if (item.key.toString().endsWith("/**")) {
+                        if (url.startsWith(item.key.toString().subSequence(0,item.key.toString().length-3))) {
+                            flag = true
+                        }
+                    }
+                }
+            }
+
         } else {
             false
         }
+        return flag
     }
 }

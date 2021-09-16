@@ -2,6 +2,7 @@ package com.chris.bullseye.system.security
 
 import com.chris.bullseye.common.utils.AuthUtil
 import com.chris.bullseye.common.utils.Logger
+import com.chris.bullseye.common.utils.SpringContextUtil
 import com.chris.bullseye.system.entity.JsonResult
 import org.springframework.http.HttpStatus
 import org.springframework.security.authentication.AuthenticationManager
@@ -18,34 +19,23 @@ import javax.servlet.http.HttpServletResponse
  * @author Chris
  * @date2020-12-04 9:38
  */
-class JWTAuthenticationFilter(manager: AuthenticationManager): BasicAuthenticationFilter(manager) {
+class JWTAuthenticationFilter(manager: AuthenticationManager) : BasicAuthenticationFilter(manager) {
 
 
-    @Resource lateinit var authUtil: AuthUtil
+    @Resource
+    lateinit var authUtil: AuthUtil
+
+    @Resource
+    lateinit var webFilter: WebFilter
+
+
 
 
     override fun doFilterInternal(request: HttpServletRequest, response: HttpServletResponse, chain: FilterChain) {
-        val header = request.getHeader("Authorization")
         val url = request.servletPath
-        if (header == null || !header.startsWith("Bearer ")) {
-            // 如果头部 Authorization 未设置或者不是 Bearer 认证头部，则当前
-            // 请求不是该过滤器关注的对象，直接放行，继续filter chain 的执行
+        if( WebFilter.getInstance()!!.getUrlPassFlag(url)){
             chain.doFilter(request, response)
-            return
-        }else if (header != null && !header.startsWith("Bearer ")) {
-            chain.doFilter(request, response)
-            response.status = HttpStatus.UNAUTHORIZED.value()
-            request.characterEncoding = "UTF-8"
-            response.setHeader("content-type", "text/html;charset=UTF-8")
-            response.characterEncoding = "UTF-8"
-            val writer = response.writer
-            Logger.debug("授权认证失败，请重新登录")
-            val msg = JsonResult.failed("授权认证失败，请重新登录",HttpStatus.UNAUTHORIZED.value()).toString()
-            writer.write(msg)
-            writer.flush()
-            writer.close()
-            return
-        } else {
+        }else{
             val authentication = getAuthentication(request, response)
             if (authentication != null) {
                 SecurityContextHolder.getContext().authentication = authentication
@@ -59,9 +49,10 @@ class JWTAuthenticationFilter(manager: AuthenticationManager): BasicAuthenticati
     private fun getAuthentication(request: HttpServletRequest, response: HttpServletResponse): UsernamePasswordAuthenticationToken? {
         val token = request.getHeader("token")
         val url = request.servletPath
-       return if (token == null) {
+        return if (token == null) {
             return getFailAuthenticationTokenResult(request, response, true)
         } else {
+            authUtil = SpringContextUtil.getBean("authUtil") as AuthUtil
             val user = authUtil.getCurrentLoginUser()
             if (user != null) {
                 UsernamePasswordAuthenticationToken(user, null, user.authorities)
@@ -77,12 +68,12 @@ class JWTAuthenticationFilter(manager: AuthenticationManager): BasicAuthenticati
         response.setHeader("content-type", "text/html;charset=UTF-8")
         response.characterEncoding = "UTF-8"
         val writer = response.writer
-        if (authFlag) {
+        msg = if (authFlag) {
 //            response.status = HttpStatus.UNAUTHORIZED.value()
-            msg =  JsonResult.failed("授权认证失败，请重新登录！",HttpStatus.UNAUTHORIZED.value()).toString()
+            JsonResult.failed("授权认证失败，请重新登录！", HttpStatus.UNAUTHORIZED.value()).toString()
         } else {
 //            response.status = HttpStatus.FORBIDDEN.value()
-            msg =  JsonResult.failed("授权认证失败，请重新登录！",HttpStatus.UNAUTHORIZED.value()).toString()
+            JsonResult.failed("授权认证失败，请重新登录！", HttpStatus.UNAUTHORIZED.value()).toString()
         }
         writer.write(msg)
         writer.flush()

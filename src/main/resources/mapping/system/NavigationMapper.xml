@@ -26,7 +26,7 @@
     <select id="getListByParams" resultMap="BaseResultMapDto" parameterType="map">
         SELECT
         <include refid="basic_list"/>,staff.name as userName
-        FROM b_navigations a
+        FROM b_navigation a
         left join b_account act on act.id = a.user_id
         left join b_staff staff on staff.id = act.staff_id
         <where>
@@ -64,7 +64,7 @@
        <select id="getByParams" resultMap="BaseResultMapDto" parameterType="map">
         SELECT
         <include refid="basic_list"/>,staff.name as userName
-        FROM b_navigations a
+        FROM b_navigation a
         left join b_account act on act.id = a.user_id
         left join b_staff staff on staff.id = act.staff_id
         <where>

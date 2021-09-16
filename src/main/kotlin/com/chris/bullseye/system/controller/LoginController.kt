@@ -118,6 +118,9 @@ class LoginController(
             var staff = Staff()
             if (StringUtils.isNotEmpty(accountDto.staffId)) {
                 staff = staffService.getById(accountDto.staffId)
+                if(staff==null){
+                    staff = Staff()
+                }
             }
             //找到登录用户角色放到grantedAuthority中
             val roles = roleService.getRolesByAccountId(accountDto.id)
@@ -143,6 +146,7 @@ class LoginController(
                 user.staffId =staff.id
                 user.accountLocked =accountDto.accountLocked
                 user.accountExpired =accountDto.accountExpired
+                user.expireTime = expireTime
                 user.authorities =grantedAuthorities
 //                    User    (accountDto.id, accountDto.username, accountDto.password,token, accountDto.organizationId, staff.id, staff.departmentId, accountDto.accountLocked, accountDto.accountExpired,expireTime, grantedAuthorities)
                 println(grantedAuthorities)
@@ -150,13 +154,15 @@ class LoginController(
                 var currentRole = roles?.get(0)
                 user.currentRole = currentRole
                 user.loginType = loginType
-                result.success = true
-                result.message = "登录成功"
-                result.status = HttpStatus.OK.value()
+
                 var loginResponse = LoginResponse()
                 loginResponse.token = UUID.randomUUID().toString()
                 loginResponse.roleCoe = currentRole.code
                 loginResponse.token = token
+
+                result.success = true
+                result.message = "登录成功"
+                result.status = HttpStatus.OK.value()
                 result.data = loginResponse
                 authUtil.setUserInfo(token,user)
             } else {
