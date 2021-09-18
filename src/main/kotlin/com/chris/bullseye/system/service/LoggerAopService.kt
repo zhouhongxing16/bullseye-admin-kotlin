@@ -189,11 +189,14 @@ class LoggerAopService(var logsService: LogsService) {
         val fsArray = userCla.declaredFields
         for (fs in fsArray) {
             fs.isAccessible = true // 设置些属性是可以访问的
-            var `val`: Any
+            var value: Any?
             try {
-                `val` = fs[obj]
+                value = fs[obj]
                 // 得到此属性的值
-                map[fs.name] = `val` // 设置键值
+                if (value != null) {
+                    map[fs.name] = value // 设置键值
+                }
+
             } catch (e: IllegalAccessException) {
                 e.printStackTrace()
             }

@@ -3,12 +3,11 @@ package com.chris.bullseye.common.utils
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.util.AntPathMatcher
-import java.lang.management.ManagementFactory
-import java.text.ParseException
-import java.text.SimpleDateFormat
 import java.time.Duration
 import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 import java.util.*
+
 
 /**
  * @author Chris
@@ -50,7 +49,9 @@ class DateUtils {
 
 
         fun getCurrentTime(): String? {
-            return LocalDateTime.now().toString()
+            var now = LocalDateTime.now()
+            val dtf = DateTimeFormatter.ofPattern(YYYY_MM_DD_HH_MM_SS)
+            return dtf.format(now)
         }
 
         fun getCurrentTimeMillis(): String? {
