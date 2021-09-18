@@ -8,9 +8,10 @@
         <result column="name" jdbcType="VARCHAR" property="name" />
         <result column="data_auth_flag" jdbcType="VARCHAR" property="dataAuthFlag" />
         <result column="remark" jdbcType="VARCHAR" property="remark" />
-        <result column="user_id" jdbcType="VARCHAR" property="userId" />
         <result column="status" jdbcType="INTEGER" property="status" />
-        <result column="created" jdbcType="TIMESTAMP" property="created" />
+        <result column="creator_id" jdbcType="VARCHAR" property="creatorId" />
+        <result column="creator_name" jdbcType="VARCHAR" property="creatorName" />
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
 
     </resultMap>
 

@@ -11,7 +11,9 @@
         <result column="code" jdbcType="VARCHAR" property="code"/>
         <result column="path" jdbcType="VARCHAR" property="path"/>
         <result column="status" jdbcType="INTEGER" property="status"/>
-        <result column="created" jdbcType="BIGINT" property="created"/>
+        <result column="creator_id" jdbcType="VARCHAR" property="creatorId" />
+        <result column="creator_name" jdbcType="VARCHAR" property="creatorName" />
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
 
     </resultMap>
 

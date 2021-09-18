@@ -10,20 +10,20 @@
         <result column="bucket_name" jdbcType="VARCHAR" property="bucketName"/>
         <result column="size" jdbcType="BIGINT" property="size"/>
         <result column="suffix" jdbcType="VARCHAR" property="suffix"/>
-        <result column="thumbnail" jdbcType="VARCHAR" property="thumbnail"/>
+        <result column="thumbnail_path" jdbcType="VARCHAR" property="thumbnailPath"/>
         <result column="width" jdbcType="INTEGER" property="width"/>
         <result column="height" jdbcType="INTEGER" property="height"/>
-        <result column="file_path" jdbcType="VARCHAR" property="filePath"/>
-        <result column="full_file_path" jdbcType="VARCHAR" property="fullFilePath"/>
+        <result column="domain" jdbcType="VARCHAR" property="domain"/>
+        <result column="relative_path" jdbcType="VARCHAR" property="relativePath"/>
         <result column="file_hash" jdbcType="VARCHAR" property="fileHash"/>
         <result column="storage_type" jdbcType="VARCHAR" property="storageType"/>
-        <result column="user_id" jdbcType="VARCHAR" property="userId"/>
         <result column="upload_start_time" jdbcType="TIMESTAMP" property="uploadStartTime"/>
         <result column="upload_end_time" jdbcType="TIMESTAMP" property="uploadEndTime"/>
-        <result column="created" jdbcType="TIMESTAMP" property="created"/>
-        <result column="updated" jdbcType="TIMESTAMP" property="updated"/>
         <result column="status" jdbcType="INTEGER" property="status"/>
-        <result column="user_id" jdbcType="VARCHAR" property="userId"/>
+        <result column="creator_id" jdbcType="VARCHAR" property="creatorId" />
+        <result column="creator_name" jdbcType="VARCHAR" property="creatorName" />
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
 
     </resultMap>
 

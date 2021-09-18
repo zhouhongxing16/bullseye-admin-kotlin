@@ -6,7 +6,9 @@
         <result column="role_id" jdbcType="VARCHAR" property="roleId" />
         <result column="menu_id" jdbcType="VARCHAR" property="menuId" />
         <result column="status" jdbcType="INTEGER" property="status" />
-        <result column="created" jdbcType="TIMESTAMP" property="created" />
+        <result column="creator_id" jdbcType="VARCHAR" property="creatorId" />
+        <result column="creator_name" jdbcType="VARCHAR" property="creatorName" />
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     </resultMap>
 
     <resultMap id="dto" type="com.chris.bullseye.system.dto.RoleMenuDto">

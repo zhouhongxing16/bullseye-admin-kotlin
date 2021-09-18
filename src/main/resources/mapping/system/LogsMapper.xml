@@ -14,7 +14,7 @@
         <result column="execution_time" jdbcType="INTEGER" property="executionTime"/>
         <result column="status" jdbcType="INTEGER" property="status"/>
         <result column="remark" jdbcType="VARCHAR" property="remark"/>
-        <result column="created" jdbcType="TIMESTAMP" property="created"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
 
     </resultMap>
 

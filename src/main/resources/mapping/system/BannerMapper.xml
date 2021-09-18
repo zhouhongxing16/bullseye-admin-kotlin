@@ -8,7 +8,7 @@
         <result column="path" jdbcType="VARCHAR" property="path" />
         <result column="user_id" jdbcType="VARCHAR" property="userId" />
         <result column="link" jdbcType="VARCHAR" property="link" />
-        <result column="sequence" jdbcType="INTEGER" property="sequence" />
+        <result column="sort" jdbcType="INTEGER" property="sort" />
         <result column="status" jdbcType="INTEGER" property="status" />
         
     </resultMap>

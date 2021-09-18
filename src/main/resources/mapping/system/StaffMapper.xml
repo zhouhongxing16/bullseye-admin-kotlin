@@ -26,10 +26,11 @@
         <result column="nation_id" jdbcType="VARCHAR" property="nationId" />
         <result column="join_date" jdbcType="VARCHAR" property="joinDate" />
         <result column="remark" jdbcType="VARCHAR" property="remark" />
-        <result column="user_id" jdbcType="VARCHAR" property="userId" />
         <result column="status" jdbcType="INTEGER" property="status" />
-        <result column="created" jdbcType="TIMESTAMP" property="created" />
         <result column="img" jdbcType="VARCHAR" property="img" />
+        <result column="creator_id" jdbcType="VARCHAR" property="creatorId" />
+        <result column="creator_name" jdbcType="VARCHAR" property="creatorName" />
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
 
     </resultMap>
 
