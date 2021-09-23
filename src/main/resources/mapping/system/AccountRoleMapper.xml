@@ -41,9 +41,6 @@
       <if test="userId!=null and userId!='' ">
         and a.user_id=#{ userId }
       </if>
-      <if test="created!=null and created!='' ">
-        and a.created LIKE CONCAT('%', #{ created }, '%')
-      </if>
     </where>
     order by a.created
   </select>

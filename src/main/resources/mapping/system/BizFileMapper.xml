@@ -61,9 +61,6 @@
             <if test="originalFileName!=null and originalFileName!='' ">
                 and a.original_file_name LIKE CONCAT('%', #{ originalFileName }, '%')
             </if>
-            <if test="size!=null and size!='' ">
-                and a.size LIKE CONCAT('%', #{ size }, '%')
-            </if>
             <if test="suffix!=null and suffix!='' ">
                 and a.suffix LIKE CONCAT('%', #{ suffix }, '%')
             </if>

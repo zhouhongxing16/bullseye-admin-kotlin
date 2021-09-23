@@ -34,9 +34,6 @@
             <if test="name!=null and name!='' ">
                 and a.name LIKE CONCAT('%', #{ name }, '%')
             </if>
-            <if test="path!=null and path!='' ">
-                and a.path LIKE CONCAT('%', #{ path }, '%')
-            </if>
             <if test="status!=null and status!='' ">
                 and a.status = #{ status }
             </if>
@@ -60,12 +57,6 @@
             </if>
             <if test="name!=null and name!='' ">
                 and a.name LIKE CONCAT('%', #{ name }, '%')
-            </if>
-            <if test="path!=null and path!='' ">
-                and a.path LIKE CONCAT('%', #{ path }, '%')
-            </if>
-            <if test="link!=null and link!='' ">
-                and a.link LIKE CONCAT('%', #{ link }, '%')
             </if>
             <if test="status!=null and status!='' ">
                 and a.status = #{ status }

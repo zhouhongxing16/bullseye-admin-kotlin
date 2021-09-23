@@ -54,9 +54,6 @@
             <if test="status!=null and status!='' ">
                 and a.status = #{ status }
             </if>
-            <if test="created!=null and created!='' ">
-                and a.created LIKE CONCAT('%', #{ created }, '%')
-            </if>
         </where>
         order by a.created desc
     </select>
@@ -91,9 +88,6 @@
             </if>
             <if test="status!=null and status!='' ">
                 and a.status = #{ status }
-            </if>
-            <if test="created!=null and created!='' ">
-                and a.created LIKE CONCAT('%', #{ created }, '%')
             </if>
         </where>
         limit 1

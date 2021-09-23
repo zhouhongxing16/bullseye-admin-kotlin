@@ -87,7 +87,7 @@ class AuthUtil {
             loginUser.token = token
         }
         loginUser.expireTime = loginUser.expireTime!!.plusHours(2)
-        redisUtil!!.setEx(LOGIN_USER_TOKEN_PREFIX + token, JSONObject.toJSONString(loginUser), REDIS_OUT_TIME, TimeUnit.MINUTES)
+        redisUtil.setEx(LOGIN_USER_TOKEN_PREFIX + token, JSONObject.toJSONString(loginUser), REDIS_OUT_TIME, TimeUnit.MINUTES)
     }
 
     /***
@@ -108,17 +108,17 @@ class AuthUtil {
      * @param token
      */
     fun removeUserInfo(token: String) {
-        redisUtil!!.delete(LOGIN_USER_TOKEN_PREFIX + token)
+        redisUtil.delete(LOGIN_USER_TOKEN_PREFIX + token)
     }
 
     companion object{
         fun getCurrentUser(): User? {
             val authentication = SecurityContextHolder.getContext().authentication
             if (authentication != null) {
-                val `object` = authentication.principal
-                var user: User? = null
-                if (`object` is User) {
-                    user = `object` as User
+                val obj = authentication.principal
+                var user: User?
+                if (obj is User) {
+                    user = obj
                     return user
                 }
             }

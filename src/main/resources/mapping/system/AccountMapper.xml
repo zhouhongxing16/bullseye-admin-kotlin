@@ -248,12 +248,6 @@
             <if test="organizationId!=null and organizationId!='' ">
                 and a.organization_id=#{ organizationId }
             </if>
-            <if test="wxOpenid!=null and wxOpenid!='' ">
-                and a.wx_openid=#{ wxOpenid }
-            </if>
-            <if test="alipayOpenid!=null and alipayOpenid!='' ">
-                and a.alipay_openid=#{ alipayOpenid }
-            </if>
             <if test="status!=null and status!='' ">
                 and a.status = #{ status }
             </if>

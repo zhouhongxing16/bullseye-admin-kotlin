@@ -47,9 +47,6 @@
             <if test="attach!=null and attach!='' ">
                 and a.attach LIKE CONCAT('%', #{ attach }, '%')
             </if>
-            <if test="created!=null and created!='' ">
-                and a.created LIKE CONCAT('%', #{ created }, '%')
-            </if>
             <if test="status!=null and status!='' ">
                 and a.status = #{ status }
             </if>

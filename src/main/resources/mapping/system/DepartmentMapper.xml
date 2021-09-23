@@ -64,12 +64,6 @@
             <if test="status!=null and status!='' ">
                 and a.status = #{ status }
             </if>
-            <if test="created!=null and created!='' ">
-                and a.created LIKE CONCAT('%', #{ created }, '%')
-            </if>
-            <if test="remark!=null and remark!='' ">
-                and a.remark LIKE CONCAT('%', #{ remark }, '%')
-            </if>
         </where>
         order by a.created desc
     </select>
@@ -110,12 +104,6 @@
             </if>
             <if test="status!=null and status!='' ">
                 and a.status = #{ status }
-            </if>
-            <if test="created!=null and created!='' ">
-                and a.created LIKE CONCAT('%', #{ created }, '%')
-            </if>
-            <if test="remark!=null and remark!='' ">
-                and a.remark LIKE CONCAT('%', #{ remark }, '%')
             </if>
         </where>
         limit 1
