@@ -1,4 +1,4 @@
-package com.chris.bullseye.system.mapper
+package com.chris.bullseye.common.mapper
 
 import com.chris.bullseye.basemapper.BaseMapper
 import com.chris.bullseye.system.pojo.BizFile

@@ -1,9 +1,8 @@
 package com.chris.bullseye.system.controller
 
-import com.alibaba.fastjson.JSONObject
+import com.chris.bullseye.common.service.MailSendService
 import com.chris.bullseye.common.utils.AuthUtil
 import com.chris.bullseye.common.utils.IPUtils
-import com.chris.bullseye.common.utils.RedisUtil
 import com.chris.bullseye.common.utils.ValidateCodeUtils
 import com.chris.bullseye.system.dto.AccountDto
 import com.chris.bullseye.system.entity.JsonResult
@@ -11,7 +10,6 @@ import com.chris.bullseye.system.entity.OperationLog
 import com.chris.bullseye.system.entity.User
 import com.chris.bullseye.system.entity.request.LoginRequest
 import com.chris.bullseye.system.entity.response.LoginResponse
-import com.chris.bullseye.system.pojo.Account
 import com.chris.bullseye.system.pojo.LoginRecord
 import com.chris.bullseye.system.pojo.Staff
 import com.chris.bullseye.system.service.AccountService
@@ -35,7 +33,6 @@ import org.springframework.web.context.request.ServletRequestAttributes
 import java.io.IOException
 import java.time.LocalDateTime
 import java.util.*
-import java.util.concurrent.TimeUnit
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
 
@@ -55,7 +52,8 @@ class LoginController(
         var loginRecordService: LoginRecordService,
         var roleService: RoleService,
         var authUtil: AuthUtil,
-        var jsonResult: JsonResult<Any>
+        var jsonResult: JsonResult<Any>,
+        var mailSendService: MailSendService
 ) {
 
 
@@ -84,10 +82,16 @@ class LoginController(
         }
     }
 
-    @ApiOperation(value = "忘记密码", notes = "参数：密码password，手机号mobile,验证码validateCode")
+    @ApiOperation(value = "忘记密码", notes = "参数：密码password，手机号mobile,验证码captcha")
     @PostMapping("/forgetPassword")
     fun forgetPassword(@RequestBody user: LoginRequest): JsonResult<Any>? {
         return accountService.forgetPassword(user)
+    }
+
+    @ApiOperation(value = "忘记密码", notes = "参数：密码password，手机号mobile,验证码captcha")
+    @PostMapping("/sendCaptcha")
+    fun sendCaptcha(@RequestBody user: LoginRequest): JsonResult<Any>? {
+        return mailSendService.sendCaptchaEmail(user.username,"登录")
     }
 
     @ApiOperation(value = "管理员短信登录", notes = "参数：用户名username，密码password")
@@ -95,7 +99,7 @@ class LoginController(
     @PostMapping("/adminMobileLogin")
     fun adminMobileLogin(@RequestBody login: LoginRequest): JsonResult<Any> {
         val result = JsonResult<Any>()
-        return if (login.validateCode == ValidateCodeUtils.getRandomValidateCode(login.mobile)) {
+        return if (login.captcha == ValidateCodeUtils.getRandomValidateCode(login.mobile)) {
             val accountDto = accountService.getAccountByStaffMobile(login.mobile)
             login(accountDto, accountDto?.username, "", "admin")
         } else {
@@ -104,7 +108,6 @@ class LoginController(
             result
         }
     }
-
 
 
     fun login(accountDto: AccountDto?, username: String?, password: String?, loginType: String?): JsonResult<Any> {
@@ -116,7 +119,7 @@ class LoginController(
             var staff = Staff()
             if (StringUtils.isNotEmpty(accountDto.staffId)) {
                 staff = staffService.getById(accountDto.staffId)
-                if(staff==null){
+                if (staff == null) {
                     staff = Staff()
                 }
             }
@@ -136,17 +139,17 @@ class LoginController(
                 var expireTime = LocalDateTime.now().plusHours(2)
                 println("当前用户角色:$rolestr")
                 val user = User()
-                user.id =accountDto.id
-                user.name =accountDto.name
-                user.username =accountDto.username
-                user.token =token
-                user.organizationId =accountDto.organizationId
-                user.departmentId =staff.departmentId
-                user.staffId =staff.id
-                user.accountLocked =accountDto.accountLocked
-                user.accountExpired =accountDto.accountExpired
+                user.id = accountDto.id
+                user.name = accountDto.name
+                user.username = accountDto.username
+                user.token = token
+                user.organizationId = accountDto.organizationId
+                user.departmentId = staff.departmentId
+                user.staffId = staff.id
+                user.accountLocked = accountDto.accountLocked
+                user.accountExpired = accountDto.accountExpired
                 user.expireTime = expireTime
-                user.authorities =grantedAuthorities
+                user.authorities = grantedAuthorities
 //                    User    (accountDto.id, accountDto.username, accountDto.password,token, accountDto.organizationId, staff.id, staff.departmentId, accountDto.accountLocked, accountDto.accountExpired,expireTime, grantedAuthorities)
                 println(grantedAuthorities)
                 //默认获取第一个角色为当前角色
@@ -156,14 +159,14 @@ class LoginController(
 
                 var loginResponse = LoginResponse()
                 loginResponse.token = UUID.randomUUID().toString()
-                loginResponse.roleCoe = currentRole.code
+                loginResponse.roleCode = currentRole.code
                 loginResponse.token = token
 
                 result.success = true
                 result.message = "登录成功"
                 result.status = HttpStatus.OK.value()
                 result.data = loginResponse
-                authUtil.setUserInfo(token,user)
+                authUtil.setUserInfo(token, user)
             } else {
                 result.success = false
                 result.message = "当前账号无角色，请先配置角色！"
@@ -199,15 +202,14 @@ class LoginController(
 
     @RequestMapping(value = ["/unauth"])
     @Throws(IOException::class)
-    fun unauth(request: HttpServletRequest, response: HttpServletResponse):JsonResult<Any> {
+    fun unauth(request: HttpServletRequest, response: HttpServletResponse): JsonResult<Any> {
         request.characterEncoding = "UTF-8"
         response.characterEncoding = "UTF-8"
         val writer = response.writer
-        println("unauth:授权认证失败，请重新登录")
-        jsonResult.failed("授权认证失败，请重新登录！", HttpStatus.OK.value())
+        jsonResult.failed("授权认证失败，请重新登录！", HttpStatus.UNAUTHORIZED.value())
         writer.write(jsonResult.toString())
         writer.flush()
         writer.close()
-       return   JsonResult.failed(HttpStatus.UNAUTHORIZED.name, HttpStatus.UNAUTHORIZED.value());
+        return JsonResult.failed(HttpStatus.UNAUTHORIZED.name, HttpStatus.UNAUTHORIZED.value())
     }
 }

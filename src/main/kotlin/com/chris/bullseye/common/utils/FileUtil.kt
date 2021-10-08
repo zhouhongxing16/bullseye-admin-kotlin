@@ -1,11 +1,12 @@
 package com.chris.bullseye.common.utils
 
 import org.springframework.web.multipart.MultipartFile
-import java.io.File
+import java.io.*
 import java.util.*
 
+
 class FileUtil {
-    companion object{
+    companion object {
         private val PICTURE_SUFFIXS = arrayOf(".jpg", ".jpeg", ".png", ".gif", ".bmp", ".svg")
 
         fun isPicture(suffix: String): Boolean {
@@ -67,13 +68,41 @@ class FileUtil {
         }
 
         fun getSuffix(fileName: String?): String? {
-            return if(fileName.isNullOrEmpty()){
+            return if (fileName.isNullOrEmpty()) {
                 null
-            }else{
+            } else {
                 var index = fileName.lastIndexOf(".")
                 index = if (-1 == index) fileName.length else index
                 fileName.substring(index)
             }
+        }
+
+        /**
+         * 读取本地html文件里的html代码
+         * @param file  File file=new File("文件的绝对路径")
+         * @return
+         */
+        fun toHtmlString(filePath: String): String? {
+            var file = File(filePath)
+            // 获取HTML文件流
+            val htmlSb = StringBuffer()
+            try {
+                val br = BufferedReader(InputStreamReader(
+                        FileInputStream(file), "utf-8"))
+                while (br.ready()) {
+                    htmlSb.append(br.readLine())
+                }
+                br.close()
+                // 删除临时文件
+                //file.delete();
+            } catch (e: FileNotFoundException) {
+                e.printStackTrace()
+            } catch (e: IOException) {
+                e.printStackTrace()
+            }
+            // HTML文件字符串
+            // 返回经过清洁的html文本
+            return htmlSb.toString()
         }
     }
 }

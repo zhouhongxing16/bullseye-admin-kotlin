@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--Created by  on Wed Apr 22 2020 23:50:52 GMT+0800 (中国标准时间)-->
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.chris.bullseye.system.mapper.BizFileMapper">
+<mapper namespace="com.chris.bullseye.common.mapper.BizFileMapper">
     <resultMap id="BaseResultMap" type="com.chris.bullseye.system.pojo.BizFile">
         <id column="id" jdbcType="VARCHAR" property="id"/>
         <id column="organization_id" jdbcType="VARCHAR" property="organizationId"/>

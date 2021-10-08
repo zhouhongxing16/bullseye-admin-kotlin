@@ -1,10 +1,9 @@
-package com.chris.bullseye.system.controller
+package com.chris.bullseye.common.controller
 
 import com.chris.bullseye.system.entity.JsonResult
 import com.chris.bullseye.system.entity.OperationLog
 import com.chris.bullseye.system.pojo.BizFile
-import com.chris.bullseye.system.service.BaseService
-import com.chris.bullseye.system.service.BizFileService
+import com.chris.bullseye.common.service.BizFileService
 import io.swagger.annotations.Api
 import io.swagger.annotations.ApiImplicitParam
 import io.swagger.annotations.ApiOperation

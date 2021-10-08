@@ -15,7 +15,7 @@ data class LoginRequest(
         var password: String? = null,
 
         @ApiModelProperty(name = "验证码")
-        var validateCode : String? = null,
+        var captcha : String? = null,
 
         @ApiModelProperty(name = "手机号")
         var mobile : String? = null,

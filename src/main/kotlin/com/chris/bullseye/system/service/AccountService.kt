@@ -105,9 +105,9 @@ class AccountService(val accountMapper: AccountMapper) : BaseService<Account>(){
             result.message  ="手机号不能为空！"
         } else if (obj.password.isNullOrEmpty()) {
             result.message  ="密码不能为空！"
-        } else if (obj.validateCode.isNullOrEmpty()) {
+        } else if (obj.captcha.isNullOrEmpty()) {
             result.message  ="验证码不能为空！"
-        } else if (obj.validateCode != ValidateCodeUtils.getValidateCode(obj.mobile)) {
+        } else if (obj.captcha != ValidateCodeUtils.getValidateCode(obj.mobile)) {
             result.message  ="验证码错误！"
         } else {
             val account = accountMapper.getAccountByStaffMobile(obj.mobile)

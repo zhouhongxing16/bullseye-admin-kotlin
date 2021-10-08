@@ -8,6 +8,13 @@ spring:
   redis:
     host: 118.24.91.197
     password: chris950602
+  mail:
+    host: smtp.exmail.qq.com
+    username: service@zhouhongxing.cn
+    port: 25
+    password: FSrws7EdgVck5C7a
+    protocol: smtp
+    default-encoding: utf-8
 uploadConfig:
   uploadPath: c:/aaa
   domain: http://localhost:8008

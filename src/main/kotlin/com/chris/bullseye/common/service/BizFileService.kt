@@ -1,14 +1,15 @@
-package com.chris.bullseye.system.service
+package com.chris.bullseye.common.service
 
 import com.aliyun.oss.OSSClientBuilder
 import com.google.common.hash.Hashing
 import com.chris.bullseye.basemapper.BaseMapper
 import com.chris.bullseye.common.config.AliConfig
 import com.chris.bullseye.system.entity.JsonResult
-import com.chris.bullseye.system.mapper.BizFileMapper
+import com.chris.bullseye.common.mapper.BizFileMapper
 import com.chris.bullseye.system.pojo.BizFile
 import com.chris.bullseye.common.utils.AuthUtil
 import com.chris.bullseye.common.utils.FileUtil
+import com.chris.bullseye.system.service.BaseService
 import net.coobird.thumbnailator.Thumbnails
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.http.HttpStatus

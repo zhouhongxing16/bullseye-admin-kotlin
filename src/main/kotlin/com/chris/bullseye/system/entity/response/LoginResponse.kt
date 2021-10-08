@@ -7,5 +7,5 @@ package com.chris.bullseye.system.entity.response
 data class LoginResponse(
        var token:String? = null,
 
-       var roleCoe : String? = null
+       var roleCode : String? = null
 )
