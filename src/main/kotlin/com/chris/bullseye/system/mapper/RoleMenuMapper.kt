@@ -1,6 +1,6 @@
 package com.chris.bullseye.system.mapper
 
-import com.chris.bullseye.basemapper.BaseMapper
+import com.chris.bullseye.basemapper.MPBaseMapper
 import com.chris.bullseye.system.pojo.RoleMenu
 import org.apache.ibatis.annotations.Mapper
 
@@ -10,6 +10,6 @@ import org.apache.ibatis.annotations.Mapper
  */
 
 @Mapper
-interface RoleMenuMapper: BaseMapper<RoleMenu> {
+interface RoleMenuMapper: MPBaseMapper<RoleMenu> {
     fun deleteByParams(params: Map<String, String?>): Int
 }

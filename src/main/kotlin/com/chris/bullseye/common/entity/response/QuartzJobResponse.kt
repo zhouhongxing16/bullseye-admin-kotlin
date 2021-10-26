@@ -1,10 +1,10 @@
-package com.chris.bullseye.common.DTO
+package com.chris.bullseye.common.entity.response
 
 /**
  * @author Chris
  * @date 2021-10-08 11:39
  */
- data class QuartzJobDTO (
+ data class QuartzJobResponse (
         var jobName: String? = null,
 
         var jobClass: String? = null,

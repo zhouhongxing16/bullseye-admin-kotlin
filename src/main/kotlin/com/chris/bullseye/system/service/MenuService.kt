@@ -1,6 +1,6 @@
 package com.chris.bullseye.system.service
 
-import com.chris.bullseye.basemapper.BaseMapper
+import com.chris.bullseye.basemapper.MPBaseMapper
 import com.chris.bullseye.system.dto.MenuDto
 import com.chris.bullseye.system.mapper.MenuMapper
 import com.chris.bullseye.system.pojo.Menu
@@ -18,7 +18,7 @@ import kotlin.collections.set
 @Service
 class MenuService(var menuMapper: MenuMapper): BaseService<Menu>() {
 
-    override fun getMapper(): BaseMapper<Menu> {
+    override fun getMapper(): MPBaseMapper<Menu> {
        return menuMapper
     }
 

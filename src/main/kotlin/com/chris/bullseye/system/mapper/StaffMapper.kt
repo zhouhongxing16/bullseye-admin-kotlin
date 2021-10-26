@@ -1,6 +1,6 @@
 package com.chris.bullseye.system.mapper
 
-import com.chris.bullseye.basemapper.BaseMapper
+import com.chris.bullseye.basemapper.MPBaseMapper
 import com.chris.bullseye.system.pojo.Staff
 import org.apache.ibatis.annotations.Mapper
 
@@ -9,6 +9,6 @@ import org.apache.ibatis.annotations.Mapper
  * @date2020 12 07 16:56
  */
 @Mapper
-interface StaffMapper: BaseMapper<Staff>  {
+interface StaffMapper: MPBaseMapper<Staff>  {
 
 }

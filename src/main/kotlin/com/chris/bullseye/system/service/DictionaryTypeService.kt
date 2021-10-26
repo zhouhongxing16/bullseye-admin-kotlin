@@ -1,6 +1,6 @@
 package com.chris.bullseye.system.service
 
-import com.chris.bullseye.basemapper.BaseMapper
+import com.chris.bullseye.basemapper.MPBaseMapper
 import com.chris.bullseye.system.mapper.DictionaryTypeMapper
 import com.chris.bullseye.system.pojo.DictionaryType
 import org.springframework.stereotype.Service
@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service
 
 @Service
 class DictionaryTypeService(var dictionaryTypeMapper: DictionaryTypeMapper) : BaseService<DictionaryType>() {
-    override fun getMapper(): BaseMapper<DictionaryType> {
+    override fun getMapper(): MPBaseMapper<DictionaryType> {
         return dictionaryTypeMapper
     }
 }

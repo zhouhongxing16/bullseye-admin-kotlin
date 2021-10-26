@@ -1,142 +1,144 @@
 package com.chris.bullseye.system.pojo
 
+import com.baomidou.mybatisplus.annotation.IdType
+import com.baomidou.mybatisplus.annotation.TableField
+import com.baomidou.mybatisplus.annotation.TableId
+import com.baomidou.mybatisplus.annotation.TableName
 import io.swagger.annotations.ApiModelProperty
 import java.time.LocalDateTime
-import java.util.*
-import javax.persistence.*
 
 /**
  * @Author: Chris  E-mail:961860916@qq.com
  * @Date:  2021-01-12 22:24
  * 业务文件
  */
-@Table(name = "b_biz_file")
+@TableName(value = "b_biz_file")
 open class BizFile(
 
-        @Id
-        @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "select uuid()")
+        
+        @TableId(type = IdType.ASSIGN_ID)
         @ApiModelProperty(name = "id")
         var id: String? = null,
 
         @ApiModelProperty(name = "组织Id")
-        @Column(name = "organization_id")
+        @TableField(value = "organization_id")
         var organizationId: String? = null,
 
         @ApiModelProperty(name = "部门Id")
-        @Column(name = "department_id")
+        @TableField(value = "department_id")
         var departmentId: String? = null,
 
         /**
          * 文件大小
          */
         @ApiModelProperty(name = "文件大小")
-        @Column(name = "size")
+        @TableField(value = "size")
         var size: Long? = null,
 
         /**
          * 文件后缀（Suffix）
          */
         @ApiModelProperty(name = "文件后缀（Suffix）")
-        @Column(name = "suffix")
+        @TableField(value = "suffix")
         var suffix: String? = null,
 
         /**
          * 图片略缩图相对地址
          */
         @ApiModelProperty(name = "图片略缩图相对地址")
-        @Column(name = "thumbnail_path")
+        @TableField(value = "thumbnail_path")
         var thumbnailPath: String? = null,
 
         /**
          * 图片文件的宽
          */
         @ApiModelProperty(name = "图片文件的宽")
-        @Column(name = "width")
+        @TableField(value = "width")
         var width: Int? = null,
 
         /**
          * 图片文件的高
          */
         @ApiModelProperty(name = "图片文件的高")
-        @Column(name = "height")
+        @TableField(value = "height")
         var height: Int? = null,
 
         /**
          * 文件hash
          */
         @ApiModelProperty(name = "文件hash")
-        @Column(name = "file_hash")
+        @TableField(value = "file_hash")
         var fileHash: String? = null,
 
         /**
          * 相对路径
          */
         @ApiModelProperty(name = "相对路径")
-        @Column(name = "file_path")
+        @TableField(value = "file_path")
         var relativePath: String? = null,
 
         /**
          * 域名
          */
         @ApiModelProperty(name = "域名")
-        @Column(name = "域名")
+        @TableField(value = "域名")
         var domain: String? = null,
 
         /**
          * 原始文件名
          */
         @ApiModelProperty(name = "原始文件名")
-        @Column(name = "original_file_name")
+        @TableField(value = "original_file_name")
         var originalFileName: String? = null,
 
         /**
          * bucketName
          */
         @ApiModelProperty(name = "bucketName")
-        @Column(name = "bucket_name")
+        @TableField(value = "bucket_name")
         var bucketName: String? = null,
 
         /**
          * 类型（AliOSS|qiniu|tencent|local）
          */
         @ApiModelProperty(name = "类型")
-        @Column(name = "storage_type")
+        @TableField(value = "storage_type")
         var storageType: String? = null,
 
         /**
          * 文件上传开始的时间
          */
         @ApiModelProperty(name = "文件上传开始的时间")
-        @Column(name = "upload_start_time")
+        @TableField(value = "upload_start_time")
         var uploadStartTime: LocalDateTime? = null,
 
         /**
          * 文件上传结束的时间
          */
         @ApiModelProperty(name = "文件上传结束的时间")
-        @Column(name = "upload_end_time")
+        @TableField(value = "upload_end_time")
         var uploadEndTime: LocalDateTime? = null,
         /**
          * 修改时间
          */
         @ApiModelProperty(name = "修改时间")
-        @Column(name = "update_time")
+        @TableField(value = "update_time")
         var updateTime: LocalDateTime? = null,
 
         @ApiModelProperty(name = "创建人ID")
-        @Column(name = "creator_id")
+        @TableField(value = "creator_id")
         var creatorId: String? = null,
 
         @ApiModelProperty(name = "创建人")
-        @Column(name = "creator_name")
+        @TableField(value = "creator_name")
         var creatorName: String? = null,
 
         @ApiModelProperty(name = "创建日期")
-        @Column(name = "create_time")
+        @TableField(value = "create_time")
         var createTime: LocalDateTime? = null,
 
 
         @ApiModelProperty(name = "状态")
-        @Column(name = "status")
+        @TableField(value = "status")
         var status: Int? = null,
 )

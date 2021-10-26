@@ -1,6 +1,6 @@
 package com.chris.bullseye.system.service
 
-import com.chris.bullseye.basemapper.BaseMapper
+import com.chris.bullseye.basemapper.MPBaseMapper
 import org.springframework.stereotype.Service
 import com.chris.bullseye.system.pojo.Navigation
 import com.chris.bullseye.system.mapper.NavigationMapper
@@ -12,7 +12,7 @@ import com.chris.bullseye.system.mapper.NavigationMapper
 @Service
 class NavigationService(var navigationMapper: NavigationMapper):BaseService<Navigation>() {
 
-    override fun getMapper(): BaseMapper<Navigation> {
+    override fun getMapper(): MPBaseMapper<Navigation> {
         return navigationMapper
     }
 }

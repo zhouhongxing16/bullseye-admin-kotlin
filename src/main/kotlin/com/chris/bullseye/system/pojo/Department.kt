@@ -1,7 +1,10 @@
 package com.chris.bullseye.system.pojo
 
 import java.util.Date
-import javax.persistence.*
+import com.baomidou.mybatisplus.annotation.IdType
+import com.baomidou.mybatisplus.annotation.TableField
+import com.baomidou.mybatisplus.annotation.TableId
+import com.baomidou.mybatisplus.annotation.TableName
 import java.io.Serializable
 import com.fasterxml.jackson.annotation.JsonFormat
 import io.swagger.annotations.ApiModelProperty
@@ -12,59 +15,59 @@ import java.time.LocalDateTime
  * @Date:  2020-12-25 19:30
  * 部门/科室
  */
-@Table(name = "b_department")
+@TableName(value = "b_department")
 open class Department(
-        @Id
-        @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "select uuid()")
+        
+        @TableId(type = IdType.ASSIGN_ID)
         @ApiModelProperty(name = "唯一标识")
         var id: String? = null,
 
         @ApiModelProperty(name = "组织标识")
-        @Column(name = "organization_id")
+        @TableField(value = "organization_id")
         var organizationId: String? = null,
 
         @ApiModelProperty(name = "代码")
-        @Column(name = "code")
+        @TableField(value = "code")
         var code: String? = null,
 
         @ApiModelProperty(name = "父级ID")
-        @Column(name = "parent_id")
+        @TableField(value = "parent_id")
         var parentId: String? = null,
 
         @ApiModelProperty(name = "名称")
-        @Column(name = "name")
+        @TableField(value = "name")
         var name: String? = null,
 
         @ApiModelProperty(name = "类型")
-        @Column(name = "type_id")
+        @TableField(value = "type_id")
         var typeId: String? = null,
 
         @ApiModelProperty(name = "联系人")
-        @Column(name = "contact_name")
+        @TableField(value = "contact_name")
         var contactName: String? = null,
 
         @ApiModelProperty(name = "联系电话")
-        @Column(name = "contact_phone")
+        @TableField(value = "contact_phone")
         var contactPhone: String? = null,
 
         @ApiModelProperty(name = "创建人ID")
-        @Column(name = "creator_id")
+        @TableField(value = "creator_id")
         var creatorId: String? = null,
 
         @ApiModelProperty(name = "创建人")
-        @Column(name = "creator_name")
+        @TableField(value = "creator_name")
         var creatorName: String? = null,
 
         @ApiModelProperty(name = "创建日期")
-        @Column(name = "create_time")
+        @TableField(value = "create_time")
         var createTime: LocalDateTime? = null,
 
         @ApiModelProperty(name = "状态")
-        @Column(name = "status")
+        @TableField(value = "status")
         var status: Int? = null,
 
         @ApiModelProperty(name = "描述")
-        @Column(name = "remark")
+        @TableField(value = "remark")
         var remark: String? = null,
 
 

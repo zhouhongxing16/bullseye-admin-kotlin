@@ -1,6 +1,6 @@
 package com.chris.bullseye.system.service
 
-import com.chris.bullseye.basemapper.BaseMapper
+import com.chris.bullseye.basemapper.MPBaseMapper
 import com.chris.bullseye.system.mapper.LoginRecordMapper
 import com.chris.bullseye.system.pojo.LoginRecord
 import org.springframework.stereotype.Service
@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service
 
 @Service
 class LoginRecordService(var loginRecordMapper: LoginRecordMapper):BaseService<LoginRecord>() {
-    override fun getMapper(): BaseMapper<LoginRecord> {
+    override fun getMapper(): MPBaseMapper<LoginRecord> {
         return loginRecordMapper
     }
 

@@ -1,6 +1,6 @@
 package com.chris.bullseye.system.mapper
 
-import com.chris.bullseye.basemapper.BaseMapper
+import com.chris.bullseye.basemapper.MPBaseMapper
 import com.chris.bullseye.system.pojo.RoleMenuFunction
 import org.apache.ibatis.annotations.Mapper
 
@@ -10,7 +10,7 @@ import org.apache.ibatis.annotations.Mapper
  */
 
 @Mapper
-interface RoleMenuFunctionMapper: BaseMapper<RoleMenuFunction> {
+interface RoleMenuFunctionMapper: MPBaseMapper<RoleMenuFunction> {
 
     fun getRoleAuthPaths(): List<Map<String, String?>>
 

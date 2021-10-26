@@ -5,10 +5,10 @@ spring:
     user:
       name: admin
       password: 123456
-mybatis:
+mybatis-plus:
   mapper-locations: classpath*:/mapping/**/*Mapper.xml
-mapper:
-  mappers: com.chris.bullseye.basemapper.BaseMapper
-  not-empty: false
-  identity: MYSQL
-  before: true
+jasypt:
+  encryptor:
+    password: EbfYkitspO235lKFNXI50JMXoaxZTKJ0
+    algorithm: PBEWithMD5AndDES
+    iv-generator-classname: org.jasypt.iv.NoIvGenerator

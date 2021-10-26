@@ -1,6 +1,6 @@
 package com.chris.bullseye.system.service
 
-import com.chris.bullseye.basemapper.BaseMapper
+import com.chris.bullseye.basemapper.MPBaseMapper
 import org.springframework.stereotype.Service
 import com.chris.bullseye.system.pojo.Banner
 import com.chris.bullseye.system.mapper.BannerMapper
@@ -12,7 +12,7 @@ import com.chris.bullseye.system.mapper.BannerMapper
 @Service
 class BannerService(var bannerMapper: BannerMapper):BaseService<Banner>() {
 
-    override fun getMapper(): BaseMapper<Banner> {
+    override fun getMapper(): MPBaseMapper<Banner> {
         return bannerMapper
     }
 }

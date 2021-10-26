@@ -1,6 +1,6 @@
 package com.chris.bullseye.system.service
 
-import com.chris.bullseye.basemapper.BaseMapper
+import com.chris.bullseye.basemapper.MPBaseMapper
 import com.chris.bullseye.system.entity.JsonResult
 import com.chris.bullseye.system.mapper.RoleMenuMapper
 import com.chris.bullseye.system.pojo.RoleMenu
@@ -14,7 +14,7 @@ import org.springframework.stereotype.Service
 @Service
 class RoleMenuService(var roleMenuMapper: RoleMenuMapper) :BaseService<RoleMenu>() {
 
-    override fun getMapper(): BaseMapper<RoleMenu> {
+    override fun getMapper(): MPBaseMapper<RoleMenu> {
         return roleMenuMapper
     }
 

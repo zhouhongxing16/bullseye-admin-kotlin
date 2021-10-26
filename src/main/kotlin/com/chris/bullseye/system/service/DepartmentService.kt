@@ -1,6 +1,6 @@
 package com.chris.bullseye.system.service
 
-import com.chris.bullseye.basemapper.BaseMapper
+import com.chris.bullseye.basemapper.MPBaseMapper
 import org.springframework.stereotype.Service
 import com.chris.bullseye.system.pojo.Department
 import com.chris.bullseye.system.mapper.DepartmentMapper
@@ -12,7 +12,7 @@ import com.chris.bullseye.system.mapper.DepartmentMapper
 @Service
 class DepartmentService(var departmentMapper: DepartmentMapper):BaseService<Department>() {
 
-    override fun getMapper(): BaseMapper<Department> {
+    override fun getMapper(): MPBaseMapper<Department> {
         return departmentMapper
     }
 }

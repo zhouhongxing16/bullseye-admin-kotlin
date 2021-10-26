@@ -1,4 +1,4 @@
-package com.chris.bullseye.common.entity
+package com.chris.bullseye.common.entity.request
 
 /**
  * @author Chris

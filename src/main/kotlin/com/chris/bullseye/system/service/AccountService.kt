@@ -1,14 +1,16 @@
 package com.chris.bullseye.system.service
 
-import com.chris.bullseye.basemapper.BaseMapper
-import com.chris.bullseye.system.dto.AccountDto
-import com.chris.bullseye.system.entity.JsonResult
-import com.chris.bullseye.system.mapper.AccountMapper
-import com.chris.bullseye.system.pojo.Account
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page
+import com.chris.bullseye.basemapper.MPBaseMapper
 import com.chris.bullseye.common.utils.AuthUtil
 import com.chris.bullseye.common.utils.Logger
 import com.chris.bullseye.common.utils.ValidateCodeUtils
+import com.chris.bullseye.system.dto.AccountDto
+import com.chris.bullseye.system.entity.JsonResult
+import com.chris.bullseye.system.entity.request.AccountRequest
 import com.chris.bullseye.system.entity.request.LoginRequest
+import com.chris.bullseye.system.mapper.AccountMapper
+import com.chris.bullseye.system.pojo.Account
 import org.springframework.http.HttpStatus
 import org.springframework.security.crypto.factory.PasswordEncoderFactories
 import org.springframework.stereotype.Service
@@ -22,7 +24,7 @@ import org.springframework.transaction.interceptor.TransactionAspectSupport
 @Service
 class AccountService(val accountMapper: AccountMapper) : BaseService<Account>(){
 
-    override fun getMapper(): BaseMapper<Account> {
+    override fun getMapper(): MPBaseMapper<Account> {
         return accountMapper
     }
 
@@ -43,6 +45,11 @@ class AccountService(val accountMapper: AccountMapper) : BaseService<Account>(){
         return accountMapper.getNotInRoleCodeListByParams(map)
     }
 
+    fun getDtoListByPage(account: AccountRequest): Page<AccountDto> {
+        var page = Page<AccountDto>(account.pageNum!!,account.pageSize!!)
+        return accountMapper.getDtoListByPage(page,account)
+    }
+
     fun resetPassword(accountId: String?): JsonResult<Any> {
         var result = JsonResult<Any>()
         var account = accountMapper.getById(accountId)
@@ -53,7 +60,7 @@ class AccountService(val accountMapper: AccountMapper) : BaseService<Account>(){
             act.id = account.id
             var newPwd  = PasswordEncoderFactories.createDelegatingPasswordEncoder().encode(account.username)
             act.password = newPwd
-            var status =  accountMapper.updateByPrimaryKeySelective(act)
+            var status =  accountMapper.updateById(act)
             if(status>0){
                 return result.success(null,"重置成功！")
             }else{
@@ -82,7 +89,7 @@ class AccountService(val accountMapper: AccountMapper) : BaseService<Account>(){
                     val account = Account()
                     account.id = accountDto.id
                     account.password = newPwd
-                    val count: Int = accountMapper.updateByPrimaryKeySelective(account)
+                    val count: Int = accountMapper.updateById(account)
                     if (count > 0) {
                         result.success  =true
                         result.message = "密码修改成功！"
@@ -116,7 +123,7 @@ class AccountService(val accountMapper: AccountMapper) : BaseService<Account>(){
                 val a = Account()
                 a.id = account.id
                 a.password  =pwd
-                accountMapper.updateByPrimaryKeySelective(a)
+                accountMapper.updateById(a)
                 result.success  = true
                 result.message  ="密码修改成功"
                 //验证后删除验证码

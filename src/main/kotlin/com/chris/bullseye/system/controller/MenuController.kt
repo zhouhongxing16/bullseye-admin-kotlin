@@ -1,15 +1,11 @@
 package com.chris.bullseye.system.controller
 
-import com.github.pagehelper.PageHelper
-import com.github.pagehelper.PageInfo
+import com.chris.bullseye.common.utils.AuthUtil
 import com.chris.bullseye.system.dto.MenuDto
 import com.chris.bullseye.system.entity.JsonResult
 import com.chris.bullseye.system.entity.OperationLog
 import com.chris.bullseye.system.pojo.Menu
-import com.chris.bullseye.system.service.BaseService
 import com.chris.bullseye.system.service.MenuService
-import com.chris.bullseye.common.utils.AuthUtil
-import com.chris.bullseye.system.pojo.LoginRecord
 import io.swagger.annotations.Api
 import io.swagger.annotations.ApiImplicitParam
 import io.swagger.annotations.ApiOperation
@@ -69,7 +65,7 @@ class MenuController(var menuService: MenuService,
 
 
 
-
+/*
     @OperationLog("(admin)分页获取一级菜单")
     @PostMapping("/getMenusByPage")
     @ApiOperation(value = "(admin)分页获取一级菜单", notes = "(admin)分页获取一级菜单")
@@ -88,5 +84,5 @@ class MenuController(var menuService: MenuService,
         var list = menuService.getDtoListByParams(params)
         var pageInfo = PageInfo(list)
         return JsonResult.success(pageInfo, "查询成功")
-    }
+    }*/
 }

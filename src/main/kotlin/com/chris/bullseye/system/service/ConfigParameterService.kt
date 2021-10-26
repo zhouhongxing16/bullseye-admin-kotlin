@@ -1,6 +1,6 @@
 package com.chris.bullseye.system.service
 
-import com.chris.bullseye.basemapper.BaseMapper
+import com.chris.bullseye.basemapper.MPBaseMapper
 import org.springframework.stereotype.Service
 import com.chris.bullseye.system.pojo.ConfigParameter
 import com.chris.bullseye.system.mapper.ConfigParameterMapper
@@ -12,7 +12,7 @@ import com.chris.bullseye.system.mapper.ConfigParameterMapper
 @Service
 class ConfigParameterService(var configParameterMapper: ConfigParameterMapper):BaseService<ConfigParameter>() {
 
-    override fun getMapper(): BaseMapper<ConfigParameter> {
+    override fun getMapper(): MPBaseMapper<ConfigParameter> {
         return configParameterMapper
     }
 }

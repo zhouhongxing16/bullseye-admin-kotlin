@@ -1,7 +1,10 @@
 package com.chris.bullseye.system.pojo
 
 import java.util.Date
-import javax.persistence.*
+import com.baomidou.mybatisplus.annotation.IdType
+import com.baomidou.mybatisplus.annotation.TableField
+import com.baomidou.mybatisplus.annotation.TableId
+import com.baomidou.mybatisplus.annotation.TableName
 import java.io.Serializable
 import com.fasterxml.jackson.annotation.JsonFormat
 import io.swagger.annotations.ApiModelProperty
@@ -12,43 +15,43 @@ import java.time.LocalDateTime
  * @Date:  2020-12-25 19:36
  * 专业
  */
-@Table(name = "b_major")
+@TableName(value = "b_major")
 open class Major(
-        @Id
-        @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "select uuid()")
+        
+        @TableId(type = IdType.ASSIGN_ID)
         @ApiModelProperty(name = "唯一标识")
         var id: String? = null,
 
         @ApiModelProperty(name = "代码")
-        @Column(name = "code")
+        @TableField(value = "code")
         var code: String? = null,
 
         @ApiModelProperty(name = "名称")
-        @Column(name = "name")
+        @TableField(value = "name")
         var name: String? = null,
 
         @ApiModelProperty(name = "专业类型")
-        @Column(name = "type_id")
+        @TableField(value = "type_id")
         var typeId: String? = null,
 
         @ApiModelProperty(name = "状态")
-        @Column(name = "status")
+        @TableField(value = "status")
         var status: Int? = null,
 
         @ApiModelProperty(name = "创建人ID")
-        @Column(name = "creator_id")
+        @TableField(value = "creator_id")
         var creatorId: String? = null,
 
         @ApiModelProperty(name = "创建人")
-        @Column(name = "creator_name")
+        @TableField(value = "creator_name")
         var creatorName: String? = null,
 
         @ApiModelProperty(name = "创建日期")
-        @Column(name = "create_time")
+        @TableField(value = "create_time")
         var createTime: LocalDateTime? = null,
 
         @ApiModelProperty(name = "备注")
-        @Column(name = "remark")
+        @TableField(value = "remark")
         var remark: String? = null,
 
 

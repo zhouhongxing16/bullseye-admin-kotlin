@@ -1,6 +1,6 @@
 package com.chris.bullseye.common.service
 
-import com.chris.bullseye.common.entity.MailSendRequest
+import com.chris.bullseye.common.entity.request.MailSendRequest
 import com.chris.bullseye.common.utils.EmailTemplateUtil
 import com.chris.bullseye.common.utils.Logger
 import com.chris.bullseye.common.utils.ValidateCodeUtils
@@ -98,7 +98,7 @@ class MailSendService {
     /**通用邮件发送方法
      */
     @Async("mailAsync")
-    fun sendEmail(obj:MailSendRequest): Any? {
+    fun sendEmail(obj: MailSendRequest): Any? {
         val result = JsonResult<Any>()
         //创建一个MINE消息
         val message = mailSender!!.createMimeMessage()

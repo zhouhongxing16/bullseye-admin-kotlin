@@ -1,6 +1,6 @@
 package com.chris.bullseye.system.mapper
 
-import com.chris.bullseye.basemapper.BaseMapper
+import com.chris.bullseye.basemapper.MPBaseMapper
 import com.chris.bullseye.system.pojo.Department
 import org.apache.ibatis.annotations.Mapper
 
@@ -9,5 +9,5 @@ import org.apache.ibatis.annotations.Mapper
  * @Date:  2021-01-05 11:24
  */
 @Mapper
-interface DepartmentMapper: BaseMapper<Department> {
+interface DepartmentMapper: MPBaseMapper<Department> {
 }

@@ -1,20 +1,20 @@
 package com.chris.bullseye.system.controller
 
-import com.chris.bullseye.common.utils.*
+import com.chris.bullseye.common.utils.AuthUtil
 import com.chris.bullseye.system.dto.AccountDto
 import com.chris.bullseye.system.entity.JsonResult
 import com.chris.bullseye.system.entity.OperationLog
+import com.chris.bullseye.system.entity.request.AccountRequest
 import com.chris.bullseye.system.entity.request.LoginRequest
 import com.chris.bullseye.system.pojo.Account
-import com.chris.bullseye.system.service.*
-import com.github.pagehelper.PageHelper
-import com.github.pagehelper.PageInfo
+import com.chris.bullseye.system.service.AccountService
+import com.chris.bullseye.system.service.RoleService
+import com.chris.bullseye.system.service.StaffService
 import io.swagger.annotations.Api
+import io.swagger.annotations.ApiImplicitParam
 import io.swagger.annotations.ApiOperation
-import org.springframework.http.HttpStatus
 import org.springframework.security.crypto.factory.PasswordEncoderFactories
 import org.springframework.web.bind.annotation.*
-import java.util.*
 
 /**
  * @author Chris
@@ -59,7 +59,7 @@ class AccountController(
         return accountService.resetPassword(accountId)
     }
 
-    @ApiOperation(value = "(admin)获取机构管理员", notes = "参数：organizationId")
+   /* @ApiOperation(value = "(admin)获取机构管理员", notes = "参数：organizationId")
     @OperationLog("(admin)获取机构管理员")
     @PostMapping("/getOrganizationAdmins/{organizationId}")
     fun getOrganizationAdmins(@PathVariable organizationId: String): JsonResult<AccountDto> {
@@ -76,9 +76,9 @@ class AccountController(
         val list = accountService.getDtoListByParams(params)
         var pageInfo = PageInfo(list)
         return result.success(pageInfo, "查询成功")
-    }
+    }*/
 
-    @ApiOperation(value = "(admin)获取机构非管理员用户和已授权用户", notes = "参数：organizationId")
+   /* @ApiOperation(value = "(admin)获取机构非管理员用户和已授权用户", notes = "参数：organizationId")
     @OperationLog("(admin)获取机构非管理员用户和已授权用户")
     @PostMapping("/getNotAndAuthorizedUsers/{organizationId}")
     fun getNotAndAuthorizedUsers(@PathVariable organizationId: String): JsonResult<Any> {
@@ -96,7 +96,7 @@ class AccountController(
         val list = accountService.getNotInRoleCodeListByParams(params)
         var pageInfo = PageInfo(list)
         return JsonResult.success(pageInfo, "查询成功！")
-    }
+    }*/
 
 
     @ApiOperation(value = "获取我的个人信息", notes = "获取我的个人信息")
@@ -111,26 +111,17 @@ class AccountController(
     }
 
 
-/*
 
     @OperationLog("(admin)分页获取延展数据")
     @PostMapping("/getDtoListByPage")
     @ApiOperation(value = "(admin)分页获取延展数据", notes = "(admin)分页获取延展数据)分页获取延展数据")
     @ApiImplicitParam(name = "(admin)分页获取延展数据", value = "")
-    fun getDtoListByPage(@RequestBody params: MutableMap<String, String?>): JsonResult<AccountDto> {
+    fun getDtoListByPage(@RequestBody account: AccountRequest): JsonResult<AccountDto> {
         var result = JsonResult<AccountDto>()
-        if (params["pageNum"].isNullOrEmpty()) {
-            params["pageNum"] = "1"
-        }
-        if (params["pageSize"].isNullOrEmpty()) {
-            params["pageSize"] = "10"
-        }
-        PageHelper.startPage<AccountDto>(params)
-        var list = accountService.getDtoListByParams(params)
-        var pageInfo = PageInfo(list)
-        return result.successPageList(pageInfo.list, pageInfo.total, pageInfo.isIsLastPage, "查询成功")
+
+        var page = accountService.getDtoListByPage(account)
+        return result.success(page, "查询成功")
     }
-*/
 
 
 }

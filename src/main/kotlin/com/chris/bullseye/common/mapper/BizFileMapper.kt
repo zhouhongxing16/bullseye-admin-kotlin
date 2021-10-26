@@ -1,6 +1,6 @@
 package com.chris.bullseye.common.mapper
 
-import com.chris.bullseye.basemapper.BaseMapper
+import com.chris.bullseye.basemapper.MPBaseMapper
 import com.chris.bullseye.system.pojo.BizFile
 import org.apache.ibatis.annotations.Mapper
 import org.apache.ibatis.annotations.Param
@@ -11,7 +11,7 @@ import org.apache.ibatis.annotations.Param
  * 业务文件
  */
 @Mapper
-interface BizFileMapper: BaseMapper<BizFile> {
+interface BizFileMapper: MPBaseMapper<BizFile> {
 
     fun getByFileHash(@Param("fileHash") fileHash:String):BizFile
 }

@@ -1,13 +1,8 @@
 package com.chris.bullseye.common.service
 
-import com.chris.bullseye.common.DTO.QuartzJobDTO
 import com.chris.bullseye.common.config.SchedulerJobListener
-import com.github.pagehelper.Page
-import com.github.pagehelper.PageInfo
-import com.github.pagehelper.util.PageObjectUtil
 import org.quartz.*
 import org.quartz.DateBuilder.IntervalUnit
-import org.quartz.impl.matchers.GroupMatcher
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.scheduling.quartz.QuartzJobBean
 import org.springframework.stereotype.Service
@@ -236,7 +231,7 @@ class QuartzService {
      *
      * @return
      */
-    fun queryAllJob(params: Map<String?, Any?>?): PageInfo<*>? {
+   /* fun queryAllJob(params: Map<String?, Any?>?): PageInfo<*>? {
         var jobList: MutableList<QuartzJobDTO?>? = null
         var page: PageInfo<*>? = null
         try {
@@ -282,7 +277,7 @@ class QuartzService {
             e.printStackTrace()
         }
         return page
-    }
+    }*/
 
     /**
      * 获取所有正在运行的job

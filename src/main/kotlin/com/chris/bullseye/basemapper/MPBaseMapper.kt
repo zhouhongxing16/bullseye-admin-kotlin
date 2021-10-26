@@ -1,13 +1,12 @@
 package com.chris.bullseye.basemapper
 
-import tk.mybatis.mapper.common.Mapper
-import tk.mybatis.mapper.common.MySqlMapper
+import com.baomidou.mybatisplus.core.mapper.BaseMapper
 
 /**
  * @author  Chris
- * @date2020 12 01 14:24
+ * @date 2021-10-21 14:24
  */
-interface  BaseMapper<T> : Mapper<T>, MySqlMapper<T> {
+interface  MPBaseMapper<T> : BaseMapper<T> {
     fun getListByParams(map: MutableMap<String, String?>): List<T>
 
     fun getByParams(map: MutableMap<String, String?>): T

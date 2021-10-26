@@ -1,7 +1,10 @@
 package com.chris.bullseye.system.pojo
 
 import java.util.Date
-import javax.persistence.*
+import com.baomidou.mybatisplus.annotation.IdType
+import com.baomidou.mybatisplus.annotation.TableField
+import com.baomidou.mybatisplus.annotation.TableId
+import com.baomidou.mybatisplus.annotation.TableName
 import java.io.Serializable
 import com.fasterxml.jackson.annotation.JsonFormat
 import io.swagger.annotations.ApiModelProperty
@@ -12,43 +15,43 @@ import java.time.LocalDateTime
  * @Date:  2020-12-25 19:11
  * 登录日志
  */
-@Table(name = "b_login_record")
+@TableName(value = "b_login_record")
 open class LoginRecord (
-        @Id
-        @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "select uuid()")
+        
+        @TableId(type = IdType.ASSIGN_ID)
         @ApiModelProperty(name = "访问ID")
         var id: String? = null,
 
         @ApiModelProperty(name = "登录账号")
-        @Column(name = "username")
+        @TableField(value = "username")
         var username: String? = null,
 
         @ApiModelProperty(name = "登录IP地址")
-        @Column(name = "ip")
+        @TableField(value = "ip")
         var ip: String? = null,
 
         @ApiModelProperty(name = "登录地点")
-        @Column(name = "login_location")
+        @TableField(value = "login_location")
         var loginLocation: String? = null,
 
         @ApiModelProperty(name = "浏览器类型")
-        @Column(name = "browser")
+        @TableField(value = "browser")
         var browser: String? = null,
 
         @ApiModelProperty(name = "操作系统")
-        @Column(name = "os")
+        @TableField(value = "os")
         var os: String? = null,
 
         @ApiModelProperty(name = "登录状态（1成功 0失败）")
-        @Column(name = "status")
+        @TableField(value = "status")
         var status: Int? = null,
 
         @ApiModelProperty(name = "提示消息")
-        @Column(name = "message")
+        @TableField(value = "message")
         var message: String? = null,
 
         @ApiModelProperty(name = "创建日期")
-        @Column(name = "create_time")
+        @TableField(value = "create_time")
         var createTime: LocalDateTime? = null,
 
 

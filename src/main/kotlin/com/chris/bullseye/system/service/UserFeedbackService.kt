@@ -1,6 +1,6 @@
 package com.chris.bullseye.system.service
 
-import com.chris.bullseye.basemapper.BaseMapper
+import com.chris.bullseye.basemapper.MPBaseMapper
 import org.springframework.stereotype.Service
 import com.chris.bullseye.system.pojo.UserFeedback
 import com.chris.bullseye.system.mapper.UserFeedbackMapper
@@ -12,7 +12,7 @@ import com.chris.bullseye.system.mapper.UserFeedbackMapper
 @Service
 class UserFeedbackService(var userFeedbackMapper: UserFeedbackMapper):BaseService<UserFeedback>() {
 
-    override fun getMapper(): BaseMapper<UserFeedback> {
+    override fun getMapper(): MPBaseMapper<UserFeedback> {
         return userFeedbackMapper
     }
 }

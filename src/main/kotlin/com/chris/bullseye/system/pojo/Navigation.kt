@@ -1,7 +1,10 @@
 package com.chris.bullseye.system.pojo
 
 import java.util.Date
-import javax.persistence.*
+import com.baomidou.mybatisplus.annotation.IdType
+import com.baomidou.mybatisplus.annotation.TableField
+import com.baomidou.mybatisplus.annotation.TableId
+import com.baomidou.mybatisplus.annotation.TableName
 import java.io.Serializable
 import com.fasterxml.jackson.annotation.JsonFormat
 import io.swagger.annotations.ApiModelProperty
@@ -12,51 +15,51 @@ import java.time.LocalDateTime
  * @Date:  2020-12-28 11:25
  * 导航栏
  */
-@Table(name = "b_navigation")
+@TableName(value = "b_navigation")
 open class Navigation(
-        @Id
-        @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "select uuid()")
+        
+        @TableId(type = IdType.ASSIGN_ID)
         @ApiModelProperty(name = "唯一标识")
         var id: String? = null,
 
         @ApiModelProperty(name = "名称")
-        @Column(name = "name")
+        @TableField(value = "name")
         var name: String? = null,
 
         @ApiModelProperty(name = "级别")
-        @Column(name = "level")
+        @TableField(value = "level")
         var level: Int? = null,
 
         @ApiModelProperty(name = "父标识")
-        @Column(name = "parent_id")
+        @TableField(value = "parent_id")
         var parentId: String? = null,
 
         @ApiModelProperty(name = "显示顺序")
-        @Column(name = "sort")
+        @TableField(value = "sort")
         var sort: Int? = null,
 
         @ApiModelProperty(name = "访问路径")
-        @Column(name = "path")
+        @TableField(value = "path")
         var path: String? = null,
 
         @ApiModelProperty(name = "状态")
-        @Column(name = "status")
+        @TableField(value = "status")
         var status: Int? = null,
 
         @ApiModelProperty(name = "创建日期")
-        @Column(name = "created")
+        @TableField(value = "created")
         var created: LocalDateTime? = null,
 
         @ApiModelProperty(name = "创建人ID")
-        @Column(name = "creator_id")
+        @TableField(value = "creator_id")
         var creatorId: String? = null,
 
         @ApiModelProperty(name = "创建人")
-        @Column(name = "creator_name")
+        @TableField(value = "creator_name")
         var creatorName: String? = null,
 
         @ApiModelProperty(name = "创建日期")
-        @Column(name = "create_time")
+        @TableField(value = "create_time")
         var createTime: LocalDateTime? = null,
 
 

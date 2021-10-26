@@ -1,8 +1,9 @@
 package com.chris.bullseye.common.service
 
 import com.aliyun.oss.OSSClientBuilder
+import com.baomidou.mybatisplus.core.toolkit.Wrappers
 import com.google.common.hash.Hashing
-import com.chris.bullseye.basemapper.BaseMapper
+import com.chris.bullseye.basemapper.MPBaseMapper
 import com.chris.bullseye.common.config.AliConfig
 import com.chris.bullseye.system.entity.JsonResult
 import com.chris.bullseye.common.mapper.BizFileMapper
@@ -31,7 +32,7 @@ import javax.imageio.ImageIO
 @Service
 class BizFileService(var bizFileMapper: BizFileMapper, var aliOSSConfig: AliConfig) : BaseService<BizFile>() {
 
-    override fun getMapper(): BaseMapper<BizFile> {
+    override fun getMapper(): MPBaseMapper<BizFile> {
         return bizFileMapper
     }
 
@@ -83,7 +84,7 @@ class BizFileService(var bizFileMapper: BizFileMapper, var aliOSSConfig: AliConf
                 val count: Int = bizFileMapper.insert(file)
             }
             result.success = true
-            result.status =  HttpStatus.OK.value()
+            result.status = HttpStatus.OK.value()
         }
 
         // 文件存储入OSS，Object的名称为fileKey。详细请参看“SDK手册 > Java-SDK > 上传文件”。
@@ -109,14 +110,14 @@ class BizFileService(var bizFileMapper: BizFileMapper, var aliOSSConfig: AliConf
     private fun localUpload(multipartFile: MultipartFile): JsonResult<BizFile> {
         val result = JsonResult<BizFile>()
         val user = AuthUtil.getCurrentUser()
-        var filename =  System.currentTimeMillis().toString() + FileUtil.getSuffix(multipartFile.originalFilename)
+        var filename = System.currentTimeMillis().toString() + FileUtil.getSuffix(multipartFile.originalFilename)
         val organizationPath = user!!.organizationId
         val path = "$uploadPath/$organizationPath"
         val reMap: MutableMap<String, String?> = HashMap(2)
         //计算文件hash
         val hash = Hashing.hmacSha1(multipartFile.bytes)
         var bizFile = bizFileMapper.getByFileHash(hash.toString())
-        if(bizFile==null){
+        if (bizFile == null) {
             bizFile = BizFile()
             bizFile.organizationId = user!!.organizationId
             bizFile.departmentId = user!!.departmentId
@@ -211,16 +212,9 @@ class BizFileService(var bizFileMapper: BizFileMapper, var aliOSSConfig: AliConf
             result.message = "[$fileName]删除文件失败：文件key为空"
         } else {
             if ("local" == storageType) {
-                val file = BizFile()
-                file.originalFileName = fileName
-                file.storageType = storageType
-                val organizationPath= user!!.organizationId
+                val organizationPath = user!!.organizationId
                 val path = "$uploadPath/$organizationPath"
                 FileUtil.deleteFile("$path/$fileName")
-                val count: Int = bizFileMapper.delete(file)
-                result.success = if (count > 0) true else false
-                result.message = "删除成功"
-                result.success = true
             } else if ("aliOSS" == storageType) {
                 val ossClient = OSSClientBuilder().build(aliOSSConfig.endpoint, aliOSSConfig.accessKeyId, aliOSSConfig.accessKeySecret)
                 if (!ossClient.doesBucketExist(aliOSSConfig.bucketName)) {
@@ -229,16 +223,15 @@ class BizFileService(var bizFileMapper: BizFileMapper, var aliOSSConfig: AliConf
                     result.message = "[阿里云OSS] 文件删除失败！文件不存在：" + aliOSSConfig.bucketName.toString() + "/" + fileName
                 } else {
                     ossClient.deleteObject(aliOSSConfig.bucketName, fileName)
-                    val file = BizFile()
-                    file.originalFileName = fileName
-                    file.bucketName = aliOSSConfig.bucketName
-                    val count: Int = bizFileMapper.delete(file)
-                    result.success = if (count > 0) true else false
-                    result.message = "删除成功"
-                    result.success = true
+
                 }
             } else if ("qiniu" == storageType) {
+
             }
+            val count: Int = bizFileMapper.delete(Wrappers.lambdaQuery<BizFile?>().eq(BizFile::storageType, storageType).eq(BizFile::originalFileName, fileName))
+            result.success = count > 0
+            result.message = "删除成功"
+            result.success = true
         }
         return result
     }

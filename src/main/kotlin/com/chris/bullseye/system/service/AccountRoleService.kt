@@ -1,6 +1,6 @@
 package com.chris.bullseye.system.service
 
-import com.chris.bullseye.basemapper.BaseMapper
+import com.chris.bullseye.basemapper.MPBaseMapper
 import com.chris.bullseye.system.entity.JsonResult
 import com.chris.bullseye.system.mapper.AccountRoleMapper
 import com.chris.bullseye.system.pojo.AccountRole
@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service
  */
 @Service
 class AccountRoleService(var accountRoleMapper: AccountRoleMapper):BaseService<AccountRole>() {
-    override fun getMapper(): BaseMapper<AccountRole> {
+    override fun getMapper(): MPBaseMapper<AccountRole> {
         return accountRoleMapper
     }
 

@@ -1,14 +1,12 @@
 package com.chris.bullseye.common.controller
 
-import com.alibaba.fastjson.JSON
-import com.chris.bullseye.common.entity.MailSendRequest
+import com.chris.bullseye.common.entity.request.MailSendRequest
 import com.chris.bullseye.common.service.MailSendService
 import com.chris.bullseye.system.entity.JsonResult
 import com.chris.bullseye.system.entity.OperationLog
 import io.swagger.annotations.Api
 import io.swagger.annotations.ApiImplicitParam
 import io.swagger.annotations.ApiOperation
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.web.bind.annotation.*
 
 /**

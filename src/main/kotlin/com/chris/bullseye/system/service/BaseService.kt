@@ -1,6 +1,7 @@
 package com.chris.bullseye.system.service
 
-import com.chris.bullseye.basemapper.BaseMapper
+import com.baomidou.mybatisplus.core.toolkit.Wrappers
+import com.chris.bullseye.basemapper.MPBaseMapper
 import com.chris.bullseye.system.entity.JsonResult
 import org.springframework.transaction.annotation.Propagation
 import org.springframework.transaction.annotation.Transactional
@@ -13,7 +14,7 @@ import org.springframework.transaction.annotation.Transactional
  */
 abstract class BaseService<T> {
 
-    abstract fun getMapper(): BaseMapper<T>
+    abstract fun getMapper(): MPBaseMapper<T>
 
     @Transactional(propagation = Propagation.REQUIRED)
     open fun add(obj: T?): JsonResult<T> {
@@ -28,20 +29,16 @@ abstract class BaseService<T> {
 
     @Transactional(propagation = Propagation.REQUIRED)
     open fun update(obj: T?): Int {
-        return getMapper().updateByPrimaryKeySelective(obj)
+        return getMapper().updateById(obj)
     }
 
     @Transactional(propagation = Propagation.REQUIRED)
     open fun deleteById(id: String?): Int {
-        return getMapper().deleteByPrimaryKey(id)
+        return getMapper().deleteById(id)
     }
 
     fun getById(hId: String?): T {
-        return getMapper().selectByPrimaryKey(hId)
-    }
-
-    fun selectAll(): List<Any?>? {
-        return getMapper().selectAll()
+        return getMapper().selectById(hId)
     }
 
     fun getListByParams(params: MutableMap<String,String?>): List<T> {
@@ -50,9 +47,5 @@ abstract class BaseService<T> {
 
     fun getByParams(params: MutableMap<String,String?>): T {
         return getMapper().getByParams(params)
-    }
-
-    fun select(t: T?): List<T>? {
-        return getMapper().select(t)
     }
 }

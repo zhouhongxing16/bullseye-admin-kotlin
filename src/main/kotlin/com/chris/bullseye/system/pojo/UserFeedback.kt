@@ -1,7 +1,10 @@
 package com.chris.bullseye.system.pojo
 
 import java.util.Date
-import javax.persistence.*
+import com.baomidou.mybatisplus.annotation.IdType
+import com.baomidou.mybatisplus.annotation.TableField
+import com.baomidou.mybatisplus.annotation.TableId
+import com.baomidou.mybatisplus.annotation.TableName
 import java.io.Serializable
 import com.fasterxml.jackson.annotation.JsonFormat
 import io.swagger.annotations.ApiModelProperty
@@ -12,39 +15,39 @@ import java.time.LocalDateTime
  * @Date:  2020-12-25 19:54
  * 用户反馈
  */
-@Table(name = "b_user_feedback")
+@TableName(value = "b_user_feedback")
 open class UserFeedback(
-        @Id
-        @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "select uuid()")
+        
+        @TableId(type = IdType.ASSIGN_ID)
         @ApiModelProperty(name = "唯一标识")
         var id: String? = null,
 
         @ApiModelProperty(name = "用户标识")
-        @Column(name = "user_id")
+        @TableField(value = "user_id")
         var userId: String? = null,
 
         @ApiModelProperty(name = "联系人")
-        @Column(name = "contact_name")
+        @TableField(value = "contact_name")
         var contactName: String? = null,
 
         @ApiModelProperty(name = "联系电话")
-        @Column(name = "contact_phone")
+        @TableField(value = "contact_phone")
         var contactPhone: String? = null,
 
         @ApiModelProperty(name = "反馈内容")
-        @Column(name = "content")
+        @TableField(value = "content")
         var content: String? = null,
 
         @ApiModelProperty(name = "附件")
-        @Column(name = "attach")
+        @TableField(value = "attach")
         var attach: String? = null,
 
         @ApiModelProperty(name = "状态")
-        @Column(name = "status")
+        @TableField(value = "status")
         var status: Int? = null,
 
         @ApiModelProperty(name = "创建日期")
-        @Column(name = "create_time")
+        @TableField(value = "create_time")
         var createTime: LocalDateTime? = null,
 
         )

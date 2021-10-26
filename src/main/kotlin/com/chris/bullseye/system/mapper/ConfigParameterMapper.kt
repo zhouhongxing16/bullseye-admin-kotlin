@@ -1,6 +1,6 @@
 package com.chris.bullseye.system.mapper
 
-import com.chris.bullseye.basemapper.BaseMapper
+import com.chris.bullseye.basemapper.MPBaseMapper
 import com.chris.bullseye.system.pojo.ConfigParameter
 import org.apache.ibatis.annotations.Mapper
 
@@ -9,5 +9,5 @@ import org.apache.ibatis.annotations.Mapper
  * @Date:  2020-12-25 19:25
  */
 @Mapper
-interface ConfigParameterMapper: BaseMapper<ConfigParameter> {
+interface ConfigParameterMapper: MPBaseMapper<ConfigParameter> {
 }

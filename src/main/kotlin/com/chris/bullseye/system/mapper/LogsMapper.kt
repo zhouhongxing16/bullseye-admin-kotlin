@@ -1,6 +1,6 @@
 package com.chris.bullseye.system.mapper
 
-import com.chris.bullseye.basemapper.BaseMapper
+import com.chris.bullseye.basemapper.MPBaseMapper
 import com.chris.bullseye.system.pojo.Logs
 import org.apache.ibatis.annotations.Mapper
 
@@ -9,6 +9,6 @@ import org.apache.ibatis.annotations.Mapper
  * @date2020 12 07 16:58
  */
 @Mapper
-interface LogsMapper: BaseMapper<Logs> {
+interface LogsMapper: MPBaseMapper<Logs> {
 
 }
