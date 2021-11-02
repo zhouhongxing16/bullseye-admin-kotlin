@@ -4,7 +4,6 @@ import com.chris.bullseye.common.entity.response.QuartzJobResponse
 import com.chris.bullseye.common.service.QuartzService
 import com.chris.bullseye.system.entity.OperationLog
 import io.swagger.annotations.Api
-import io.swagger.annotations.ApiImplicitParam
 import io.swagger.annotations.ApiOperation
 import org.apache.commons.lang3.StringUtils
 import org.springframework.scheduling.quartz.QuartzJobBean
@@ -21,7 +20,6 @@ import org.springframework.web.bind.annotation.*
 class QuartzController(val quartzService: QuartzService) {
 
     @ApiOperation(value = "添加任务", notes = "添加任务")
-    @ApiImplicitParam(name = "添加任务")
     @OperationLog("添加任务")
     @ResponseBody
     @PostMapping("/addJob")
@@ -39,7 +37,6 @@ class QuartzController(val quartzService: QuartzService) {
     }
 
     @ApiOperation(value = "更新任务", notes = "更新任务")
-    @ApiImplicitParam(name = "更新任务")
     @OperationLog("更新任务")
     @PostMapping("/updateJob")
     fun updateJob(@RequestBody job: QuartzJobResponse) {
@@ -51,7 +48,6 @@ class QuartzController(val quartzService: QuartzService) {
     }
 
     @ApiOperation(value = "删除任务", notes = "删除任务")
-    @ApiImplicitParam(name = "删除任务")
     @OperationLog("删除任务")
     @PostMapping("/deleteJob")
     fun deleteJob(@RequestBody job: QuartzJobResponse) {
@@ -59,7 +55,6 @@ class QuartzController(val quartzService: QuartzService) {
     }
 
     @ApiOperation(value = "暂停任务", notes = "暂停任务")
-    @ApiImplicitParam(name = "暂停任务")
     @OperationLog("暂停任务")
     @PostMapping("/pauseJob")
     fun pauseJob(@RequestBody job: QuartzJobResponse) {
@@ -67,7 +62,6 @@ class QuartzController(val quartzService: QuartzService) {
     }
 
     @ApiOperation(value = "恢复暂停任务", notes = "恢复暂停任务")
-    @ApiImplicitParam(name = "恢复暂停任务")
     @OperationLog("恢复暂停任务")
     @PostMapping("/resumeJob")
     fun resumeJob(@RequestBody job: QuartzJobResponse) {
@@ -83,7 +77,6 @@ class QuartzController(val quartzService: QuartzService) {
     }*/
 
     @ApiOperation(value = "查询运行中任务", notes = "查询运行中任务")
-    @ApiImplicitParam(name = "查询运行中任务")
     @OperationLog("查询运行中任务")
     @PostMapping("/queryRunJob")
     fun queryRunJob(): Any? {

@@ -41,9 +41,13 @@ open class Logs(
         @TableField(value = "params")
         var params: String? = null,
 
-        @ApiModelProperty(name = "操作人")
-        @TableField(value = "user_id")
-        var userId: String? = null,
+        @ApiModelProperty(name = "创建人ID")
+        @TableField(value = "creator_id")
+        var creatorId: String? = null,
+
+        @ApiModelProperty(name = "创建人")
+        @TableField(value = "creator_name")
+        var creatorName: String? = null,
 
         @ApiModelProperty(name = "IP")
         @TableField(value = "ip")

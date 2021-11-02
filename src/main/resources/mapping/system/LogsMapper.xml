@@ -9,7 +9,7 @@
         <result column="option_type" jdbcType="VARCHAR" property="optionType"/>
         <result column="method" jdbcType="VARCHAR" property="method"/>
         <result column="params" jdbcType="LONGVARCHAR" property="params"/>
-        <result column="user_id" jdbcType="VARCHAR" property="userId"/>
+        <result column="creator_id" jdbcType="VARCHAR" property="creatorId"/>
         <result column="ip" jdbcType="VARCHAR" property="ip"/>
         <result column="execution_time" jdbcType="INTEGER" property="executionTime"/>
         <result column="status" jdbcType="INTEGER" property="status"/>
@@ -26,14 +26,14 @@
         a
         .
         id
-        , a.organization_id, a.option_name, a.option_type, a.method, a.params, a.user_id, a.ip, a.execution_time, a.status, a.remark, a.created
+        , a.organization_id, a.option_name, a.option_type, a.method, a.params, a.creator_id, a.ip, a.execution_time, a.status, a.remark, a.created
     </sql>
 
     <select id="getListByParams" resultMap="BaseResultMapDto" parameterType="map">
         SELECT
         <include refid="basic_list"/>,staff.name as userName
         FROM b_logs a
-        left join b_account act on act.id = a.user_id
+        left join b_account act on act.id = a.creator_id
         left join b_staff staff on staff.id = act.staff_id
         <where>
             <if test="id!=null and id!='' ">
@@ -54,8 +54,8 @@
             <if test="params!=null and params!='' ">
                 and a.params LIKE CONCAT('%', #{ params }, '%')
             </if>
-            <if test="userId!=null and userId!='' ">
-                and a.user_id=#{ userId }
+            <if test="creatorId!=null and creatorId!='' ">
+                and a.creator_id=#{ creatorId }
             </if>
             <if test="ip!=null and ip!='' ">
                 and a.ip LIKE CONCAT('%', #{ ip }, '%')
@@ -80,7 +80,7 @@
         SELECT
         <include refid="basic_list"/>,staff.name as userName
         FROM b_logs a
-        left join b_account act on act.id = a.user_id
+        left join b_account act on act.id = a.creator_id
         left join b_staff staff on staff.id = act.staff_id
         <where>
             <if test="id!=null and id!='' ">
@@ -101,8 +101,8 @@
             <if test="params!=null and params!='' ">
                 and a.params LIKE CONCAT('%', #{ params }, '%')
             </if>
-            <if test="userId!=null and userId!='' ">
-                and a.user_id=#{ userId }
+            <if test="creatorId!=null and creatorId!='' ">
+                and a.creator_id=#{ creatorId }
             </if>
             <if test="ip!=null and ip!='' ">
                 and a.ip LIKE CONCAT('%', #{ ip }, '%')

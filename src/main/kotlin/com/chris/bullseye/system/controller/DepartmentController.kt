@@ -3,12 +3,10 @@ package com.chris.bullseye.system.controller
 import com.chris.bullseye.system.pojo.Department
 import com.chris.bullseye.system.entity.JsonResult
 import com.chris.bullseye.system.entity.OperationLog
-import com.chris.bullseye.system.service.*
 import com.chris.bullseye.common.utils.AuthUtil
 
 import com.chris.bullseye.system.service.DepartmentService
 import io.swagger.annotations.Api
-import io.swagger.annotations.ApiImplicitParam
 import io.swagger.annotations.ApiOperation
 import org.springframework.web.bind.annotation.*
 
@@ -27,7 +25,6 @@ class DepartmentController(
 
     //增加
     @ApiOperation(value = "创建方法", notes = "创建")
-    @ApiImplicitParam(name = "创建方法", value = "参数如果有时间字段请按照 yyyy-MM-dd hh:mm:ss 格式传入")
     @OperationLog("创建方法")
     @PostMapping("/create")
     fun create(@RequestBody obj: Department): JsonResult<Department> {
@@ -40,7 +37,6 @@ class DepartmentController(
     @OperationLog("(web)获取科室/部门")
     @PostMapping("/getWebDepartmentList")
     @ApiOperation(value = "(web)获取科室/部门", notes = "(web)获取科室/部门")
-    @ApiImplicitParam(name = "(web)获取科室/部门", value = "")
     fun getWebDepartmentList(@RequestBody params: MutableMap<String, String?>): JsonResult<Department> {
         params["status"] = "1"
         var list = departmentService.getListByParams(params)

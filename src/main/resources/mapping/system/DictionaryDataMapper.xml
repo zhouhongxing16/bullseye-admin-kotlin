@@ -20,7 +20,7 @@
     </resultMap>
 
     <sql id="basic_list">
-        a.id, a.type_id, a.code, a.name, a.remark, a.sort, a.status, a.created, a.user_id
+        a.id, a.type_id, a.code, a.name, a.remark, a.sort, a.status, a.create_time, a.creator_id
     </sql>
 
 
@@ -29,7 +29,7 @@
         <include refid="basic_list"/>,staff.name as userName,dt.name as typeName
         FROM b_dictionary_data a
         left join b_dictionary_type dt on a.type_id = dt.id
-        left join b_account act on act.id = a.user_id
+        left join b_account act on act.id = a.creator_id
         left join b_staff staff on staff.id = act.staff_id
         <where>
             <if test="id!=null and id!='' ">
@@ -44,20 +44,14 @@
             <if test="name!=null and name!='' ">
                 and a.name LIKE CONCAT('%', #{ name }, '%')
             </if>
-            <if test="remark!=null and remark!='' ">
-                and a.remark LIKE CONCAT('%', #{ remark }, '%')
-            </if>
             <if test="sequence!=null and sequence!='' ">
                 and a.sort LIKE CONCAT('%', #{ sequence }, '%')
             </if>
             <if test="status!=null and status!='' ">
                 and a.status = #{ status }
             </if>
-            <if test="created!=null and created!='' ">
-                and a.created LIKE CONCAT('%', #{ created }, '%')
-            </if>
-            <if test="userId!=null and userId!='' ">
-                and a.user_id=#{ userId }
+            <if test="creatorId!=null and creatorId!='' ">
+                and a.creator_id=#{ creatorId }
             </if>
         </where>
         order by a.created desc
@@ -68,7 +62,7 @@
         <include refid="basic_list"/>,staff.name as userName,dt.name as typeName
         FROM b_dictionary_data a
         left join b_dictionary_type dt on a.type_id = dt.id
-        left join b_account act on act.id = a.user_id
+        left join b_account act on act.id = a.creator_id
         left join b_staff staff on staff.id = act.staff_id
         <where>
             <if test="id!=null and id!='' ">
@@ -83,17 +77,11 @@
             <if test="name!=null and name!='' ">
                 and a.name LIKE CONCAT('%', #{ name }, '%')
             </if>
-            <if test="remark!=null and remark!='' ">
-                and a.remark LIKE CONCAT('%', #{ remark }, '%')
-            </if>
             <if test="status!=null and status!='' ">
                 and a.status = #{ status }
             </if>
-            <if test="created!=null and created!='' ">
-                and a.created LIKE CONCAT('%', #{ created }, '%')
-            </if>
-            <if test="userId!=null and userId!='' ">
-                and a.user_id=#{ userId }
+            <if test="creatorId!=null and creatorId!='' ">
+                and a.creator_id=#{ creatorId }
             </if>
         </where>
         order by a.created desc
@@ -104,7 +92,7 @@
         <include refid="basic_list"/>,staff.name as userName,dt.name as typeName
         FROM b_dictionary_data a
         left join b_dictionary_type dt on a.type_id = dt.id
-        left join b_account act on act.id = a.user_id
+        left join b_account act on act.id = a.creator_id
         left join b_staff staff on staff.id = act.staff_id
         <where>
             <if test="id!=null and id!='' ">
@@ -122,17 +110,11 @@
             <if test="name!=null and name!='' ">
                 and a.name LIKE CONCAT('%', #{ name }, '%')
             </if>
-            <if test="remark!=null and remark!='' ">
-                and a.remark LIKE CONCAT('%', #{ remark }, '%')
-            </if>
             <if test="status!=null and status!='' ">
                 and a.status = #{ status }
             </if>
-            <if test="created!=null and created!='' ">
-                and a.created LIKE CONCAT('%', #{ created }, '%')
-            </if>
-            <if test="userId!=null and userId!='' ">
-                and a.user_id=#{ userId }
+            <if test="creatorId!=null and creatorId!='' ">
+                and a.creator_id=#{ creatorId }
             </if>
         </where>
         limit 1

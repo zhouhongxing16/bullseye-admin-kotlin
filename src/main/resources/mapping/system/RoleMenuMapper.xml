@@ -19,7 +19,7 @@
     </resultMap>
 
     <sql id="basic_list">
-		a.id, a.role_id, a.menu_id, a.status, a.is_leaf, a.created
+		a.id, a.role_id, a.menu_id, a.status, a.is_leaf, a.create_time
 	</sql>
 
 
@@ -39,9 +39,6 @@
             </if>
             <if test="status!=null and status!='' ">
                 and a.status = #{ status }
-            </if>
-            <if test="created!=null and created!='' ">
-                and a.created LIKE CONCAT('%', #{ created }, '%')
             </if>
         </where>
         order by a.created

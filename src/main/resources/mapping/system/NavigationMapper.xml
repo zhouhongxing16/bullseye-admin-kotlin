@@ -22,14 +22,14 @@
     </resultMap>
     
     <sql id="basic_list">
-		a.id, a.name, a.level, a.parent_id, a.sort, a.path, a.status, a.created, a.user_id
+		a.id, a.name, a.level, a.parent_id, a.sort, a.path, a.status, a.created, a.creator_id
 	</sql>
 
     <select id="getListByParams" resultMap="BaseResultMapDto" parameterType="map">
         SELECT
         <include refid="basic_list"/>,staff.name as userName
         FROM b_navigation a
-        left join b_account act on act.id = a.user_id
+        left join b_account act on act.id = a.creator_id
         left join b_staff staff on staff.id = act.staff_id
         <where>
             <if test="id!=null and id!='' ">
@@ -53,8 +53,8 @@
             <if test="created!=null and created!='' ">
                 and a.created LIKE CONCAT('%', #{ created }, '%')
             </if>
-            <if test="userId!=null and userId!='' ">
-                and a.user_id=#{ userId }
+            <if test="creatorId!=null and creatorId!='' ">
+                and a.creator_id=#{ creatorId }
             </if>
         </where>
         order by a.created desc
@@ -64,7 +64,7 @@
         SELECT
         <include refid="basic_list"/>,staff.name as userName
         FROM b_navigation a
-        left join b_account act on act.id = a.user_id
+        left join b_account act on act.id = a.creator_id
         left join b_staff staff on staff.id = act.staff_id
         <where>
             <if test="id!=null and id!='' ">
@@ -88,8 +88,8 @@
             <if test="created!=null and created!='' ">
                 and a.created LIKE CONCAT('%', #{ created }, '%')
             </if>
-            <if test="userId!=null and userId!='' ">
-                and a.user_id=#{ userId }
+            <if test="creatorId!=null and creatorId!='' ">
+                and a.creator_id=#{ creatorId }
             </if>
         </where>
         limit 1

@@ -11,7 +11,7 @@
         <result column="default_value" jdbcType="VARCHAR" property="defaultValue" />
         <result column="config_value" jdbcType="VARCHAR" property="configValue" />
         <result column="status" jdbcType="INTEGER" property="status" />
-        <result column="created" jdbcType="TIMESTAMP" property="created" />
+        <result column="created" jdbcType="TIMESTAMP" property="create_time" />
         
     </resultMap>
 
@@ -20,14 +20,14 @@
     </resultMap>
     
     <sql id="basic_list">
-		a.id, a.data_id, a.code, a.name, a.display_type, a.default_value, a.config_value, a.status, a.created
+		a.id, a.data_id, a.code, a.name, a.display_type, a.default_value, a.config_value, a.status, a.create_time
 	</sql>
 
     <select id="getListByParams" resultMap="BaseResultMapDto" parameterType="map">
         SELECT
         <include refid="basic_list"/>,staff.name as userName
         FROM b_config_parameters a
-        left join b_account act on act.id = a.user_id
+        left join b_account act on act.id = a.creator_id
         left join b_staff staff on staff.id = act.staff_id
         <where>
             <if test="id!=null and id!='' ">
@@ -55,14 +55,14 @@
                 and a.status = #{ status }
             </if>
         </where>
-        order by a.created desc
+        order by a.create_time desc
     </select>
 
        <select id="getByParams" resultMap="BaseResultMapDto" parameterType="map">
         SELECT
         <include refid="basic_list"/>,staff.name as userName
         FROM b_config_parameters a
-        left join b_account act on act.id = a.user_id
+        left join b_account act on act.id = a.creator_id
         left join b_staff staff on staff.id = act.staff_id
         <where>
             <if test="id!=null and id!='' ">

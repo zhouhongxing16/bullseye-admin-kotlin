@@ -18,14 +18,14 @@
     </resultMap>
 
     <sql id="basic_list">
-        a.id, a.role_id, a.menu_function_id, a.user_id, a.status, a.created
+        a.id, a.role_id, a.menu_function_id, a.creator_id, a.status, a.created
     </sql>
 
     <select id="getListByParams" resultMap="BaseResultMapDto" parameterType="map">
         SELECT
         <include refid="basic_list"/>,staff.name as userName
         FROM b_role_menu_function a
-        left join b_account act on act.id = a.user_id
+        left join b_account act on act.id = a.creator_id
         left join b_staff staff on staff.id = act.staff_id
         <where>
             <if test="id!=null and id!='' ">
@@ -37,8 +37,8 @@
             <if test="menuFunctionId!=null and menuFunctionId!='' ">
                 and a.menu_function_id=#{ menuFunctionId }
             </if>
-            <if test="userId!=null and userId!='' ">
-                and a.user_id=#{ userId }
+            <if test="creatorId!=null and creatorId!='' ">
+                and a.creator_id=#{ creatorId }
             </if>
             <if test="status!=null and status!='' ">
                 and a.status = #{ status }
@@ -54,7 +54,7 @@
         SELECT
         <include refid="basic_list"/>,staff.name as userName
         FROM b_role_menu_function a
-        left join b_account act on act.id = a.user_id
+        left join b_account act on act.id = a.creator_id
         left join b_staff staff on staff.id = act.staff_id
         <where>
             <if test="id!=null and id!='' ">
@@ -66,8 +66,8 @@
             <if test="menuFunctionId!=null and menuFunctionId!='' ">
                 and a.menu_function_id=#{ menuFunctionId }
             </if>
-            <if test="userId!=null and userId!='' ">
-                and a.user_id=#{ userId }
+            <if test="creatorId!=null and creatorId!='' ">
+                and a.creator_id=#{ creatorId }
             </if>
             <if test="status!=null and status!='' ">
                 and a.status = #{ status }
@@ -103,13 +103,13 @@
     </delete>
 
     <insert id="insertByList" parameterType="list">
-        insert into b_role_menu_function (id, role_id, menu_function_id, user_id, created) values
+        insert into b_role_menu_function (id, role_id, menu_function_id, creator_id, created) values
         <foreach collection="list" item="item" index="index" separator=",">
             (
             #{item.id},
             #{item.roleId},
             #{item.menuAuthId},
-            #{item.userId},
+            #{item.creatorId},
             #{item.created}
             )
         </foreach>

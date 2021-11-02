@@ -31,10 +31,6 @@ open class Banner (
     @TableField(value = "link")
     var link: String? = null,
 
-    @ApiModelProperty(name = "创建人")
-    @TableField(value = "userId")
-    var userId: String? = null,
-
     @ApiModelProperty(name = "显示顺序")
     @TableField(value = "sort")
     var sort: Int? = null,

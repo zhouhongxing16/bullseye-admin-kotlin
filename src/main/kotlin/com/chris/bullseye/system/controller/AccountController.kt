@@ -11,7 +11,6 @@ import com.chris.bullseye.system.service.AccountService
 import com.chris.bullseye.system.service.RoleService
 import com.chris.bullseye.system.service.StaffService
 import io.swagger.annotations.Api
-import io.swagger.annotations.ApiImplicitParam
 import io.swagger.annotations.ApiOperation
 import org.springframework.security.crypto.factory.PasswordEncoderFactories
 import org.springframework.web.bind.annotation.*
@@ -95,7 +94,7 @@ class AccountController(
         PageHelper.startPage<AccountDto>(params)
         val list = accountService.getNotInRoleCodeListByParams(params)
         var pageInfo = PageInfo(list)
-        return JsonResult.success(pageInfo, "查询成功！")
+        return JsonResultRsuccess(pageInfo, "查询成功！")
     }*/
 
 
@@ -115,7 +114,6 @@ class AccountController(
     @OperationLog("(admin)分页获取延展数据")
     @PostMapping("/getDtoListByPage")
     @ApiOperation(value = "(admin)分页获取延展数据", notes = "(admin)分页获取延展数据)分页获取延展数据")
-    @ApiImplicitParam(name = "(admin)分页获取延展数据", value = "")
     fun getDtoListByPage(@RequestBody account: AccountRequest): JsonResult<AccountDto> {
         var result = JsonResult<AccountDto>()
 

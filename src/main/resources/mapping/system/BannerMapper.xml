@@ -6,7 +6,7 @@
         <id column="id" jdbcType="VARCHAR" property="id" />
         <result column="name" jdbcType="VARCHAR" property="name" />
         <result column="path" jdbcType="VARCHAR" property="path" />
-        <result column="user_id" jdbcType="VARCHAR" property="userId" />
+        <result column="creator_id" jdbcType="VARCHAR" property="creatorId" />
         <result column="link" jdbcType="VARCHAR" property="link" />
         <result column="sort" jdbcType="INTEGER" property="sort" />
         <result column="status" jdbcType="INTEGER" property="status" />
@@ -18,14 +18,14 @@
     </resultMap>
     
     <sql id="basic_list">
-		a.id, a.name, a.path, a.link, a.sort, a.status,a.user_id
+		a.id, a.name, a.path, a.link, a.sort, a.status,a.creator_id
 	</sql>
 
     <select id="getListByParams" resultMap="BaseResultMapDto" parameterType="map">
         SELECT
         <include refid="basic_list"/>,staff.name as userName
         FROM b_banner a
-        left join b_account act on act.id = a.user_id
+        left join b_account act on act.id = a.creator_id
         left join b_staff staff on staff.id = act.staff_id
         <where>
             <if test="id!=null and id!='' ">
@@ -38,7 +38,7 @@
                 and a.status = #{ status }
             </if>
         </where>
-        order by a.created desc
+        order by a.create_time desc
 
         <if test="limit!=null and limit!='' ">
             limit ${limit}
@@ -49,7 +49,7 @@
         SELECT
         <include refid="basic_list"/>,staff.name as userName
         FROM b_banner a
-        left join b_account act on act.id = a.user_id
+        left join b_account act on act.id = a.creator_id
         left join b_staff on staff.id = act.staff_id
         <where>
             <if test="id!=null and id!='' ">

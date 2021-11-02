@@ -5,7 +5,6 @@ import com.chris.bullseye.system.entity.JsonResult
 import com.chris.bullseye.system.entity.OperationLog
 import com.chris.bullseye.system.pojo.AccountRole
 import com.chris.bullseye.system.service.AccountRoleService
-import com.chris.bullseye.system.service.BaseService
 import com.chris.bullseye.system.service.RoleService
 import com.chris.bullseye.common.utils.AuthUtil
 import io.swagger.annotations.Api

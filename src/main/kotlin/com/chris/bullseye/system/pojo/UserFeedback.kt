@@ -23,8 +23,8 @@ open class UserFeedback(
         var id: String? = null,
 
         @ApiModelProperty(name = "用户标识")
-        @TableField(value = "user_id")
-        var userId: String? = null,
+        @TableField(value = "creator_id")
+        var creatorId: String? = null,
 
         @ApiModelProperty(name = "联系人")
         @TableField(value = "contact_name")

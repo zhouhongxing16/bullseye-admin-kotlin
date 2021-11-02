@@ -5,7 +5,6 @@ import com.chris.bullseye.system.entity.OperationLog
 import com.chris.bullseye.system.pojo.RoleMenu
 import com.chris.bullseye.system.service.RoleMenuService
 import io.swagger.annotations.Api
-import io.swagger.annotations.ApiImplicitParam
 import io.swagger.annotations.ApiOperation
 import org.springframework.web.bind.annotation.*
 
@@ -22,7 +21,6 @@ class RoleMenuController( val roleMenuService: RoleMenuService ) {
 
     @OperationLog("角色菜单授权")
     @ApiOperation(value = "角色菜单授权")
-    @ApiImplicitParam(name = "角色菜单授权")
     @PostMapping("/createRoleMenu/{roleId}")
     fun createRoleMenu(@RequestBody list: List<String?>, @PathVariable roleId: String): JsonResult<RoleMenu> {
         return roleMenuService.createRoleMenu(list, roleId)

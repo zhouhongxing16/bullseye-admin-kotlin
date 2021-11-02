@@ -73,7 +73,7 @@ class LoggerAopService(var logsService: LogsService) {
 
             if(AuthUtil.getCurrentUser() != null){
                 logs.setOrganizationId( AuthUtil.getCurrentUser().getOrganizationId() );
-                logs.setUserId( AuthUtil.getCurrentUser().getId() );
+                logs.setcreatorId( AuthUtil.getCurrentUser().getId() );
             }
             if(!StringUtils.isEmpty( ss )) {
                 String content = ss.substring( 1, ss.length() - 1 );
@@ -159,7 +159,7 @@ class LoggerAopService(var logsService: LogsService) {
         }
         if (AuthUtil.getCurrentUser() != null) {
             logs.organizationId = AuthUtil.getCurrentUser()?.organizationId
-            logs.userId = AuthUtil.getCurrentUser()?.id
+            logs.creatorId = AuthUtil.getCurrentUser()?.id
         }
         /*if (!StringUtils.isEmpty(params)) {
             val content = params!!.substring(1, params.length - 1)

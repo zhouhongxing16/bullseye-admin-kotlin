@@ -47,7 +47,7 @@ open class Navigation(
         var status: Int? = null,
 
         @ApiModelProperty(name = "创建日期")
-        @TableField(value = "created")
+        @TableField(value = "create_time")
         var created: LocalDateTime? = null,
 
         @ApiModelProperty(name = "创建人ID")

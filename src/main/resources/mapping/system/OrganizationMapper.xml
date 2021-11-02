@@ -22,14 +22,14 @@
     </resultMap>
 
     <sql id="basic_list">
-        a.id, a.logo, a.code, a.name, a.contact_name, a.contact_phone, a.brief, a.user_id, a.status, a.created
+        a.id, a.logo, a.code, a.name, a.contact_name, a.contact_phone, a.brief, a.creator_id, a.status, a.created
     </sql>
 
     <select id="getListByParams" resultMap="BaseResultMapDto" parameterType="map">
         SELECT
         <include refid="basic_list"/>,staff.name as userName
         FROM b_organization a
-        left join b_account act on act.id = a.user_id
+        left join b_account act on act.id = a.creator_id
         left join b_staff staff on staff.id = act.staff_id
         <where>
             <if test="id!=null and id!='' ">
@@ -53,8 +53,8 @@
             <if test="brief!=null and brief!='' ">
                 and a.brief LIKE CONCAT('%', #{ brief }, '%')
             </if>
-            <if test="userId!=null and userId!='' ">
-                and a.user_id=#{ userId }
+            <if test="creatorId!=null and creatorId!='' ">
+                and a.creator_id=#{ creatorId }
             </if>
             <if test="status!=null and status!='' ">
                 and a.status = #{ status }
@@ -70,7 +70,7 @@
         SELECT
         <include refid="basic_list"/>,staff.name as userName
         FROM b_organization a
-        left join b_account act on act.id = a.user_id
+        left join b_account act on act.id = a.creator_id
         left join b_staff staff on staff.id = act.staff_id
         <where>
             <if test="id!=null and id!='' ">
@@ -94,8 +94,8 @@
             <if test="brief!=null and brief!='' ">
                 and a.brief LIKE CONCAT('%', #{ brief }, '%')
             </if>
-            <if test="userId!=null and userId!='' ">
-                and a.user_id=#{ userId }
+            <if test="creatorId!=null and creatorId!='' ">
+                and a.creator_id=#{ creatorId }
             </if>
             <if test="status!=null and status!='' ">
                 and a.status = #{ status }

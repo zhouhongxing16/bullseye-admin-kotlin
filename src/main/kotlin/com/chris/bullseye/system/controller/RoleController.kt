@@ -3,11 +3,9 @@ package com.chris.bullseye.system.controller
 import com.chris.bullseye.system.entity.JsonResult
 import com.chris.bullseye.system.entity.OperationLog
 import com.chris.bullseye.system.pojo.Role
-import com.chris.bullseye.system.service.BaseService
 import com.chris.bullseye.system.service.RoleService
 import com.chris.bullseye.common.utils.AuthUtil
 import io.swagger.annotations.Api
-import io.swagger.annotations.ApiImplicitParam
 import io.swagger.annotations.ApiOperation
 import org.springframework.web.bind.annotation.*
 
@@ -24,7 +22,6 @@ class RoleController(var roleService: RoleService){
 
     //增加
     @ApiOperation(value = "创建方法", notes = "创建")
-    @ApiImplicitParam(name = "创建方法", value = "参数如果有时间字段请按照 yyyy-MM-dd hh:mm:ss 格式传入")
     @OperationLog("创建方法")
     @PostMapping("/create")
     fun create(@RequestBody obj: Role): JsonResult<Role> {
@@ -35,7 +32,6 @@ class RoleController(var roleService: RoleService){
     }
     //增加
     @ApiOperation(value = "创建方法", notes = "创建")
-    @ApiImplicitParam(name = "创建方法", value = "参数如果有时间字段请按照 yyyy-MM-dd hh:mm:ss 格式传入")
     @OperationLog("创建方法")
     @PostMapping("/remove/{id}")
      fun remove(@PathVariable id: String): JsonResult<Any> {
@@ -53,7 +49,6 @@ class RoleController(var roleService: RoleService){
     }
 
     @ApiOperation(value = "(admin)根据用户id获取角色", notes = "创建")
-    @ApiImplicitParam(name = "(admin)根据用户id获取角色", value = "参数如果有时间字段请按照 yyyy-MM-dd hh:mm:ss 格式传入")
     @OperationLog("(admin)创建方法")
     @GetMapping("/getRolesByAccountId/{accountId}")
     fun getRolesByAccountId(@PathVariable accountId: String?): JsonResult<Any> {

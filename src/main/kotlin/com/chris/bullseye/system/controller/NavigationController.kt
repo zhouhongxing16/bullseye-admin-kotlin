@@ -3,11 +3,9 @@ package com.chris.bullseye.system.controller
 import com.chris.bullseye.system.entity.JsonResult
 import com.chris.bullseye.system.entity.OperationLog
 import com.chris.bullseye.system.pojo.Navigation
-import com.chris.bullseye.system.service.BaseService
 import com.chris.bullseye.system.service.NavigationService
 import com.chris.bullseye.common.utils.AuthUtil
 import io.swagger.annotations.Api
-import io.swagger.annotations.ApiImplicitParam
 import io.swagger.annotations.ApiOperation
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
@@ -28,7 +26,6 @@ class NavigationController( val navigationService: NavigationService){
     @OperationLog("(web)获取网页导航栏")
     @PostMapping("/getWebNavigation")
     @ApiOperation(value = "(web)获取网页导航栏", notes = "(web)获取网页导航栏")
-    @ApiImplicitParam(name = "(web)获取网页导航栏", value = "")
     fun getWebNavigation(): JsonResult<Any> {
         val map: MutableMap<String, String?> = HashMap(2)
         map["status"] = "1"
@@ -38,7 +35,6 @@ class NavigationController( val navigationService: NavigationService){
 
     //增加
     @ApiOperation(value = "创建方法", notes = "创建")
-    @ApiImplicitParam(name = "创建方法", value = "参数如果有时间字段请按照 yyyy-MM-dd hh:mm:ss 格式传入")
     @OperationLog("创建方法")
     @PostMapping("/create")
     fun create(@RequestBody obj: Navigation): JsonResult<Navigation> {

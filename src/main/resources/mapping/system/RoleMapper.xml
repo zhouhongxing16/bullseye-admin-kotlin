@@ -20,14 +20,14 @@
     </resultMap>
 
     <sql id="basic_list">
-        a.id, a.code, a.name, a.data_auth_flag, a.remark, a.user_id, a.status, a.created
+        a.id, a.code, a.name, a.data_auth_flag, a.remark, a.creator_id, a.status, a.create_time
     </sql>
 
     <select id="getListByParams" resultMap="BaseResultMapDto" parameterType="map">
         SELECT
         <include refid="basic_list"/>,staff.name as userName
         FROM b_role a
-        left join b_account act on act.id = a.user_id
+        left join b_account act on act.id = a.creator_id
         left join b_staff staff on staff.id = act.staff_id
         <where>
             <if test="id!=null and id!='' ">
@@ -42,17 +42,11 @@
             <if test="dataAuthFlag!=null and dataAuthFlag!='' ">
                 and a.data_auth_flag LIKE CONCAT('%', #{ dataAuthFlag }, '%')
             </if>
-            <if test="remark!=null and remark!='' ">
-                and a.remark LIKE CONCAT('%', #{ remark }, '%')
-            </if>
-            <if test="userId!=null and userId!='' ">
-                and a.user_id=#{ userId }
+            <if test="creatorId!=null and creatorId!='' ">
+                and a.creator_id=#{ creatorId }
             </if>
             <if test="status!=null and status!='' ">
                 and a.status = #{ status }
-            </if>
-            <if test="created!=null and created!='' ">
-                and a.created LIKE CONCAT('%', #{ created }, '%')
             </if>
         </where>
         order by a.created desc
@@ -62,7 +56,7 @@
         SELECT
         <include refid="basic_list"/>,staff.name as userName
         FROM b_role a
-        left join b_account act on act.id = a.user_id
+        left join b_account act on act.id = a.creator_id
         left join b_staff staff on staff.id = act.staff_id
         <where>
             <if test="id!=null and id!='' ">
@@ -77,17 +71,11 @@
             <if test="dataAuthFlag!=null and dataAuthFlag!='' ">
                 and a.data_auth_flag LIKE CONCAT('%', #{ dataAuthFlag }, '%')
             </if>
-            <if test="remark!=null and remark!='' ">
-                and a.remark LIKE CONCAT('%', #{ remark }, '%')
-            </if>
-            <if test="userId!=null and userId!='' ">
-                and a.user_id=#{ userId }
+            <if test="creatorId!=null and creatorId!='' ">
+                and a.creator_id=#{ creatorId }
             </if>
             <if test="status!=null and status!='' ">
                 and a.status = #{ status }
-            </if>
-            <if test="created!=null and created!='' ">
-                and a.created LIKE CONCAT('%', #{ created }, '%')
             </if>
             <if test="roleCode!=null and roleCode!='' ">
                 and a.code = #{roleCode}

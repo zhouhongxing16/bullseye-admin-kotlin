@@ -26,7 +26,7 @@
 
 
     <sql id="basic_list">
-        a.id, a.parent_id, a.code, a.title, a.icon, a.path, a.user_id, a.status, a.sort, a.created
+        a.id, a.parent_id, a.code, a.title, a.icon, a.path, a.creator_id, a.status, a.sort, a.create_time
     </sql>
 
     <select id="getListByParams" resultMap="BaseResultMapDto" parameterType="map">
@@ -46,20 +46,14 @@
             <if test="title!=null and title!='' ">
                 and a.title LIKE CONCAT('%', #{ title }, '%')
             </if>
-            <if test="icon!=null and icon!='' ">
-                and a.icon LIKE CONCAT('%', #{ icon }, '%')
-            </if>
             <if test="path!=null and path!='' ">
                 and a.path LIKE CONCAT('%', #{ path }, '%')
             </if>
-            <if test="userId!=null and userId!='' ">
-                and a.user_id=#{ userId }
+            <if test="creatorId!=null and creatorId!='' ">
+                and a.creator_id=#{ creatorId }
             </if>
             <if test="status!=null and status!='' ">
                 and a.status = #{ status }
-            </if>
-            <if test="created!=null and created!='' ">
-                and a.created LIKE CONCAT('%', #{ created }, '%')
             </if>
         </where>
         order by a.sort desc
@@ -70,7 +64,7 @@
         SELECT
         <include refid="basic_list"/>,staff.name as userName,ifnull(temp.num,0) as childNum
         FROM b_menus a
-        left join b_account act on act.id = a.user_id
+        left join b_account act on act.id = a.creator_id
         left join b_staff staff on staff.id = act.staff_id
         left join (
         select cc.parent_id AS parent_id,count(cc.id) AS num from  b_menus cc
@@ -89,20 +83,11 @@
             <if test="title!=null and title!='' ">
                 and a.title LIKE CONCAT('%', #{ title }, '%')
             </if>
-            <if test="icon!=null and icon!='' ">
-                and a.icon LIKE CONCAT('%', #{ icon }, '%')
-            </if>
-            <if test="path!=null and path!='' ">
-                and a.path LIKE CONCAT('%', #{ path }, '%')
-            </if>
-            <if test="userId!=null and userId!='' ">
-                and a.user_id=#{ userId }
+            <if test="creatorId!=null and creatorId!='' ">
+                and a.creator_id=#{ creatorId }
             </if>
             <if test="status!=null and status!='' ">
                 and a.status = #{ status }
-            </if>
-            <if test="created!=null and created!='' ">
-                and a.created LIKE CONCAT('%', #{ created }, '%')
             </if>
             <if test="isFirst!=null and isFirst!='' and isFirst=='true' ">
                 and (a.parent_id is null or a.parent_id ='')
@@ -160,20 +145,11 @@
             <if test="title!=null and title!='' ">
                 and a.title LIKE CONCAT('%', #{ title }, '%')
             </if>
-            <if test="icon!=null and icon!='' ">
-                and a.icon LIKE CONCAT('%', #{ icon }, '%')
-            </if>
-            <if test="path!=null and path!='' ">
-                and a.path LIKE CONCAT('%', #{ path }, '%')
-            </if>
-            <if test="userId!=null and userId!='' ">
-                and a.user_id=#{ userId }
+            <if test="creatorId!=null and creatorId!='' ">
+                and a.creator_id=#{ creatorId }
             </if>
             <if test="status!=null and status!='' ">
                 and a.status = #{ status }
-            </if>
-            <if test="created!=null and created!='' ">
-                and a.created LIKE CONCAT('%', #{ created }, '%')
             </if>
         </where>
         order by m.sequence ASC

@@ -5,7 +5,6 @@ import com.chris.bullseye.common.service.MailSendService
 import com.chris.bullseye.system.entity.JsonResult
 import com.chris.bullseye.system.entity.OperationLog
 import io.swagger.annotations.Api
-import io.swagger.annotations.ApiImplicitParam
 import io.swagger.annotations.ApiOperation
 import org.springframework.web.bind.annotation.*
 
@@ -27,7 +26,6 @@ class SendMailController(var mailSendService: MailSendService) {
      * @return
      */
     @ApiOperation(value = "发送邮件", notes = "发送邮件")
-    @ApiImplicitParam(name = "发送邮件", value = "参数:接收人recivers、主题subject、内容content")
     @PostMapping(value = ["/sendMail"])
     @ResponseBody
     @OperationLog("发送邮件")

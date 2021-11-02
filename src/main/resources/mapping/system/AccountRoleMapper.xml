@@ -18,7 +18,7 @@
   </resultMap>
 
   <sql id="basic_list">
-    a.id, a.role_id, a.account_id, a.status, a.user_id, a.created
+    a.id, a.role_id, a.account_id, a.status, a.creator_id, a.create_time
   </sql>
 
   <select id="getListByParams" resultMap="BaseResultMap" parameterType="map">
@@ -38,11 +38,11 @@
       <if test="status!=null and status!='' ">
         and a.status = #{ status }
       </if>
-      <if test="userId!=null and userId!='' ">
-        and a.user_id=#{ userId }
+      <if test="creatorId!=null and creatorId!='' ">
+        and a.creator_id=#{ creatorId }
       </if>
     </where>
-    order by a.created
+    order by a.create_time
   </select>
 
   <delete id="deleteByAccountId" parameterType="string">

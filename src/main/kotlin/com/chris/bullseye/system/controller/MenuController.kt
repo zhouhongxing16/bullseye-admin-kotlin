@@ -7,7 +7,6 @@ import com.chris.bullseye.system.entity.OperationLog
 import com.chris.bullseye.system.pojo.Menu
 import com.chris.bullseye.system.service.MenuService
 import io.swagger.annotations.Api
-import io.swagger.annotations.ApiImplicitParam
 import io.swagger.annotations.ApiOperation
 import org.springframework.web.bind.annotation.*
 
@@ -27,7 +26,6 @@ class MenuController(var menuService: MenuService,
     @OperationLog("获取所有菜单(树形)")
     @GetMapping("/getAllMenuByTree")
     @ApiOperation(value = "获取所有菜单(树形)", notes = "获取所有菜单(树形)")
-    @ApiImplicitParam(name = "获取所有菜单(树形)", value = "")
     fun getAllMenuByTree(): JsonResult<Menu?> {
         val menuList = menuService.getAllMenus()
         return jsonResult.success(menuList, "获取成功")
@@ -36,7 +34,6 @@ class MenuController(var menuService: MenuService,
     @OperationLog("获取登录用户菜单")
     @GetMapping("/getMenusByAccountId")
     @ApiOperation(value = "获取登录用户菜单", notes = "获取登录用户菜单")
-    @ApiImplicitParam(name = "获取登录用户菜单", value = "")
     fun getMenusByAccountId(): JsonResult<Any> {
         val menuList: List<MenuDto> = menuService.getMenusByAccountId()
         return JsonResult.success(menuList, "获取成功")
@@ -45,7 +42,6 @@ class MenuController(var menuService: MenuService,
     @OperationLog("根据角色获取菜单")
     @GetMapping("/getMenusByRoleId/{roleId}")
     @ApiOperation(value = "根据角色获取菜单", notes = "根据角色获取菜单")
-    @ApiImplicitParam(name = "根据角色获取菜单", value = "")
     fun getMenusByRoleId(@PathVariable roleId: String): JsonResult<Any> {
         val menuList: List<MenuDto> = menuService.getMenusByRoleId(roleId)
         return JsonResult.success(menuList, "获取成功")
@@ -53,7 +49,6 @@ class MenuController(var menuService: MenuService,
 
     //增加
     @ApiOperation(value = "创建方法", notes = "创建")
-    @ApiImplicitParam(name = "创建方法", value = "参数如果有时间字段请按照 yyyy-MM-dd hh:mm:ss 格式传入")
     @OperationLog("创建方法")
     @PostMapping("/create")
     fun create(@RequestBody obj: Menu): JsonResult<Menu> {
@@ -69,7 +64,6 @@ class MenuController(var menuService: MenuService,
     @OperationLog("(admin)分页获取一级菜单")
     @PostMapping("/getMenusByPage")
     @ApiOperation(value = "(admin)分页获取一级菜单", notes = "(admin)分页获取一级菜单")
-    @ApiImplicitParam(name = "(admin", value = "")
     fun getMenusByPage(@RequestBody params: MutableMap<String, String?>): JsonResult<Any> {
         if (params["pageNum"].isNullOrEmpty()) {
             params["pageNum"] = "1"
