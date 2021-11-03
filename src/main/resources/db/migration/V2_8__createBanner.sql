@@ -4,24 +4,22 @@ create procedure createBanner() begin
 
     if not exists (select * FROM information_schema.columns WHERE table_schema = DATABASE()  AND table_name = 'b_banner') then
 
-       /*==============================================================*/
-        /* Table: b_banner                                            */
-        /*==============================================================*/
-        create table b_banner
-        (
-            id                   varchar(40) not null comment '唯一标识',
-            name                 varchar(50) comment '名称',
-            path                 varchar(255) comment '图片地址',
-            link                 varchar(255) comment '跳转地址',
-            sequence             int default 1 comment '显示顺序',
-            status               int default 0 comment '状态',
-            user_id              varchar(40),
-            created              timestamp default CURRENT_TIMESTAMP,
-            Column_9             char(10),
-            primary key (id)
-        );
+        CREATE TABLE `b_banner` (
+                                    `id` VARCHAR(40) NOT NULL COMMENT '唯一标识' COLLATE 'utf8_general_ci',
+                                    `name` VARCHAR(50) NULL DEFAULT NULL COMMENT '名称' COLLATE 'utf8_general_ci',
+                                    `path` VARCHAR(255) NULL DEFAULT NULL COMMENT '图片地址' COLLATE 'utf8_general_ci',
+                                    `link` VARCHAR(255) NULL DEFAULT NULL COMMENT '跳转地址' COLLATE 'utf8_general_ci',
+                                    `sort` INT(11) NULL DEFAULT '1' COMMENT '显示顺序',
+                                    `status` INT(11) NULL DEFAULT '0' COMMENT '状态',
+                                    `creator_id` VARCHAR(40) NULL DEFAULT NULL COLLATE 'utf8_general_ci',
+                                    `creator_name` CHAR(10) NULL DEFAULT NULL COLLATE 'utf8_general_ci',
+                                    `create_time` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                                    PRIMARY KEY (`id`) USING BTREE
+        )
+            COMMENT='轮播图'
+        COLLATE='utf8_general_ci'
+        ENGINE=InnoDB;
 
-        alter table b_banner comment '轮播图';
 
 end if;
 end $$

@@ -4,26 +4,25 @@ create procedure createLogs() begin
 
     if not exists (select * FROM information_schema.columns WHERE table_schema = DATABASE()  AND table_name = 'b_logs') then
 
-        /*==============================================================*/
-        /* Table: b_logs                                               */
-        /*==============================================================*/
-        create table b_logs
+        CREATE TABLE `b_logs`
         (
-            id                   varchar(40) not null comment 'ID',
-            organization_id      varchar(40) comment '所属组织',
-            option_name          varchar(50) comment '操作类',
-            option_type          varchar(20) comment '操作方法名',
-            method               varchar(200) comment '操作方法',
-            params               text comment '参数',
-            user_id              varchar(40) comment '操作人',
-            ip                   varchar(50) comment 'IP',
-            execution_time       int default 0 comment '执行时长',
-            status               int default 0 comment '状态',
-            remark               varchar(200) comment '备注',
-            created              timestamp not null default CURRENT_TIMESTAMP comment '操作时间',
-            primary key (id)
-        )
-            ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='操作日志';
+            `id`              VARCHAR(40) NOT NULL COMMENT 'ID' COLLATE 'utf8_general_ci',
+            `organization_id` VARCHAR(40) NULL DEFAULT NULL COMMENT '所属组织' COLLATE 'utf8_general_ci',
+            `option_name`     VARCHAR(50) NULL DEFAULT NULL COMMENT '操作类' COLLATE 'utf8_general_ci',
+            `option_type`     VARCHAR(20) NULL DEFAULT NULL COMMENT '操作方法名' COLLATE 'utf8_general_ci',
+            `method`          VARCHAR(200) NULL DEFAULT NULL COMMENT '操作方法' COLLATE 'utf8_general_ci',
+            `params`          TEXT NULL DEFAULT NULL COMMENT '参数' COLLATE 'utf8_general_ci',
+            `creator_id`      VARCHAR(40) NULL DEFAULT NULL COMMENT '操作人' COLLATE 'utf8_general_ci',
+            `creator_name`    VARCHAR(40) NULL DEFAULT NULL COLLATE 'utf8_general_ci',
+            `ip`              VARCHAR(50) NULL DEFAULT NULL COMMENT 'IP' COLLATE 'utf8_general_ci',
+            `execution_time`  INT(11) NULL DEFAULT '0' COMMENT '执行时长',
+            `status`          INT(11) NULL DEFAULT '0' COMMENT '状态',
+            `remark`          VARCHAR(200) NULL DEFAULT NULL COMMENT '备注' COLLATE 'utf8_general_ci',
+            `create_time`     TIMESTAMP   NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '操作时间',
+            PRIMARY KEY (`id`) USING BTREE
+        ) COMMENT='操作日志'
+        COLLATE='utf8_general_ci'
+        ENGINE=InnoDB;
 
 
 

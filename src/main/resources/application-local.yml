@@ -1,0 +1,53 @@
+spring:
+  datasource:
+    url: jdbc:p6spy:mysql://localhost:3306/bullseye_admin_kotlin?characterEncoding=utf8&serverTimezone=GMT%2B8
+    driver-class-name: com.p6spy.engine.spy.P6SpyDriver
+    hikari:
+      username: root
+      password: root
+  redis:
+    host: ENC(Udk3KPK3lG9/x00roMaA+cmyx4DNNuwf)
+    password: ENC(mg/j4U//t0AI0IFnkUjJLGMX4MXakf21)
+  mail:
+    host: smtp.exmail.qq.com
+    username: ENC(v55XElnKSRMUyom1xq1i2gisJMfzC+c7KY0ae5LkwXg=)
+    port: 25
+    password: ENC(2k6x5d/b2JpYXGu3lkJNTHCdsvtJ/s0m+0e4P5ZY2kY=)
+    protocol: smtp
+    default-encoding: utf-8
+uploadConfig:
+  uploadPath: c:/aaa
+  domain: http://localhost:8008
+  prefix: /api/file
+  storageType: local
+aliConfig:
+  OSS:
+    endpoint: oss-cn-chengdu.aliyuncs.com
+    accessKeyId: LTAI4G9UFgVck
+    accessKeySecret: 3HLnSXynR
+    bucketName: admin
+    domainName: https://ali-oos.com/
+  video:
+    accessKeyId: LTAI4GK9D8Y8KN3n
+    accessKeySecret: oNe8rR2KoVj
+  pay:
+    appId:
+    privateKey:
+    publicKey:
+    domain: https://openapi.alipaydev.com/gateway.do
+#    domain: https://openapi.alipay.com/gateway.do
+    serverUrl:
+    appCertPath:
+    aliPayCertPath:
+    aliPayRootCertPath:
+tencentConfig:
+  video:
+    secretId: AKIDLQMEBtwKOSDD
+    secretKey: zh93lFTSGoxrGSZV
+  wxPay:
+    appId: 应用编号
+    appSecret: appSecret 是 appId 对应的接口密码，微信公众号授权获取用户 openId 时使用
+    mchId: 微信支付商户号
+    partnerKey: API 密钥，微信商户后台配置
+    certPath: apiclient_cert.p12 证书绝对路径，在微信商户后台下载
+    domain: 外网访问项目的域名，支付通知、回调中会使用

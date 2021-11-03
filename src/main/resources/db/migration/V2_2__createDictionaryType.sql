@@ -3,21 +3,22 @@ delimiter $$
 create procedure createAccount() begin
 
     if not exists (select * FROM information_schema.columns WHERE table_schema = DATABASE()  AND table_name = 'b_dictionary_type') then
-        /*==============================================================*/
-        /* Table: b_dictionary_type                                    */
-        /*==============================================================*/
-        create table b_dictionary_type
+
+        CREATE TABLE `b_dictionary_type`
         (
-            id                   varchar(40) not null comment '唯一标识',
-            code                 varchar(30) comment '类型代码',
-            name                 varchar(50) comment '类型名称',
-            remark               varchar(200) comment '备注',
-            status               int(11) comment '状态',
-            created              timestamp not null default CURRENT_TIMESTAMP comment '创建时间',
-            user_id              varchar(40) comment '创建人',
-            primary key (id)
-        )
-            ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='字典类型';
+            `id`           VARCHAR(40) NOT NULL COMMENT '唯一标识' COLLATE 'utf8_general_ci',
+            `code`         VARCHAR(30) NULL DEFAULT NULL COMMENT '类型代码' COLLATE 'utf8_general_ci',
+            `name`         VARCHAR(50) NULL DEFAULT NULL COMMENT '类型名称' COLLATE 'utf8_general_ci',
+            `remark`       VARCHAR(200) NULL DEFAULT NULL COMMENT '备注' COLLATE 'utf8_general_ci',
+            `status`       INT(11) NULL DEFAULT NULL COMMENT '状态',
+            `created`      DATETIME    NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+            `creator_id`   VARCHAR(40) NULL DEFAULT NULL COMMENT '创建人' COLLATE 'utf8_general_ci',
+            `creator_name` VARCHAR(40) NULL DEFAULT NULL COLLATE 'utf8_general_ci',
+            PRIMARY KEY (`id`) USING BTREE
+        ) COMMENT='字典类型'
+        COLLATE='utf8_general_ci'
+        ENGINE=InnoDB;
+
 
 end if;
 end $$

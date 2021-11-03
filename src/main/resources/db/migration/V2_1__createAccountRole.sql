@@ -3,23 +3,22 @@ delimiter $$
 create procedure createAccount() begin
 
     if not exists (select * FROM information_schema.columns WHERE table_schema = DATABASE()  AND table_name = 'b_account_role') then
-        /*==============================================================*/
-        /* Table: b_account_role                                       */
-        /*==============================================================*/
-        create table b_account_role
+
+        CREATE TABLE `b_account_role`
         (
-            id                   varchar(40) not null comment '唯一标识',
-            role_id              varchar(40) comment '角色外键',
-            account_id           varchar(40) comment '用户外键',
-            status               int(2) comment '状态',
-            user_id              varchar(40) comment '创建人',
-            created              timestamp not null default CURRENT_TIMESTAMP comment '创建日期',
-            primary key (id)
-        )
-            ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='账号角色';
+            `id`           VARCHAR(40) NOT NULL COMMENT '唯一标识' COLLATE 'utf8_general_ci',
+            `role_id`      VARCHAR(40) NULL DEFAULT NULL COMMENT '角色外键' COLLATE 'utf8_general_ci',
+            `account_id`   VARCHAR(40) NULL DEFAULT NULL COMMENT '用户外键' COLLATE 'utf8_general_ci',
+            `status`       INT(2) NULL DEFAULT NULL COMMENT '状态',
+            `creator_id`   VARCHAR(40) NULL DEFAULT NULL COMMENT '创建人' COLLATE 'utf8_general_ci',
+            `creator_name` VARCHAR(40) NULL DEFAULT NULL COLLATE 'utf8_general_ci',
+            `create_time`  TIMESTAMP   NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建日期',
+            PRIMARY KEY (`id`) USING BTREE
+        ) COMMENT='账号角色'
+        COLLATE='utf8_general_ci'
+        ENGINE=InnoDB;
 
-
-    end if;
+end if;
 end $$
 delimiter ;
 call createAccount();

@@ -3,43 +3,41 @@ delimiter $$
 create procedure createStaff() begin
 
     if not exists (select * FROM information_schema.columns WHERE table_schema = DATABASE()  AND table_name = 'b_staff') then
-        /*==============================================================*/
-        /* Table: b_staff                                             */
-        /*==============================================================*/
-        create table b_staff
+        CREATE TABLE `b_staff`
         (
-            id                   varchar(40) not null comment 'ID',
-            serial_no            varchar(20) comment '工号',
-            name                 varchar(20) comment '姓名',
-            gender_id            varchar(40) comment '性别',
-            mobile               varchar(20) comment '电话号码',
-            email                varchar(50) comment '邮箱',
-            organization_id      varchar(40) comment '所属组织',
-            department_id        varchar(40) comment '所属部门',
-            major_id             varchar(40) comment '所属专业',
-            birthday             varchar(20) comment '生日',
-            academic_id          varchar(40) comment '学位',
-            degree_id            varchar(40) comment '学历',
-            position_id          varchar(40) comment '职位',
-            title_id             varchar(40) comment '职称',
-            type_id              varchar(40) comment '人员类型',
-            identify_type_id     varchar(40) comment '证件类型',
-            identify_no          varchar(20) comment '证件号码',
-            province_id          varchar(40) comment '所属省份',
-            city_id              varchar(40) comment '所属城市',
-            policy               varchar(40) comment '政治面貌',
-            nation_id            varchar(40) comment '民族',
-            join_date            varchar(20) comment '入职日期',
-            remark               varchar(200) comment '备注',
-            user_id              varchar(40) comment '创建人',
-            img                  varchar(200) comment '照片',
-            status               int(11) default 0 comment '状态',
-            created              timestamp not null default CURRENT_TIMESTAMP comment '创建时间',
-            primary key (id)
-        )
-            ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='人员信息表';
+            `id`               VARCHAR(40) NOT NULL COMMENT 'ID' COLLATE 'utf8_general_ci',
+            `serial_no`        VARCHAR(20) NULL DEFAULT NULL COMMENT '工号' COLLATE 'utf8_general_ci',
+            `name`             VARCHAR(20) NULL DEFAULT NULL COMMENT '姓名' COLLATE 'utf8_general_ci',
+            `gender_id`        VARCHAR(40) NULL DEFAULT NULL COMMENT '性别' COLLATE 'utf8_general_ci',
+            `mobile`           VARCHAR(20) NULL DEFAULT NULL COMMENT '电话号码' COLLATE 'utf8_general_ci',
+            `email`            VARCHAR(50) NULL DEFAULT NULL COMMENT '邮箱' COLLATE 'utf8_general_ci',
+            `organization_id`  VARCHAR(40) NULL DEFAULT NULL COMMENT '所属组织' COLLATE 'utf8_general_ci',
+            `department_id`    VARCHAR(40) NULL DEFAULT NULL COMMENT '所属部门' COLLATE 'utf8_general_ci',
+            `major_id`         VARCHAR(40) NULL DEFAULT NULL COMMENT '所属专业' COLLATE 'utf8_general_ci',
+            `birthday`         VARCHAR(20) NULL DEFAULT NULL COMMENT '生日' COLLATE 'utf8_general_ci',
+            `academic_id`      VARCHAR(40) NULL DEFAULT NULL COMMENT '学位' COLLATE 'utf8_general_ci',
+            `degree_id`        VARCHAR(40) NULL DEFAULT NULL COMMENT '学历' COLLATE 'utf8_general_ci',
+            `position_id`      VARCHAR(40) NULL DEFAULT NULL COMMENT '职位' COLLATE 'utf8_general_ci',
+            `title_id`         VARCHAR(40) NULL DEFAULT NULL COMMENT '职称' COLLATE 'utf8_general_ci',
+            `type_id`          VARCHAR(40) NULL DEFAULT NULL COMMENT '人员类型' COLLATE 'utf8_general_ci',
+            `identify_type_id` VARCHAR(40) NULL DEFAULT NULL COMMENT '证件类型' COLLATE 'utf8_general_ci',
+            `identify_no`      VARCHAR(20) NULL DEFAULT NULL COMMENT '证件号码' COLLATE 'utf8_general_ci',
+            `province_id`      VARCHAR(40) NULL DEFAULT NULL COMMENT '所属省份' COLLATE 'utf8_general_ci',
+            `city_id`          VARCHAR(40) NULL DEFAULT NULL COMMENT '所属城市' COLLATE 'utf8_general_ci',
+            `policy`           VARCHAR(40) NULL DEFAULT NULL COMMENT '政治面貌' COLLATE 'utf8_general_ci',
+            `nation_id`        VARCHAR(40) NULL DEFAULT NULL COMMENT '民族' COLLATE 'utf8_general_ci',
+            `join_date`        VARCHAR(20) NULL DEFAULT NULL COMMENT '入职日期' COLLATE 'utf8_general_ci',
+            `remark`           VARCHAR(200) NULL DEFAULT NULL COMMENT '备注' COLLATE 'utf8_general_ci',
+            `creator_id`       VARCHAR(40) NULL DEFAULT NULL COMMENT '创建人' COLLATE 'utf8_general_ci',
+            `creator_name`     VARCHAR(40) NULL DEFAULT NULL COLLATE 'utf8_general_ci',
+            `img`              VARCHAR(200) NULL DEFAULT NULL COMMENT '照片' COLLATE 'utf8_general_ci',
+            `status`           INT(11) NULL DEFAULT '0' COMMENT '状态',
+            `create_time`      TIMESTAMP   NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+            PRIMARY KEY (`id`) USING BTREE
+        ) COMMENT='员工信息'
+        COLLATE='utf8_general_ci'
+        ENGINE=InnoDB;
 
-        alter table b_staff comment '员工信息';
 
 
 end if;

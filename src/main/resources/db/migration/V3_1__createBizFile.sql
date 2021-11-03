@@ -4,31 +4,34 @@ create procedure createBizFile() begin
 
     if not exists (select * FROM information_schema.columns WHERE table_schema = DATABASE()  AND table_name = 'b_biz_file') then
 
-        create table b_biz_file
+        CREATE TABLE `b_biz_file`
         (
-            id                   varchar(50) not null,
-            user_id              varchar(50) comment '创建人',
-            organization_id      varchar(50) comment '组织',
-            department_id        varchar(50) comment '部门',
-            bucket_name          varchar(50) comment 'bucketname',
-            storage_type         varchar(20) comment '存储类型',
-            original_file_name   varchar(255) comment '原始文件名',
-            thumbnail            varchar(255) comment '略缩图',
-            size                 bigint(20) default NULL comment '文件大小',
-            suffix               varchar(20) comment '后缀',
-            width                int(10)  default NULL comment '图片宽度',
-            height               int(10)  default NULL comment '图片高度',
-            file_path            varchar(255) comment '文件相对路径',
-            full_file_path       varchar(255) comment '文件完整路径',
-            file_hash            varchar(255) comment '文件hash',
-            upload_start_time    datetime comment '上传开始时间',
-            upload_end_time      datetime comment '上传结束时间',
-            created              timestamp not null default CURRENT_TIMESTAMP comment '创建时间',
-            updated              datetime comment '更新时间',
-            status               int(11) default NULL comment '状态',
-            primary key (id)
-        );
-    end if;
+            `id`                 VARCHAR(50) NOT NULL COLLATE 'utf8_general_ci',
+            `organization_id`    VARCHAR(50) NULL DEFAULT NULL COMMENT '组织' COLLATE 'utf8_general_ci',
+            `department_id`      VARCHAR(50) NULL DEFAULT NULL COMMENT '部门' COLLATE 'utf8_general_ci',
+            `bucket_name`        VARCHAR(50) NULL DEFAULT NULL COMMENT 'bucketname' COLLATE 'utf8_general_ci',
+            `storage_type`       VARCHAR(20) NULL DEFAULT NULL COMMENT '存储类型' COLLATE 'utf8_general_ci',
+            `original_file_name` VARCHAR(255) NULL DEFAULT NULL COMMENT '原始文件名' COLLATE 'utf8_general_ci',
+            `thumbnail_path`     VARCHAR(255) NULL DEFAULT NULL COMMENT '略缩图' COLLATE 'utf8_general_ci',
+            `size`               BIGINT(20) NULL DEFAULT NULL COMMENT '文件大小',
+            `suffix`             VARCHAR(20) NULL DEFAULT NULL COMMENT '后缀' COLLATE 'utf8_general_ci',
+            `width`              INT(10) NULL DEFAULT NULL COMMENT '图片宽度',
+            `height`             INT(10) NULL DEFAULT NULL COMMENT '图片高度',
+            `relative_path`      VARCHAR(255) NULL DEFAULT NULL COMMENT '文件相对路径' COLLATE 'utf8_general_ci',
+            `domain`             VARCHAR(255) NULL DEFAULT NULL COMMENT '域名' COLLATE 'utf8_general_ci',
+            `file_hash`          VARCHAR(255) NULL DEFAULT NULL COMMENT '文件hash' COLLATE 'utf8_general_ci',
+            `upload_start_time`  DATETIME NULL DEFAULT NULL COMMENT '上传开始时间',
+            `upload_end_time`    DATETIME NULL DEFAULT NULL COMMENT '上传结束时间',
+            `status`             INT(11) NULL DEFAULT NULL COMMENT '状态',
+            `creator_id`         VARCHAR(50) NULL DEFAULT NULL COMMENT '创建人ID' COLLATE 'utf8_general_ci',
+            `creator_name`       VARCHAR(50) NULL DEFAULT NULL COMMENT '创建人' COLLATE 'utf8_general_ci',
+            `create_time`        DATETIME    NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+            `update_time`        DATETIME NULL DEFAULT NULL COMMENT '更新时间',
+            PRIMARY KEY (`id`) USING BTREE
+        ) COLLATE='utf8_general_ci'
+        ENGINE=InnoDB;
+
+end if;
 end $$
 delimiter;
 call createBizFile();
