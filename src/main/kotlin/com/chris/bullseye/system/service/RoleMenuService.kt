@@ -1,7 +1,7 @@
 package com.chris.bullseye.system.service
 
 import com.chris.bullseye.basemapper.MPBaseMapper
-import com.chris.bullseye.system.entity.JsonResult
+import com.chris.bullseye.system.dto.JsonResult
 import com.chris.bullseye.system.mapper.RoleMenuMapper
 import com.chris.bullseye.system.pojo.RoleMenu
 import org.springframework.http.HttpStatus

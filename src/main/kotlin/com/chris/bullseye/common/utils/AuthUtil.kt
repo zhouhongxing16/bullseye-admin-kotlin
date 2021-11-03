@@ -3,8 +3,8 @@ package com.chris.bullseye.common.utils
 import com.alibaba.fastjson.JSON
 import com.alibaba.fastjson.JSONObject
 import com.chris.bullseye.common.utils.DateUtils.Companion.getDurationMinute
-import com.chris.bullseye.system.entity.Constants
-import com.chris.bullseye.system.entity.User
+import com.chris.bullseye.system.dto.Constants
+import com.chris.bullseye.system.dto.User
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Component

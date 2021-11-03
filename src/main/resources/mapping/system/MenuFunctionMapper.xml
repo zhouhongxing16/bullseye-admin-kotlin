@@ -17,12 +17,12 @@
 
     </resultMap>
 
-    <resultMap id="BaseResultMapDto" type="com.chris.bullseye.system.dto.MenuFunctionDto" extends="BaseResultMap">
+    <resultMap id="BaseResultMapDto" type="com.chris.bullseye.system.dto.response.MenuFunctionResponse" extends="BaseResultMap">
         <result column="menu_name" jdbcType="VARCHAR" property="menuName"/>
     </resultMap>
 
     <sql id="basic_list">
-		a.id, a.name, a.menu_id, a.code, a.path, a.status, a.created,m.title as menu_name
+		a.id, a.name, a.menu_id, a.code, a.path, a.status, a.create_time,m.title as menu_name
 	</sql>
 
     <select id="getListByParams" resultMap="BaseResultMapDto" parameterType="map">
@@ -49,10 +49,7 @@
             <if test="status!=null and status!='' ">
                 and a.status = #{ status }
             </if>
-            <if test="created!=null and created!='' ">
-                and a.created LIKE CONCAT('%', #{ created }, '%')
-            </if>
         </where>
-        order by a.created desc
+        order by a.create_time desc
     </select>
 </mapper>

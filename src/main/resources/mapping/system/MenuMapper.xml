@@ -17,7 +17,7 @@
     </resultMap>
 
 
-    <resultMap id="BaseResultMapDto" type="com.chris.bullseye.system.dto.MenuDto" extends="BaseResultMap">
+    <resultMap id="BaseResultMapDto" type="com.chris.bullseye.system.dto.response.MenuResponse" extends="BaseResultMap">
         <result column="menu_value" jdbcType="VARCHAR" property="value"/>
         <result column="menu_key" jdbcType="VARCHAR" property="key"/>
         <result column="userName" jdbcType="VARCHAR" property="userName"/>
@@ -62,10 +62,8 @@
 
     <select id="getDtoListByParams" resultMap="BaseResultMapDto" parameterType="map">
         SELECT
-        <include refid="basic_list"/>,staff.name as userName,ifnull(temp.num,0) as childNum
+        <include refid="basic_list"/>,ifnull(temp.num,0) as childNum
         FROM b_menus a
-        left join b_account act on act.id = a.creator_id
-        left join b_staff staff on staff.id = act.staff_id
         left join (
         select cc.parent_id AS parent_id,count(cc.id) AS num from  b_menus cc
         WHERE cc.parent_id IS not NULL  GROUP BY cc.parent_id

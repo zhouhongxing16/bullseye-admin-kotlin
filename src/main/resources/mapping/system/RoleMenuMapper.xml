@@ -11,7 +11,7 @@
         <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     </resultMap>
 
-    <resultMap id="dto" type="com.chris.bullseye.system.dto.RoleMenuDto">
+    <resultMap id="dto" type="com.chris.bullseye.system.dto.response.RoleMenuResponse">
         <result column="menu_name" jdbcType="VARCHAR" property="menuName"/>
         <result column="menu_icon" jdbcType="VARCHAR" property="menuIcon"/>
         <result column="menu_path" jdbcType="TIMESTAMP" property="menuPath"/>
@@ -41,7 +41,7 @@
                 and a.status = #{ status }
             </if>
         </where>
-        order by a.created
+        order by a.create_time
     </select>
 
     <select id="getMenusByRoleId" resultMap="dto" parameterType="String">

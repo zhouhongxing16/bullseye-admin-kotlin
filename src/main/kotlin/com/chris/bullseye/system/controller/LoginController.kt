@@ -4,12 +4,12 @@ import com.chris.bullseye.common.service.MailSendService
 import com.chris.bullseye.common.utils.AuthUtil
 import com.chris.bullseye.common.utils.IPUtils
 import com.chris.bullseye.common.utils.ValidateCodeUtils
-import com.chris.bullseye.system.dto.AccountDto
-import com.chris.bullseye.system.entity.JsonResult
-import com.chris.bullseye.system.entity.OperationLog
-import com.chris.bullseye.system.entity.User
-import com.chris.bullseye.system.entity.request.LoginRequest
-import com.chris.bullseye.system.entity.response.LoginResponse
+import com.chris.bullseye.system.dto.JsonResult
+import com.chris.bullseye.system.dto.OperationLog
+import com.chris.bullseye.system.dto.User
+import com.chris.bullseye.system.dto.request.LoginRequest
+import com.chris.bullseye.system.dto.response.LoginResponse
+import com.chris.bullseye.system.pojo.Account
 import com.chris.bullseye.system.pojo.LoginRecord
 import com.chris.bullseye.system.pojo.Staff
 import com.chris.bullseye.system.service.AccountService
@@ -100,8 +100,8 @@ class LoginController(
     fun adminMobileLogin(@RequestBody login: LoginRequest): JsonResult<Any> {
         val result = JsonResult<Any>()
         return if (login.captcha == ValidateCodeUtils.getRandomValidateCode(login.mobile)) {
-            val accountDto = accountService.getAccountByStaffMobile(login.mobile)
-            login(accountDto, accountDto?.username, "", "admin")
+            val account = accountService.getAccountByStaffMobile(login.mobile)
+            login(account, account?.username, "", "admin")
         } else {
             result.success = false
             result.message = "验证码错误"
@@ -110,21 +110,21 @@ class LoginController(
     }
 
 
-    fun login(accountDto: AccountDto?, username: String?, password: String?, loginType: String?): JsonResult<Any> {
+    fun login(account: Account?, username: String?, password: String?, loginType: String?): JsonResult<Any> {
         val result = JsonResult<Any>()
-        if (accountDto != null && PasswordEncoderFactories.createDelegatingPasswordEncoder().matches(password, accountDto.password)) {
+        if (account != null && PasswordEncoderFactories.createDelegatingPasswordEncoder().matches(password, account.password)) {
             //判断账号过期
-            accountDto.accountExpired = accountDto.expiredDate != null && accountDto.accountExpired == true
+            account.accountExpired = account.expiredDate != null && account.accountExpired == true
             val grantedAuthorities: MutableList<GrantedAuthority> = ArrayList()
             var staff = Staff()
-            if (StringUtils.isNotEmpty(accountDto.staffId)) {
-                staff = staffService.getById(accountDto.staffId)
+            if (StringUtils.isNotEmpty(account.staffId)) {
+                staff = staffService.getById(account.staffId)
                 if (staff == null) {
                     staff = Staff()
                 }
             }
             //找到登录用户角色放到grantedAuthority中
-            val roles = roleService.getRolesByAccountId(accountDto.id)
+            val roles = roleService.getRolesByAccountId(account.id)
             var rolestr = ""
             if (!roles.isNullOrEmpty()) {
                 for (role in roles) {
@@ -139,15 +139,15 @@ class LoginController(
                 var expireTime = LocalDateTime.now().plusHours(2)
                 println("当前用户角色:$rolestr")
                 val user = User()
-                user.id = accountDto.id
-                user.name = accountDto.name
-                user.username = accountDto.username
+                user.id = account.id
+                user.name = account.name
+                user.username = account.username
                 user.token = token
-                user.organizationId = accountDto.organizationId
+                user.organizationId = account.organizationId
                 user.departmentId = staff.departmentId
                 user.staffId = staff.id
-                user.accountLocked = accountDto.accountLocked
-                user.accountExpired = accountDto.accountExpired
+                user.accountLocked = account.accountLocked
+                user.accountExpired = account.accountExpired
                 user.expireTime = expireTime
                 user.authorities = grantedAuthorities
 //                    User    (accountDto.id, accountDto.username, accountDto.password,token, accountDto.organizationId, staff.id, staff.departmentId, accountDto.accountLocked, accountDto.accountExpired,expireTime, grantedAuthorities)

@@ -11,24 +11,21 @@
         <result column="default_value" jdbcType="VARCHAR" property="defaultValue" />
         <result column="config_value" jdbcType="VARCHAR" property="configValue" />
         <result column="status" jdbcType="INTEGER" property="status" />
-        <result column="created" jdbcType="TIMESTAMP" property="create_time" />
-        
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+
     </resultMap>
 
-    <resultMap id="BaseResultMapDto" type="com.chris.bullseye.system.dto.ConfigParameterDto" extends="BaseResultMap">
-       <result column="userName" jdbcType="VARCHAR" property="userName"/>
+    <resultMap id="BaseResultMapDto" type="com.chris.bullseye.system.dto.response.ConfigParameterResponse" extends="BaseResultMap">
     </resultMap>
-    
+
     <sql id="basic_list">
 		a.id, a.data_id, a.code, a.name, a.display_type, a.default_value, a.config_value, a.status, a.create_time
 	</sql>
 
     <select id="getListByParams" resultMap="BaseResultMapDto" parameterType="map">
         SELECT
-        <include refid="basic_list"/>,staff.name as userName
+        <include refid="basic_list"/>
         FROM b_config_parameters a
-        left join b_account act on act.id = a.creator_id
-        left join b_staff staff on staff.id = act.staff_id
         <where>
             <if test="id!=null and id!='' ">
                 and a.id=#{ id }
@@ -60,10 +57,8 @@
 
        <select id="getByParams" resultMap="BaseResultMapDto" parameterType="map">
         SELECT
-        <include refid="basic_list"/>,staff.name as userName
+        <include refid="basic_list"/>
         FROM b_config_parameters a
-        left join b_account act on act.id = a.creator_id
-        left join b_staff staff on staff.id = act.staff_id
         <where>
             <if test="id!=null and id!='' ">
                 and a.id=#{ id }

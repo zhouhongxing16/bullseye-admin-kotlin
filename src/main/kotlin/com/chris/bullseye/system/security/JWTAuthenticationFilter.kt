@@ -3,7 +3,7 @@ package com.chris.bullseye.system.security
 import com.chris.bullseye.common.utils.AuthUtil
 import com.chris.bullseye.common.utils.Logger
 import com.chris.bullseye.common.utils.SpringContextUtil
-import com.chris.bullseye.system.entity.JsonResult
+import com.chris.bullseye.system.dto.JsonResult
 import org.springframework.http.HttpStatus
 import org.springframework.security.authentication.AuthenticationManager
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken

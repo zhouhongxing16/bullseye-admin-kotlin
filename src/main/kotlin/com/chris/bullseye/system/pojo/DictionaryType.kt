@@ -1,12 +1,9 @@
 package com.chris.bullseye.system.pojo
 
-import java.util.Date
 import com.baomidou.mybatisplus.annotation.IdType
 import com.baomidou.mybatisplus.annotation.TableField
 import com.baomidou.mybatisplus.annotation.TableId
 import com.baomidou.mybatisplus.annotation.TableName
-import java.io.Serializable
-import com.fasterxml.jackson.annotation.JsonFormat
 import io.swagger.annotations.ApiModelProperty
 import java.time.LocalDateTime
 
@@ -17,7 +14,7 @@ import java.time.LocalDateTime
  */
 @TableName(value = "b_dictionary_type")
 open class DictionaryType(
-        
+
         @TableId(type = IdType.ASSIGN_ID)
         @ApiModelProperty(name = "唯一标识")
         var id: String? = null,

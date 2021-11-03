@@ -1,7 +1,7 @@
 package com.chris.bullseye.system.service
 
 import com.chris.bullseye.basemapper.MPBaseMapper
-import com.chris.bullseye.system.dto.DictionaryDataDto
+import com.chris.bullseye.system.dto.response.DictionaryDataResponse
 import com.chris.bullseye.system.mapper.DictionaryDataMapper
 import com.chris.bullseye.system.pojo.DictionaryData
 import org.springframework.stereotype.Service
@@ -16,7 +16,7 @@ class DictionaryDataService(var dictionaryDataMapper: DictionaryDataMapper): Bas
     override fun getMapper(): MPBaseMapper<DictionaryData> {
         return dictionaryDataMapper
     }
-    fun getDtoListByParams(params: Map<String, String?>?): List<DictionaryDataDto>? {
+    fun getDtoListByParams(params: Map<String, String?>?): List<DictionaryDataResponse>? {
         return dictionaryDataMapper.getDtoListByParams(params)
     }
 

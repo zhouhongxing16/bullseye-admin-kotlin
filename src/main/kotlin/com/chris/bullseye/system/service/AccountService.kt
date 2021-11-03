@@ -5,10 +5,10 @@ import com.chris.bullseye.basemapper.MPBaseMapper
 import com.chris.bullseye.common.utils.AuthUtil
 import com.chris.bullseye.common.utils.Logger
 import com.chris.bullseye.common.utils.ValidateCodeUtils
-import com.chris.bullseye.system.dto.AccountDto
-import com.chris.bullseye.system.entity.JsonResult
-import com.chris.bullseye.system.entity.request.AccountRequest
-import com.chris.bullseye.system.entity.request.LoginRequest
+import com.chris.bullseye.system.dto.JsonResult
+import com.chris.bullseye.system.dto.request.AccountRequest
+import com.chris.bullseye.system.dto.request.LoginRequest
+import com.chris.bullseye.system.dto.response.AccountResponse
 import com.chris.bullseye.system.mapper.AccountMapper
 import com.chris.bullseye.system.pojo.Account
 import org.springframework.http.HttpStatus
@@ -29,24 +29,24 @@ class AccountService(val accountMapper: AccountMapper) : BaseService<Account>(){
     }
 
 
-    fun getAccountByUserName(userName: String?): AccountDto? {
+    fun getAccountByUserName(userName: String?): Account? {
         return accountMapper.getAccountByUserName(userName)
     }
 
-    fun getAccountByStaffMobile(userName: String?): AccountDto? {
+    fun getAccountByStaffMobile(userName: String?): Account? {
         return accountMapper.getAccountByStaffMobile(userName)
     }
 
 
-    fun getDtoListByParams(map: MutableMap<String, String?>): List<AccountDto> {
+    fun getDtoListByParams(map: MutableMap<String, String?>): List<AccountResponse> {
         return accountMapper.getDtoListByParams(map)
     }
-    fun getNotInRoleCodeListByParams(map: MutableMap<String, String?>): List<AccountDto> {
+    fun getNotInRoleCodeListByParams(map: MutableMap<String, String?>): List<AccountResponse> {
         return accountMapper.getNotInRoleCodeListByParams(map)
     }
 
-    fun getDtoListByPage(account: AccountRequest): Page<AccountDto> {
-        var page = Page<AccountDto>(account.pageNum!!,account.pageSize!!)
+    fun getDtoListByPage(account: AccountRequest): Page<AccountResponse> {
+        var page = Page<AccountResponse>(account.pageNum!!,account.pageSize!!)
         return accountMapper.getDtoListByPage(page,account)
     }
 
@@ -80,14 +80,14 @@ class AccountService(val accountMapper: AccountMapper) : BaseService<Account>(){
         } else if (obj.newPassword.isNullOrEmpty()) {
             result.message = "新密码不能为空"
         } else {
-            val accountDto  = accountMapper.getById(user.id)
-            if (accountDto != null) {
-                if (!PasswordEncoderFactories.createDelegatingPasswordEncoder().matches(obj.oldPassword, accountDto.password)) {
+            val AccountResponse  = accountMapper.getById(user.id)
+            if (AccountResponse != null) {
+                if (!PasswordEncoderFactories.createDelegatingPasswordEncoder().matches(obj.oldPassword, AccountResponse.password)) {
                     result.message = "密码验证错误！"
                 } else {
                     var newPwd = PasswordEncoderFactories.createDelegatingPasswordEncoder().encode(obj.newPassword)
                     val account = Account()
-                    account.id = accountDto.id
+                    account.id = AccountResponse.id
                     account.password = newPwd
                     val count: Int = accountMapper.updateById(account)
                     if (count > 0) {

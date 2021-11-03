@@ -11,5 +11,5 @@ data class MailSendRequest(
 
         var filePath:String? = null,
 
-        var reciverList:List<String>? = null,
+        var receiverList:List<String>? = null,
 )

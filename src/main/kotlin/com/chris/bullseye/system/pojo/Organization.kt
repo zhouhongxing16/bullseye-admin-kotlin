@@ -1,13 +1,11 @@
 package com.chris.bullseye.system.pojo
 
-import com.fasterxml.jackson.annotation.JsonFormat
-import io.swagger.annotations.ApiModelProperty
-import java.time.LocalDateTime
-import java.util.*
 import com.baomidou.mybatisplus.annotation.IdType
 import com.baomidou.mybatisplus.annotation.TableField
 import com.baomidou.mybatisplus.annotation.TableId
 import com.baomidou.mybatisplus.annotation.TableName
+import io.swagger.annotations.ApiModelProperty
+import java.time.LocalDateTime
 
 /**
  * @author Chris
@@ -15,7 +13,7 @@ import com.baomidou.mybatisplus.annotation.TableName
  */
 @TableName(value = "b_organization")
 open class Organization(
-        
+
         @TableId(type = IdType.ASSIGN_ID)
         @ApiModelProperty(name = "唯一标识")
         var id: String? = null,

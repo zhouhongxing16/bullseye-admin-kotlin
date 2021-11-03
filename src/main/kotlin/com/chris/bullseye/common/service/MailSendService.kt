@@ -4,7 +4,7 @@ import com.chris.bullseye.common.entity.request.MailSendRequest
 import com.chris.bullseye.common.utils.EmailTemplateUtil
 import com.chris.bullseye.common.utils.Logger
 import com.chris.bullseye.common.utils.ValidateCodeUtils
-import com.chris.bullseye.system.entity.JsonResult
+import com.chris.bullseye.system.dto.JsonResult
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.core.io.FileSystemResource
 import org.springframework.mail.SimpleMailMessage
@@ -106,7 +106,7 @@ class MailSendService {
             val helper = MimeMessageHelper(message, true)
             helper.setFrom(from!!)
             //设置收件人
-            helper.setTo(obj.reciverList!!.toTypedArray())
+            helper.setTo(obj.receiverList!!.toTypedArray())
             helper.setSubject(obj.subject!!)
             // true表示这个邮件是有附件的
             helper.setText(obj.content!!, true)

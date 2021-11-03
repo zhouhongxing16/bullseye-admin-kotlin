@@ -11,23 +11,21 @@
         <result column="attach" jdbcType="VARCHAR" property="attach" />
         <result column="status" jdbcType="INTEGER" property="status" />
         <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
-        
+
     </resultMap>
 
-    <resultMap id="BaseResultMapDto" type="com.chris.bullseye.system.dto.UserFeedbackDto" extends="BaseResultMap">
-       <result column="userName" jdbcType="VARCHAR" property="userName"/>
+    <resultMap id="BaseResultMapDto" type="com.chris.bullseye.system.dto.response.UserFeedbackResponse" extends="BaseResultMap">
+
     </resultMap>
-    
+
     <sql id="basic_list">
 		a.id, a.creator_id, a.contact_name, a.contact_phone, a.content, a.attach, a.create_time, a.status
 	</sql>
 
     <select id="getListByParams" resultMap="BaseResultMapDto" parameterType="map">
         SELECT
-        <include refid="basic_list"/>,staff.name as userName
+        <include refid="basic_list"/>
         FROM b_user_feedback a
-        left join b_account act on act.id = a.creator_id
-        left join b_staff staff on staff.id = act.staff_id
         <where>
             <if test="id!=null and id!='' ">
                 and a.id=#{ id }
@@ -40,12 +38,6 @@
             </if>
             <if test="contactPhone!=null and contactPhone!='' ">
                 and a.contact_phone LIKE CONCAT('%', #{ contactPhone }, '%')
-            </if>
-            <if test="content!=null and content!='' ">
-                and a.content LIKE CONCAT('%', #{ content }, '%')
-            </if>
-            <if test="attach!=null and attach!='' ">
-                and a.attach LIKE CONCAT('%', #{ attach }, '%')
             </if>
             <if test="status!=null and status!='' ">
                 and a.status = #{ status }
@@ -56,10 +48,8 @@
 
        <select id="getByParams" resultMap="BaseResultMapDto" parameterType="map">
         SELECT
-        <include refid="basic_list"/>,staff.name as userName
+        <include refid="basic_list"/>
         FROM b_user_feedback a
-        left join b_account act on act.id = a.creator_id
-        left join b_staff staff on staff.id = act.staff_id
         <where>
             <if test="id!=null and id!='' ">
                 and a.id=#{ id }
@@ -72,12 +62,6 @@
             </if>
             <if test="contactPhone!=null and contactPhone!='' ">
                 and a.contact_phone LIKE CONCAT('%', #{ contactPhone }, '%')
-            </if>
-            <if test="content!=null and content!='' ">
-                and a.content LIKE CONCAT('%', #{ content }, '%')
-            </if>
-            <if test="attach!=null and attach!='' ">
-                and a.attach LIKE CONCAT('%', #{ attach }, '%')
             </if>
             <if test="status!=null and status!='' ">
                 and a.status = #{ status }

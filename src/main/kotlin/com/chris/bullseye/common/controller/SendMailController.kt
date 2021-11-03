@@ -2,8 +2,8 @@ package com.chris.bullseye.common.controller
 
 import com.chris.bullseye.common.entity.request.MailSendRequest
 import com.chris.bullseye.common.service.MailSendService
-import com.chris.bullseye.system.entity.JsonResult
-import com.chris.bullseye.system.entity.OperationLog
+import com.chris.bullseye.system.dto.JsonResult
+import com.chris.bullseye.system.dto.OperationLog
 import io.swagger.annotations.Api
 import io.swagger.annotations.ApiOperation
 import org.springframework.web.bind.annotation.*
@@ -31,7 +31,7 @@ class SendMailController(var mailSendService: MailSendService) {
     @OperationLog("发送邮件")
     fun sendMail(@RequestBody obj: MailSendRequest): Any? {
         val result = JsonResult<Any>()
-        return if (obj.reciverList.isNullOrEmpty()) {
+        return if (obj.receiverList.isNullOrEmpty()) {
             result.success = false
             result.message = "接收人不能为空！"
             result

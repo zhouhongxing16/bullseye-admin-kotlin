@@ -1,7 +1,7 @@
 package com.chris.bullseye.common.controller
 
-import com.chris.bullseye.system.entity.JsonResult
-import com.chris.bullseye.system.entity.OperationLog
+import com.chris.bullseye.system.dto.JsonResult
+import com.chris.bullseye.system.dto.OperationLog
 import com.chris.bullseye.system.pojo.BizFile
 import com.chris.bullseye.common.service.BizFileService
 import io.swagger.annotations.Api

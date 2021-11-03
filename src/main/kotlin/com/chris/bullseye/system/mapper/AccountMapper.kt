@@ -2,8 +2,8 @@ package com.chris.bullseye.system.mapper
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page
 import com.chris.bullseye.basemapper.MPBaseMapper
-import com.chris.bullseye.system.dto.AccountDto
-import com.chris.bullseye.system.entity.request.AccountRequest
+import com.chris.bullseye.system.dto.request.AccountRequest
+import com.chris.bullseye.system.dto.response.AccountResponse
 import com.chris.bullseye.system.pojo.Account
 import org.apache.ibatis.annotations.Mapper
 import org.apache.ibatis.annotations.Param
@@ -15,18 +15,18 @@ import org.apache.ibatis.annotations.Param
 @Mapper
 interface AccountMapper: MPBaseMapper<Account> {
 
-    fun getAccountByUserName(userName: String?): AccountDto?
+    fun getAccountByUserName(userName: String?): Account?
 
-    fun getAccountByStaffMobile(mobile: String?): AccountDto?
+    fun getAccountByStaffMobile(mobile: String?): Account?
 
-    fun getAccountByStaffId(mobile: String?): AccountDto?
+    fun getAccountByStaffId(mobile: String?): AccountResponse?
 
     fun getById(id: String?): Account?
 
-    fun getDtoListByParams(map: MutableMap<String, String?>): List<AccountDto>
+    fun getDtoListByParams(map: MutableMap<String, String?>): List<AccountResponse>
 
-    fun getDtoListByPage(page: Page<AccountDto>,@Param("params") account:AccountRequest): Page<AccountDto>
+    fun getDtoListByPage(page: Page<AccountResponse>,@Param("params") account:AccountRequest): Page<AccountResponse>
 
-    fun getNotInRoleCodeListByParams(map: MutableMap<String, String?>): List<AccountDto>
+    fun getNotInRoleCodeListByParams(map: MutableMap<String, String?>): List<AccountResponse>
 
 }

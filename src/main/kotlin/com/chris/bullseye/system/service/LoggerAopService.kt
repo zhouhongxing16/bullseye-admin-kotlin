@@ -1,11 +1,9 @@
 package com.chris.bullseye.system.service
 
 import com.alibaba.fastjson.JSON
-import com.alibaba.fastjson.JSONObject
 import com.chris.bullseye.common.utils.AuthUtil
 import com.chris.bullseye.common.utils.IPUtils
-import com.chris.bullseye.common.utils.Logger
-import com.chris.bullseye.system.entity.OperationLog
+import com.chris.bullseye.system.dto.OperationLog
 import com.chris.bullseye.system.pojo.Logs
 import org.apache.commons.lang3.StringUtils
 import org.aspectj.lang.ProceedingJoinPoint

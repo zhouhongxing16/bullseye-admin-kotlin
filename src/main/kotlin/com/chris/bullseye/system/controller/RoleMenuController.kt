@@ -1,7 +1,7 @@
 package com.chris.bullseye.system.controller
 
-import com.chris.bullseye.system.entity.JsonResult
-import com.chris.bullseye.system.entity.OperationLog
+import com.chris.bullseye.system.dto.JsonResult
+import com.chris.bullseye.system.dto.OperationLog
 import com.chris.bullseye.system.pojo.RoleMenu
 import com.chris.bullseye.system.service.RoleMenuService
 import io.swagger.annotations.Api

@@ -1,11 +1,11 @@
 package com.chris.bullseye.system.controller
 
 import com.chris.bullseye.common.utils.AuthUtil
-import com.chris.bullseye.system.dto.AccountDto
-import com.chris.bullseye.system.entity.JsonResult
-import com.chris.bullseye.system.entity.OperationLog
-import com.chris.bullseye.system.entity.request.AccountRequest
-import com.chris.bullseye.system.entity.request.LoginRequest
+import com.chris.bullseye.system.dto.JsonResult
+import com.chris.bullseye.system.dto.OperationLog
+import com.chris.bullseye.system.dto.request.AccountRequest
+import com.chris.bullseye.system.dto.request.LoginRequest
+import com.chris.bullseye.system.dto.response.AccountResponse
 import com.chris.bullseye.system.pojo.Account
 import com.chris.bullseye.system.service.AccountService
 import com.chris.bullseye.system.service.RoleService
@@ -114,8 +114,8 @@ class AccountController(
     @OperationLog("(admin)分页获取延展数据")
     @PostMapping("/getDtoListByPage")
     @ApiOperation(value = "(admin)分页获取延展数据", notes = "(admin)分页获取延展数据)分页获取延展数据")
-    fun getDtoListByPage(@RequestBody account: AccountRequest): JsonResult<AccountDto> {
-        var result = JsonResult<AccountDto>()
+    fun getDtoListByPage(@RequestBody account: AccountRequest): JsonResult<AccountResponse> {
+        var result = JsonResult<AccountResponse>()
 
         var page = accountService.getDtoListByPage(account)
         return result.success(page, "查询成功")

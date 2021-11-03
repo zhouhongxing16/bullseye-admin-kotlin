@@ -1,7 +1,7 @@
 package com.chris.bullseye.system.service
 
 import com.chris.bullseye.basemapper.MPBaseMapper
-import com.chris.bullseye.system.dto.MenuDto
+import com.chris.bullseye.system.dto.response.MenuResponse
 import com.chris.bullseye.system.mapper.MenuMapper
 import com.chris.bullseye.system.pojo.Menu
 import com.chris.bullseye.common.utils.AuthUtil
@@ -23,11 +23,11 @@ class MenuService(var menuMapper: MenuMapper): BaseService<Menu>() {
     }
 
 
-    fun getDtoListByParams(map: MutableMap<String, String?>): List<MenuDto> {
+    fun getDtoListByParams(map: MutableMap<String, String?>): List<MenuResponse> {
         return menuMapper.getDtoListByParams(map)
     }
 
-    fun getMenusByAccountId(): List<MenuDto> {
+    fun getMenusByAccountId(): List<MenuResponse> {
         val user = AuthUtil.getCurrentUser()
         val map: MutableMap<String, String?> = HashMap(2)
         if (user != null) {
@@ -35,8 +35,8 @@ class MenuService(var menuMapper: MenuMapper): BaseService<Menu>() {
             map["organizationId"] = user.organizationId
         }
 
-        val menus: List<MenuDto> = menuMapper.getMenusByAccountId(map)
-        val menuList: MutableList<MenuDto> = ArrayList<MenuDto>()
+        val menus: List<MenuResponse> = menuMapper.getMenusByAccountId(map)
+        val menuList: MutableList<MenuResponse> = ArrayList<MenuResponse>()
         // 先找到所有的一级菜单
         for (menu in menus) {
             // 一级菜单没有pId
@@ -51,15 +51,15 @@ class MenuService(var menuMapper: MenuMapper): BaseService<Menu>() {
         return menuList
     }
 
-    fun getMenusByRoleId(roleId: String): List<MenuDto> {
+    fun getMenusByRoleId(roleId: String): List<MenuResponse> {
         val map: MutableMap<String, String> = HashMap(2)
         map["roleId"] = roleId
         return menuMapper.getMenusByRoleId(map)
     }
 
-    fun getAllMenus(): List<MenuDto> {
-        val menus: List<MenuDto> = menuMapper.getAllMenus()
-        val menuList: MutableList<MenuDto> = ArrayList<MenuDto>()
+    fun getAllMenus(): List<MenuResponse> {
+        val menus: List<MenuResponse> = menuMapper.getAllMenus()
+        val menuList: MutableList<MenuResponse> = ArrayList<MenuResponse>()
 
         // 先找到所有的一级菜单
         for (menu in menus) {
@@ -76,9 +76,9 @@ class MenuService(var menuMapper: MenuMapper): BaseService<Menu>() {
     }
 
 
-    private fun getChild(id: String, menuList: List<MenuDto>): List<MenuDto>? {
+    private fun getChild(id: String, menuList: List<MenuResponse>): List<MenuResponse>? {
         // 子菜单
-        val childList: MutableList<MenuDto> = ArrayList<MenuDto>()
+        val childList: MutableList<MenuResponse> = ArrayList<MenuResponse>()
         //遍历所有节点，将父级菜单ID与传过来的ID做比较
         for (menu in menuList) {
             if (!menu.parentId.isNullOrEmpty()) {

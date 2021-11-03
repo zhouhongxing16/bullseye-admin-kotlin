@@ -13,20 +13,17 @@
 
     </resultMap>
 
-    <resultMap id="BaseResultMapDto" type="com.chris.bullseye.system.dto.RoleMenuFunctionDto" extends="BaseResultMap">
-        <result column="userName" jdbcType="VARCHAR" property="userName"/>
+    <resultMap id="BaseResultMapDto" type="com.chris.bullseye.system.dto.response.RoleMenuFunctionResponse" extends="BaseResultMap">
     </resultMap>
 
     <sql id="basic_list">
-        a.id, a.role_id, a.menu_function_id, a.creator_id, a.status, a.created
+        a.id, a.role_id, a.menu_function_id, a.creator_id, a.status, a.create_time
     </sql>
 
     <select id="getListByParams" resultMap="BaseResultMapDto" parameterType="map">
         SELECT
-        <include refid="basic_list"/>,staff.name as userName
+        <include refid="basic_list"/>
         FROM b_role_menu_function a
-        left join b_account act on act.id = a.creator_id
-        left join b_staff staff on staff.id = act.staff_id
         <where>
             <if test="id!=null and id!='' ">
                 and a.id=#{ id }
@@ -42,9 +39,6 @@
             </if>
             <if test="status!=null and status!='' ">
                 and a.status = #{ status }
-            </if>
-            <if test="created!=null and created!='' ">
-                and a.created LIKE CONCAT('%', #{ created }, '%')
             </if>
         </where>
         order by a.created desc
@@ -52,10 +46,8 @@
 
     <select id="getByParams" resultMap="BaseResultMapDto" parameterType="map">
         SELECT
-        <include refid="basic_list"/>,staff.name as userName
+        <include refid="basic_list"/>
         FROM b_role_menu_function a
-        left join b_account act on act.id = a.creator_id
-        left join b_staff staff on staff.id = act.staff_id
         <where>
             <if test="id!=null and id!='' ">
                 and a.id=#{ id }
@@ -71,9 +63,6 @@
             </if>
             <if test="status!=null and status!='' ">
                 and a.status = #{ status }
-            </if>
-            <if test="created!=null and created!='' ">
-                and a.created LIKE CONCAT('%', #{ created }, '%')
             </if>
         </where>
         limit 1
@@ -110,7 +99,7 @@
             #{item.roleId},
             #{item.menuAuthId},
             #{item.creatorId},
-            #{item.created}
+            #{item.create_time}
             )
         </foreach>
     </insert>

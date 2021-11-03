@@ -1,12 +1,12 @@
 package com.chris.bullseye.system.controller
 
-import com.chris.bullseye.system.dto.AccountDto
-import com.chris.bullseye.system.entity.JsonResult
-import com.chris.bullseye.system.entity.OperationLog
+import com.chris.bullseye.system.dto.JsonResult
+import com.chris.bullseye.system.dto.OperationLog
 import com.chris.bullseye.system.pojo.AccountRole
 import com.chris.bullseye.system.service.AccountRoleService
 import com.chris.bullseye.system.service.RoleService
 import com.chris.bullseye.common.utils.AuthUtil
+import com.chris.bullseye.system.dto.response.AccountResponse
 import io.swagger.annotations.Api
 import io.swagger.annotations.ApiOperation
 import org.springframework.web.bind.annotation.*
@@ -28,8 +28,8 @@ class AccountRoleController(var accountRoleService: AccountRoleService,
     @ApiOperation(value = "(admin)删除机构管理员", notes = "参数：accountId")
     @OperationLog("(admin)删除机构管理员")
     @GetMapping("/deleteOrganizationAdmin/{accountId}")
-    fun deleteOrganizationAdmin(@PathVariable accountId: String): JsonResult<AccountDto> {
-        var result = JsonResult<AccountDto>()
+    fun deleteOrganizationAdmin(@PathVariable accountId: String): JsonResult<AccountResponse> {
+        var result = JsonResult<AccountResponse>()
         var params: MutableMap<String, String?> = HashMap(2)
         params["roleCode"] = "organizationAdmin"
         params["accountId"] = accountId

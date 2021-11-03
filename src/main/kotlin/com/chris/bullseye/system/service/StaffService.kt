@@ -2,18 +2,16 @@ package com.chris.bullseye.system.service
 
 import com.baomidou.mybatisplus.core.toolkit.Wrappers
 import com.chris.bullseye.basemapper.MPBaseMapper
-import com.chris.bullseye.system.dto.StaffDto
-import com.chris.bullseye.system.entity.JsonResult
+import com.chris.bullseye.system.dto.response.StaffResponse
+import com.chris.bullseye.system.dto.JsonResult
 import com.chris.bullseye.system.mapper.AccountMapper
 import com.chris.bullseye.system.mapper.StaffMapper
 import com.chris.bullseye.system.pojo.Account
 import com.chris.bullseye.system.pojo.Staff
 import com.chris.bullseye.common.utils.AuthUtil
-import com.chris.bullseye.system.entity.response.StaffResponse
 import org.springframework.http.HttpStatus
 import org.springframework.security.crypto.factory.PasswordEncoderFactories
 import org.springframework.stereotype.Service
-import java.sql.Wrapper
 
 /**
  * @author Chris
@@ -30,11 +28,11 @@ class StaffService(var staffMapper: StaffMapper, var accountMapper: AccountMappe
         return staff
     }
 
-    fun createDto(dto: StaffDto): JsonResult<StaffDto> {
+    /*fun createDto(dto: StaffResponse): JsonResult<StaffResponse> {
         var user = AuthUtil.getCurrentUser()
         dto.creatorId = user!!.id
         dto.creatorName = user!!.name
-        var result = JsonResult<StaffDto>()
+        var result = JsonResult<StaffResponse>()
         result.status = HttpStatus.OK.value()
         var staff = staffMapper.selectOne(Wrappers.lambdaQuery<Staff?>().eq(Staff::serialNo,dto.serialNo))
 
@@ -69,9 +67,9 @@ class StaffService(var staffMapper: StaffMapper, var accountMapper: AccountMappe
             }
         }
 
-    }
+    }*/
 
-    fun createAccount(dto: StaffDto): Int {
+    fun createAccount(dto: StaffResponse): Int {
         var account = Account()
         account.username = dto.serialNo
         val password = PasswordEncoderFactories.createDelegatingPasswordEncoder().encode(dto.serialNo)

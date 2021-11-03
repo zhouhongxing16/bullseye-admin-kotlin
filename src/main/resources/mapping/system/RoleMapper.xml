@@ -15,8 +15,7 @@
 
     </resultMap>
 
-    <resultMap id="BaseResultMapDto" type="com.chris.bullseye.system.dto.RoleDto" extends="BaseResultMap">
-        <result column="userName" jdbcType="VARCHAR" property="userName"/>
+    <resultMap id="BaseResultMapDto" type="com.chris.bullseye.system.dto.response.RoleResponse" extends="BaseResultMap">
     </resultMap>
 
     <sql id="basic_list">
@@ -25,10 +24,8 @@
 
     <select id="getListByParams" resultMap="BaseResultMapDto" parameterType="map">
         SELECT
-        <include refid="basic_list"/>,staff.name as userName
+        <include refid="basic_list"/>
         FROM b_role a
-        left join b_account act on act.id = a.creator_id
-        left join b_staff staff on staff.id = act.staff_id
         <where>
             <if test="id!=null and id!='' ">
                 and a.id=#{ id }
@@ -40,7 +37,7 @@
                 and a.name LIKE CONCAT('%', #{ name }, '%')
             </if>
             <if test="dataAuthFlag!=null and dataAuthFlag!='' ">
-                and a.data_auth_flag LIKE CONCAT('%', #{ dataAuthFlag }, '%')
+                and a.data_auth_flag = #{ dataAuthFlag }
             </if>
             <if test="creatorId!=null and creatorId!='' ">
                 and a.creator_id=#{ creatorId }
@@ -49,15 +46,13 @@
                 and a.status = #{ status }
             </if>
         </where>
-        order by a.created desc
+        order by a.create_time desc
     </select>
 
     <select id="getByParams" resultMap="BaseResultMapDto" parameterType="map">
         SELECT
-        <include refid="basic_list"/>,staff.name as userName
+        <include refid="basic_list"/>
         FROM b_role a
-        left join b_account act on act.id = a.creator_id
-        left join b_staff staff on staff.id = act.staff_id
         <where>
             <if test="id!=null and id!='' ">
                 and a.id=#{ id }
@@ -69,7 +64,7 @@
                 and a.name LIKE CONCAT('%', #{ name }, '%')
             </if>
             <if test="dataAuthFlag!=null and dataAuthFlag!='' ">
-                and a.data_auth_flag LIKE CONCAT('%', #{ dataAuthFlag }, '%')
+                and a.data_auth_flag = #{ dataAuthFlag }
             </if>
             <if test="creatorId!=null and creatorId!='' ">
                 and a.creator_id=#{ creatorId }

@@ -28,9 +28,8 @@
 
     </resultMap>
 
-    <resultMap id="BaseResultMapDto" type="com.chris.bullseye.system.dto.AccountDto">
+    <resultMap id="BaseResultMapDto" type="com.chris.bullseye.system.dto.response.AccountResponse">
         <result column="organizationName" jdbcType="VARCHAR" property="organizationName"/>
-        <result column="levelName" jdbcType="VARCHAR" property="levelName"/>
         <result column="staffName" jdbcType="VARCHAR" property="staffName"/>
     </resultMap>
 

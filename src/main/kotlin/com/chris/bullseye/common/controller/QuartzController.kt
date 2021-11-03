@@ -2,7 +2,7 @@ package com.chris.bullseye.common.controller
 
 import com.chris.bullseye.common.entity.response.QuartzJobResponse
 import com.chris.bullseye.common.service.QuartzService
-import com.chris.bullseye.system.entity.OperationLog
+import com.chris.bullseye.system.dto.OperationLog
 import io.swagger.annotations.Api
 import io.swagger.annotations.ApiOperation
 import org.apache.commons.lang3.StringUtils

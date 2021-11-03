@@ -1,9 +1,9 @@
 package com.chris.bullseye.system.controller
 
 import com.chris.bullseye.common.utils.AuthUtil
-import com.chris.bullseye.system.dto.MenuDto
-import com.chris.bullseye.system.entity.JsonResult
-import com.chris.bullseye.system.entity.OperationLog
+import com.chris.bullseye.system.dto.response.MenuResponse
+import com.chris.bullseye.system.dto.JsonResult
+import com.chris.bullseye.system.dto.OperationLog
 import com.chris.bullseye.system.pojo.Menu
 import com.chris.bullseye.system.service.MenuService
 import io.swagger.annotations.Api
@@ -35,7 +35,7 @@ class MenuController(var menuService: MenuService,
     @GetMapping("/getMenusByAccountId")
     @ApiOperation(value = "获取登录用户菜单", notes = "获取登录用户菜单")
     fun getMenusByAccountId(): JsonResult<Any> {
-        val menuList: List<MenuDto> = menuService.getMenusByAccountId()
+        val menuList: List<MenuResponse> = menuService.getMenusByAccountId()
         return JsonResult.success(menuList, "获取成功")
     }
 
@@ -43,7 +43,7 @@ class MenuController(var menuService: MenuService,
     @GetMapping("/getMenusByRoleId/{roleId}")
     @ApiOperation(value = "根据角色获取菜单", notes = "根据角色获取菜单")
     fun getMenusByRoleId(@PathVariable roleId: String): JsonResult<Any> {
-        val menuList: List<MenuDto> = menuService.getMenusByRoleId(roleId)
+        val menuList: List<MenuResponse> = menuService.getMenusByRoleId(roleId)
         return JsonResult.success(menuList, "获取成功")
     }
 
@@ -74,7 +74,7 @@ class MenuController(var menuService: MenuService,
         if (params["isFirst"].isNullOrEmpty()) {
             params["isFirst"] = "true"
         }
-        PageHelper.startPage<MenuDto>(params)
+        PageHelper.startPage<MenuResponse>(params)
         var list = menuService.getDtoListByParams(params)
         var pageInfo = PageInfo(list)
         return JsonResult.success(pageInfo, "查询成功")

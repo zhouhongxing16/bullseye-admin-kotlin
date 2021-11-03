@@ -1,8 +1,7 @@
 package com.chris.bullseye.system.service
 
-import com.baomidou.mybatisplus.core.toolkit.Wrappers
 import com.chris.bullseye.basemapper.MPBaseMapper
-import com.chris.bullseye.system.entity.JsonResult
+import com.chris.bullseye.system.dto.JsonResult
 import org.springframework.transaction.annotation.Propagation
 import org.springframework.transaction.annotation.Transactional
 

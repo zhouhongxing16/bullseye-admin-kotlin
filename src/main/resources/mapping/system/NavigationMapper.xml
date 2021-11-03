@@ -10,27 +10,23 @@
         <result column="sort" jdbcType="INTEGER" property="sort" />
         <result column="path" jdbcType="VARCHAR" property="path" />
         <result column="status" jdbcType="INTEGER" property="status" />
-        <result column="created" jdbcType="TIMESTAMP" property="created" />
         <result column="creator_id" jdbcType="VARCHAR" property="creatorId" />
         <result column="creator_name" jdbcType="VARCHAR" property="creatorName" />
         <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
-        
+
     </resultMap>
 
-    <resultMap id="BaseResultMapDto" type="com.chris.bullseye.system.dto.NavigationDto" extends="BaseResultMap">
-       <result column="userName" jdbcType="VARCHAR" property="userName"/>
+    <resultMap id="BaseResultMapDto" type="com.chris.bullseye.system.dto.response.NavigationResponse" extends="BaseResultMap">
     </resultMap>
-    
+
     <sql id="basic_list">
-		a.id, a.name, a.level, a.parent_id, a.sort, a.path, a.status, a.created, a.creator_id
+		a.id, a.name, a.level, a.parent_id, a.sort, a.path, a.status, a.create_time, a.creator_id
 	</sql>
 
     <select id="getListByParams" resultMap="BaseResultMapDto" parameterType="map">
         SELECT
-        <include refid="basic_list"/>,staff.name as userName
+        <include refid="basic_list"/>
         FROM b_navigation a
-        left join b_account act on act.id = a.creator_id
-        left join b_staff staff on staff.id = act.staff_id
         <where>
             <if test="id!=null and id!='' ">
                 and a.id=#{ id }
@@ -49,23 +45,18 @@
             </if>
             <if test="status!=null and status!='' ">
                 and a.status = #{ status }
-            </if>
-            <if test="created!=null and created!='' ">
-                and a.created LIKE CONCAT('%', #{ created }, '%')
             </if>
             <if test="creatorId!=null and creatorId!='' ">
                 and a.creator_id=#{ creatorId }
             </if>
         </where>
-        order by a.created desc
+        order by a.create_time desc
     </select>
 
        <select id="getByParams" resultMap="BaseResultMapDto" parameterType="map">
         SELECT
-        <include refid="basic_list"/>,staff.name as userName
+        <include refid="basic_list"/>
         FROM b_navigation a
-        left join b_account act on act.id = a.creator_id
-        left join b_staff staff on staff.id = act.staff_id
         <where>
             <if test="id!=null and id!='' ">
                 and a.id=#{ id }
@@ -84,9 +75,6 @@
             </if>
             <if test="status!=null and status!='' ">
                 and a.status = #{ status }
-            </if>
-            <if test="created!=null and created!='' ">
-                and a.created LIKE CONCAT('%', #{ created }, '%')
             </if>
             <if test="creatorId!=null and creatorId!='' ">
                 and a.creator_id=#{ creatorId }

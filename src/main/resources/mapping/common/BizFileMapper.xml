@@ -27,8 +27,7 @@
 
     </resultMap>
 
-    <resultMap id="BaseResultMapDto" type="com.chris.bullseye.system.dto.BizFileDto" extends="BaseResultMap">
-        <result column="userName" jdbcType="VARCHAR" property="userName"/>
+    <resultMap id="BaseResultMapDto" type="com.chris.bullseye.system.dto.response.BizFileResponse" extends="BaseResultMap">
     </resultMap>
 
     <sql id="basic_list">

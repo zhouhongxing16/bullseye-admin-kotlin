@@ -1,11 +1,9 @@
 package com.chris.bullseye.system.pojo
 
-import java.util.Date
 import com.baomidou.mybatisplus.annotation.IdType
 import com.baomidou.mybatisplus.annotation.TableField
 import com.baomidou.mybatisplus.annotation.TableId
 import com.baomidou.mybatisplus.annotation.TableName
-import com.fasterxml.jackson.annotation.JsonFormat
 import io.swagger.annotations.ApiModelProperty
 import java.time.LocalDateTime
 
@@ -16,7 +14,7 @@ import java.time.LocalDateTime
  */
 @TableName(value = "b_logs")
 open class Logs(
-        
+
         @TableId(type = IdType.ASSIGN_ID)
         @ApiModelProperty(name = "ID")
         var id: String? = null,

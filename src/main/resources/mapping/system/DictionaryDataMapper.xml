@@ -15,8 +15,8 @@
 
     </resultMap>
 
-    <resultMap id="BaseResultMapDto" type="com.chris.bullseye.system.dto.DictionaryDataDto" extends="BaseResultMap">
-        <result column="userName" jdbcType="VARCHAR" property="userName"/>
+    <resultMap id="BaseResultMapDto" type="com.chris.bullseye.system.dto.response.DictionaryDataResponse" extends="BaseResultMap">
+
     </resultMap>
 
     <sql id="basic_list">
@@ -54,7 +54,7 @@
                 and a.creator_id=#{ creatorId }
             </if>
         </where>
-        order by a.created desc
+        order by a.create_time desc
     </select>
 
     <select id="getDtoListByParams" resultMap="BaseResultMapDto" parameterType="map">
@@ -84,7 +84,7 @@
                 and a.creator_id=#{ creatorId }
             </if>
         </where>
-        order by a.created desc
+        order by a.create_time desc
     </select>
 
     <select id="getByParams" resultMap="BaseResultMapDto" parameterType="map">

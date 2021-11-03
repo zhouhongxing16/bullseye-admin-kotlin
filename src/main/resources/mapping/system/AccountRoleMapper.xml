@@ -13,8 +13,7 @@
 
   </resultMap>
 
-  <resultMap id="BaseResultMapDto" type="com.chris.bullseye.system.dto.AccountRoleDto" extends="BaseResultMap">
-    <result column="userName" jdbcType="VARCHAR" property="userName"/>
+  <resultMap id="BaseResultMapDto" type="com.chris.bullseye.system.dto.response.AccountRoleResponse" extends="BaseResultMap">
   </resultMap>
 
   <sql id="basic_list">

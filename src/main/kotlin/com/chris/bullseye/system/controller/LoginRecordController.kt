@@ -1,9 +1,8 @@
 package com.chris.bullseye.system.controller
 
 import com.chris.bullseye.system.pojo.LoginRecord
-import com.chris.bullseye.system.entity.JsonResult
-import com.chris.bullseye.system.entity.OperationLog
-import com.chris.bullseye.system.service.*
+import com.chris.bullseye.system.dto.JsonResult
+import com.chris.bullseye.system.dto.OperationLog
 
 import com.chris.bullseye.system.service.LoginRecordService
 import org.springframework.web.bind.annotation.RequestMapping

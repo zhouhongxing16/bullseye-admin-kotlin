@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers
 import com.google.common.hash.Hashing
 import com.chris.bullseye.basemapper.MPBaseMapper
 import com.chris.bullseye.common.config.AliConfig
-import com.chris.bullseye.system.entity.JsonResult
+import com.chris.bullseye.system.dto.JsonResult
 import com.chris.bullseye.common.mapper.BizFileMapper
 import com.chris.bullseye.system.pojo.BizFile
 import com.chris.bullseye.common.utils.AuthUtil
