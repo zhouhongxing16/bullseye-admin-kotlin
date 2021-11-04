@@ -24,10 +24,7 @@ import org.springframework.http.HttpStatus
 import org.springframework.security.core.GrantedAuthority
 import org.springframework.security.core.authority.SimpleGrantedAuthority
 import org.springframework.security.crypto.factory.PasswordEncoderFactories
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.RequestBody
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
 import org.springframework.web.context.request.RequestContextHolder
 import org.springframework.web.context.request.ServletRequestAttributes
 import java.io.IOException
@@ -200,7 +197,7 @@ class LoginController(
     }
 
 
-    @RequestMapping(value = ["/unauth"])
+    @RequestMapping(value = ["/unauth"],method = [RequestMethod.POST,RequestMethod.GET])
     @Throws(IOException::class)
     fun unauth(request: HttpServletRequest, response: HttpServletResponse): JsonResult<Any> {
         request.characterEncoding = "UTF-8"

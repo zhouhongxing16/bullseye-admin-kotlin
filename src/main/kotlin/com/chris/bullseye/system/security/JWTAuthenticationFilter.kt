@@ -57,7 +57,8 @@ class JWTAuthenticationFilter(manager: AuthenticationManager) : BasicAuthenticat
             if (user != null) {
                 UsernamePasswordAuthenticationToken(user, null, user.authorities)
             } else {
-                UsernamePasswordAuthenticationToken(null, null, null)
+//                UsernamePasswordAuthenticationToken(null, null, null)
+                getFailAuthenticationTokenResult(request, response, false)
             }
         }
     }
@@ -65,8 +66,9 @@ class JWTAuthenticationFilter(manager: AuthenticationManager) : BasicAuthenticat
     @Throws(IOException::class)
     private fun getFailAuthenticationTokenResult(request: HttpServletRequest, response: HttpServletResponse, authFlag: Boolean): UsernamePasswordAuthenticationToken? {
         var msg = ""
-        response.setHeader("content-type", "text/html;charset=UTF-8")
         response.characterEncoding = "UTF-8"
+        response.contentType = "application/json; charset=utf-8"
+        response.status = HttpStatus.UNAUTHORIZED.value()
         val writer = response.writer
         msg = if (authFlag) {
 //            response.status = HttpStatus.UNAUTHORIZED.value()

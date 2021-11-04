@@ -22,7 +22,8 @@ import javax.servlet.http.HttpServletRequest
 class AuthUtil {
 
 
-    @Autowired lateinit var redisUtil: RedisUtil
+    @Autowired
+    lateinit var redisUtil: RedisUtil
 
     private val LOGIN_USER_TOKEN_PREFIX = "login:user-token:"
 
@@ -42,20 +43,29 @@ class AuthUtil {
      * @param token
      * @return
      */
-    fun getBaseUser(token: String): User? {
+    fun getUserByToken(token: String): User? {
         val key = LOGIN_USER_TOKEN_PREFIX + token
-        val userStr: String? = redisUtil[key] as String
-        if (userStr.isNullOrEmpty()) {
+        if (!key.isNullOrEmpty()) {
+            val userStr: Any? = redisUtil.get(key)
+
+            return if (userStr == null) {
+                null
+            } else {
+                userStr as String
+                val loginUser: User = JSON.parseObject(userStr, User::class.java)
+                // 验证登录失效时间(距离失效时间小于15分钟时,重新设置用户redis信息)
+                if (loginUser.expireTime != null &&
+                        getDurationMinute(LocalDateTime.now(), loginUser.expireTime) <= LOGIN_OUT_TIME_MINUTE) {
+                    // 更新Redis中保存的用户信息(token有效期增加2小时)
+                    setUserInfo(token, loginUser)
+                }
+                loginUser
+            }
+
+        } else {
             return null
         }
-        val loginUser: User = JSON.parseObject(userStr, User::class.java)
-        // 验证登录失效时间(距离失效时间小于15分钟时,重新设置用户redis信息)
-        if (loginUser.expireTime != null &&
-                getDurationMinute(LocalDateTime.now(), loginUser.expireTime) <= LOGIN_OUT_TIME_MINUTE) {
-            // 更新Redis中保存的用户信息(token有效期增加2小时)
-            setUserInfo(token, loginUser)
-        }
-        return loginUser
+
     }
 
     fun getCurrentLoginUser(request: HttpServletRequest): User? {
@@ -63,7 +73,7 @@ class AuthUtil {
         return if (token.isNullOrEmpty()) {
             null
         } else {
-            getBaseUser(token)
+            getUserByToken(token)
         }
     }
 
@@ -73,7 +83,7 @@ class AuthUtil {
         return if (token.isNullOrEmpty()) {
             null
         } else {
-            getBaseUser(token)
+            getUserByToken(token)
         }
     }
 
@@ -111,7 +121,7 @@ class AuthUtil {
         redisUtil.delete(LOGIN_USER_TOKEN_PREFIX + token)
     }
 
-    companion object{
+    companion object {
         fun getCurrentUser(): User? {
             val authentication = SecurityContextHolder.getContext().authentication
             if (authentication != null) {
@@ -155,20 +165,20 @@ class AuthUtil {
          * @return
          */
         fun getAuthFlag(): String? {
-            val role  = getCurrentUser()?.currentRole
+            val role = getCurrentUser()?.currentRole
             val strAuths: String? = role?.dataAuthFlag
             return if (strAuths != null) {
                 when {
                     strAuths.contains(Constants.ORGANIZATION) -> {
-                        Constants.ORGANIZATION //全院
+                        Constants.ORGANIZATION //组织
                     }
                     strAuths.contains(Constants.DEPARTMENT) -> {
-                        Constants.DEPARTMENT //当前科室
+                        Constants.DEPARTMENT //当前部门
                     }
                     else ->
                         Constants.PERSONAL
                 }
-            }else{
+            } else {
                 Constants.PERSONAL
             }
         }
