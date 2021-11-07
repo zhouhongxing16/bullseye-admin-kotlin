@@ -152,7 +152,7 @@ class BizFileService(var bizFileMapper: BizFileMapper, var aliOSSConfig: AliConf
             bizFile.creatorName = user!!.name
             bizFile.status = 1
             val count: Int = bizFileMapper.insert(bizFile)
-            result.success = if (count > 0) true else false
+            result.success = count > 0
         }
 
         reMap["domain"] = domain
@@ -194,7 +194,7 @@ class BizFileService(var bizFileMapper: BizFileMapper, var aliOSSConfig: AliConf
             file.creatorName = user!!.name
             file.status = 1
             val count: Int = bizFileMapper.insert(file)
-            result.success = if (count > 0) true else false
+            result.success = count > 0
             result.data = file
             result.status = 200
         }

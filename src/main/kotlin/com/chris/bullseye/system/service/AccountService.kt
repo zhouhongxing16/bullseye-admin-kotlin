@@ -61,10 +61,10 @@ class AccountService(val accountMapper: AccountMapper) : BaseService<Account>(){
             var newPwd  = PasswordEncoderFactories.createDelegatingPasswordEncoder().encode(account.username)
             act.password = newPwd
             var status =  accountMapper.updateById(act)
-            if(status>0){
-                return result.success(null,"重置成功！")
+            return if(status>0){
+                result.success(null,"重置成功！")
             }else{
-                return result.failed("重置失败！")
+                result.failed("重置失败！")
             }
         }
     }
