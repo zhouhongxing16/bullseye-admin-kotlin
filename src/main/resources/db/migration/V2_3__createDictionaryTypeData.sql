@@ -1,8 +1,8 @@
-drop procedure if exists createAccount;
+drop procedure if exists creatDictionaryTypeData;
 delimiter $$
-create procedure createAccount() begin
+create procedure creatDictionaryTypeData() begin
 
-    if not exists (select * FROM information_schema.columns WHERE table_schema = DATABASE()  AND table_name = 'b_dictionary_data') then
+    if not exists (select * FROM information_schema.columns WHERE table_schema = DATABASE()  AND table_name = 'b_dictionary_type_data') then
 
         CREATE TABLE `b_dictionary_type_data`
         (
@@ -26,7 +26,7 @@ create procedure createAccount() begin
 end if;
 end $$
 delimiter ;
-call createAccount();
-drop procedure if exists createAccount;
+call creatDictionaryTypeData();
+drop procedure if exists creatDictionaryTypeData;
 
 
