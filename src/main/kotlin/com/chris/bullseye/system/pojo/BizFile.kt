@@ -16,7 +16,7 @@ import java.time.LocalDateTime
 open class BizFile(
 
         
-        @TableId(type = IdType.ASSIGN_ID)
+        @TableId(type = IdType.ASSIGN_UUID)
         @ApiModelProperty(name = "id")
         var id: String? = null,
 

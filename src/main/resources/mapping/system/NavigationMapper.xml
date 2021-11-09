@@ -5,7 +5,6 @@
     <resultMap id="BaseResultMap" type="com.chris.bullseye.system.pojo.Navigation">
         <id column="id" jdbcType="VARCHAR" property="id" />
         <result column="name" jdbcType="VARCHAR" property="name" />
-        <result column="level" jdbcType="INTEGER" property="level" />
         <result column="parent_id" jdbcType="VARCHAR" property="parentId" />
         <result column="sort" jdbcType="INTEGER" property="sort" />
         <result column="path" jdbcType="VARCHAR" property="path" />
@@ -20,7 +19,7 @@
     </resultMap>
 
     <sql id="basic_list">
-		a.id, a.name, a.level, a.parent_id, a.sort, a.path, a.status, a.create_time, a.creator_id
+		a.id, a.name,  a.parent_id, a.sort, a.path, a.status, a.create_time, a.creator_id
 	</sql>
 
     <select id="getListByParams" resultMap="BaseResultMapDto" parameterType="map">
@@ -33,9 +32,6 @@
             </if>
             <if test="name!=null and name!='' ">
                 and a.name LIKE CONCAT('%', #{ name }, '%')
-            </if>
-            <if test="level!=null and level!='' ">
-                and a.level LIKE CONCAT('%', #{ level }, '%')
             </if>
             <if test="parentId!=null and parentId!='' ">
                 and a.parent_id=#{ parentId }
@@ -63,9 +59,6 @@
             </if>
             <if test="name!=null and name!='' ">
                 and a.name LIKE CONCAT('%', #{ name }, '%')
-            </if>
-            <if test="level!=null and level!='' ">
-                and a.level LIKE CONCAT('%', #{ level }, '%')
             </if>
             <if test="parentId!=null and parentId!='' ">
                 and a.parent_id=#{ parentId }

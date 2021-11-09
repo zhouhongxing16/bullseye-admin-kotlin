@@ -17,7 +17,7 @@ import java.util.*
 @TableName(value = "b_account_role")
 open class AccountRole(
         
-        @TableId(type = IdType.ASSIGN_ID)
+        @TableId(type = IdType.ASSIGN_UUID)
         @ApiModelProperty(name = "唯一标识")
         var id: String? = null,
 

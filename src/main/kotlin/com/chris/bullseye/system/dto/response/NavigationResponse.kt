@@ -13,9 +13,6 @@ data class NavigationResponse(
      @ApiModelProperty(name = "名称")
      var name: String? = null,
 
-     @ApiModelProperty(name = "级别")
-     var level: Int? = null,
-
      @ApiModelProperty(name = "父标识")
      var parentId: String? = null,
 

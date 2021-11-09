@@ -15,7 +15,7 @@ import java.time.LocalDateTime
 @TableName(value = "b_major")
 open class Major(
 
-        @TableId(type = IdType.ASSIGN_ID)
+        @TableId(type = IdType.ASSIGN_UUID)
         @ApiModelProperty(name = "唯一标识")
         var id: String? = null,
 

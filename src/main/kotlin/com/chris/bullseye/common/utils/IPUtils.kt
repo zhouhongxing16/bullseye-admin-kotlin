@@ -23,13 +23,13 @@ class IPUtils {
          */
         fun getIpAddr(request: HttpServletRequest): String? {
             var ip = request.getHeader("x-forwarded-for")
-            if (ip == null || ip.length == 0 || "unknown".equals(ip, ignoreCase = true)) {
+            if (ip == null || ip.isEmpty() || "unknown".equals(ip, ignoreCase = true)) {
                 ip = request.getHeader("Proxy-Client-IP")
             }
-            if (ip == null || ip.length == 0 || "unknown".equals(ip, ignoreCase = true)) {
+            if (ip == null || ip.isEmpty() || "unknown".equals(ip, ignoreCase = true)) {
                 ip = request.getHeader("WL-Proxy-Client-IP")
             }
-            if (ip == null || ip.length == 0 || "unknown".equals(ip, ignoreCase = true)) {
+            if (ip == null || ip.isEmpty() || "unknown".equals(ip, ignoreCase = true)) {
                 ip = request.remoteAddr
             }
             return if ("0:0:0:0:0:0:0:1" == ip) "127.0.0.1" else ip
@@ -46,28 +46,28 @@ class IPUtils {
             val b0 = address!![0]
             val b1 = address[1]
             // 10.x.x.x/8
-            val SECTION_1: Byte = 0x0A
+            val section_1: Byte = 0x0A
             // 172.16.x.x/12
-            val SECTION_2 = 0xAC.toByte()
-            val SECTION_3 = 0x10.toByte()
-            val SECTION_4 = 0x1F.toByte()
+            val section_2 = 0xAC.toByte()
+            val section_3 = 0x10.toByte()
+            val section_4 = 0x1F.toByte()
             // 192.168.x.x/16
-            val SECTION_5 = 0xC0.toByte()
-            val SECTION_6 = 0xA8.toByte()
+            val section_5 = 0xC0.toByte()
+            val section_6 = 0xA8.toByte()
             return when (b0) {
-                SECTION_1 -> true
-                SECTION_2 -> {
-                    if (b1 >= SECTION_3 && b1 <= SECTION_4) {
+                section_1 -> true
+                section_2 -> {
+                    if (b1 >= section_3 && b1 <= section_4) {
                         return true
                     }
                     when (b1) {
-                        SECTION_6 -> return true
+                        section_6 -> return true
                     }
                     false
                 }
-                SECTION_5 -> {
+                section_5 -> {
                     when (b1) {
-                        SECTION_6 -> return true
+                        section_6 -> return true
                     }
                     false
                 }
@@ -82,7 +82,7 @@ class IPUtils {
          * @return byte 字节
          */
         fun textToNumericFormatV4(text: String): ByteArray? {
-            if (text.length == 0) {
+            if (text.isEmpty()) {
                 return null
             }
             val bytes = ByteArray(4)

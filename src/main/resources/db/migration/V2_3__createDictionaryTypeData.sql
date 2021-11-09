@@ -4,10 +4,11 @@ create procedure createAccount() begin
 
     if not exists (select * FROM information_schema.columns WHERE table_schema = DATABASE()  AND table_name = 'b_dictionary_data') then
 
-        CREATE TABLE `b_dictionary_data`
+        CREATE TABLE `b_dictionary_type_data`
         (
             `id`           VARCHAR(40) NOT NULL COMMENT '唯一标识' COLLATE 'utf8_general_ci',
             `type_id`      VARCHAR(40) NULL DEFAULT NULL COMMENT '类型标识' COLLATE 'utf8_general_ci',
+            `type_name`      VARCHAR(40) NULL DEFAULT NULL COMMENT '类型名称' COLLATE 'utf8_general_ci',
             `code`         VARCHAR(20) NULL DEFAULT NULL COMMENT '字典编码' COLLATE 'utf8_general_ci',
             `name`         VARCHAR(100) NULL DEFAULT NULL COMMENT '字典名称' COLLATE 'utf8_general_ci',
             `remark`       VARCHAR(200) NULL DEFAULT NULL COMMENT '字典备注' COLLATE 'utf8_general_ci',

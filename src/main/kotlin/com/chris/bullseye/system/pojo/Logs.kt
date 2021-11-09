@@ -15,7 +15,7 @@ import java.time.LocalDateTime
 @TableName(value = "b_logs")
 open class Logs(
 
-        @TableId(type = IdType.ASSIGN_ID)
+        @TableId(type = IdType.ASSIGN_UUID)
         @ApiModelProperty(name = "ID")
         var id: String? = null,
 

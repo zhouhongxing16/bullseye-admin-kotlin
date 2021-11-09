@@ -12,15 +12,19 @@ import java.time.LocalDateTime
  * @Date:  2020-12-25 16:25
  * 字典数据
  */
-@TableName(value = "b_dictionary_data")
-open class DictionaryData(
-        @TableId(type = IdType.ASSIGN_ID)
+@TableName(value = "b_dictionary_type_data")
+open class DictionaryTypeData(
+        @TableId(type = IdType.ASSIGN_UUID)
         @ApiModelProperty(name = "唯一标识")
         var id: String? = null,
 
         @ApiModelProperty(name = "类型标识")
         @TableField(value = "type_id")
         var typeId: String? = null,
+
+        @ApiModelProperty(name = "类型名称")
+        @TableField(value = "type_name")
+        var typeName: String? = null,
 
         @ApiModelProperty(name = "字典编码")
         @TableField(value = "code")

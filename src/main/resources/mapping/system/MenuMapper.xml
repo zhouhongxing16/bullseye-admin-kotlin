@@ -32,7 +32,7 @@
     <select id="getListByParams" resultMap="BaseResultMapDto" parameterType="map">
         SELECT
         <include refid="basic_list"/>,a.id as menu_key,a.id as menu_value
-        FROM b_menus a
+        FROM b_menu a
         <where>
             <if test="id!=null and id!='' ">
                 and a.id=#{ id }
@@ -63,9 +63,9 @@
     <select id="getDtoListByParams" resultMap="BaseResultMapDto" parameterType="map">
         SELECT
         <include refid="basic_list"/>,ifnull(temp.num,0) as childNum
-        FROM b_menus a
+        FROM b_menu a
         left join (
-        select cc.parent_id AS parent_id,count(cc.id) AS num from  b_menus cc
+        select cc.parent_id AS parent_id,count(cc.id) AS num from  b_menu cc
         WHERE cc.parent_id IS not NULL  GROUP BY cc.parent_id
         )  temp ON  temp.parent_id = a.id
         <where>
@@ -96,39 +96,39 @@
 
     <select id="getMenusByAccountId" parameterType="map" resultMap="BaseResultMapDto">
   		SELECT DISTINCT
-			m.*
+        <include refid="basic_list"/>
 		FROM
-			b_menus m
+			b_menu m
 		LEFT JOIN b_role_menu rm ON rm.menu_id = m.id
 		WHERE
 			rm.role_id IN ( SELECT DISTINCT ar.role_id FROM b_account_role ar where ar.account_id = #{accountId})
 
-		order BY m.sequence desc
+		order BY m.sort desc
     </select>
 
     <select id="getMenusByRoleId" parameterType="String" resultMap="BaseResultMapDto">
   		SELECT
-			m.*
+        <include refid="basic_list"/>
 		FROM
-			b_menus m
-			LEFT JOIN b_role_menu rm ON rm.menu_id = m.id
+			b_menu m
+		LEFT JOIN b_role_menu rm ON rm.menu_id = m.id
 		WHERE
 			rm.role_id = #{roleId}
-		ORDER BY m.sequence desc
+		ORDER BY m.sort desc
   </select>
 
     <select id="getAllMenus" parameterType="String" resultMap="BaseResultMapDto">
   		SELECT
-			m.*,m.id as menu_key,m.id as menu_value
+        <include refid="basic_list"/>,m.id as menu_key,m.id as menu_value
 		FROM
-			b_menus m
+			b_menu m
 		ORDER BY
-			m.sequence asc
+			m.sort asc
   </select>
 
     <select id="getOrganizationAuthMenus" parameterType="String" resultMap="BaseResultMapDto">
-        select m.*,m.id as menu_key,m.id as menu_value from b_organization_menu om
-        left join b_menus m on m.id = om.menu_id
+        select <include refid="basic_list"/>,m.id as menu_key,m.id as menu_value from b_organization_menu om
+        left join b_menu m on m.id = om.menu_id
 
         <where>
             <if test="id!=null and id!='' ">
@@ -150,6 +150,6 @@
                 and a.status = #{ status }
             </if>
         </where>
-        order by m.sequence ASC
+        order by m.sort ASC
     </select>
 </mapper>

@@ -16,7 +16,7 @@ import java.time.LocalDateTime
 @TableName(value = "b_config_parameter")
 open class ConfigParameter(
 
-        @TableId(type = IdType.ASSIGN_ID)
+        @TableId(type = IdType.ASSIGN_UUID)
         @ApiModelProperty(name = "唯一标识")
         var id: String? = null,
 

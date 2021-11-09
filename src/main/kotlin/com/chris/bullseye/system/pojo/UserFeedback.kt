@@ -18,7 +18,7 @@ import java.time.LocalDateTime
 @TableName(value = "b_user_feedback")
 open class UserFeedback(
         
-        @TableId(type = IdType.ASSIGN_ID)
+        @TableId(type = IdType.ASSIGN_UUID)
         @ApiModelProperty(name = "唯一标识")
         var id: String? = null,
 

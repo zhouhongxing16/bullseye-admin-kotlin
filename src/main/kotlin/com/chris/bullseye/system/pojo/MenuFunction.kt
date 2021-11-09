@@ -14,7 +14,7 @@ import java.time.LocalDateTime
 @TableName(value = "b_menu_function")
 open class MenuFunction(
 
-        @TableId(type = IdType.ASSIGN_ID)
+        @TableId(type = IdType.ASSIGN_UUID)
         @ApiModelProperty(name = "id")
         var id: String? = null,
 

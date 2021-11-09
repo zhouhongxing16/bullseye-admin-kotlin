@@ -14,7 +14,7 @@ import java.time.LocalDateTime
 @TableName(value = "b_organization")
 open class Organization(
 
-        @TableId(type = IdType.ASSIGN_ID)
+        @TableId(type = IdType.ASSIGN_UUID)
         @ApiModelProperty(name = "唯一标识")
         var id: String? = null,
 

@@ -2,8 +2,8 @@ package com.chris.bullseye.system.controller
 
 import com.chris.bullseye.system.dto.JsonResult
 import com.chris.bullseye.system.dto.OperationLog
-import com.chris.bullseye.system.pojo.DictionaryData
-import com.chris.bullseye.system.service.DictionaryDataService
+import com.chris.bullseye.system.pojo.DictionaryTypeData
+import com.chris.bullseye.system.service.DictionaryTypeDataService
 import com.chris.bullseye.common.utils.AuthUtil
 import io.swagger.annotations.Api
 import io.swagger.annotations.ApiOperation
@@ -17,24 +17,24 @@ import org.springframework.web.bind.annotation.*
 @OperationLog("字典数据")
 @RestController
 @RequestMapping("/dictionarydata")
-class DictionaryDataController(var dictionaryDataService: DictionaryDataService,val jsonResult: JsonResult<DictionaryData>){
+class DictionaryTypeDataController(var dictionaryTypeDataService: DictionaryTypeDataService, val jsonResult: JsonResult<DictionaryTypeData>){
 
     @PostMapping("/create")
     @ApiOperation(value = "创建方法", notes = "")
-    fun create(@RequestBody obj: DictionaryData): JsonResult<DictionaryData> {
+    fun create(@RequestBody obj: DictionaryTypeData): JsonResult<DictionaryTypeData> {
         val user = AuthUtil.getCurrentUser()
         obj.creatorId = user!!.id
         obj.creatorName = user!!.name
-        return dictionaryDataService.add(obj)
+        return dictionaryTypeDataService.add(obj)
     }
 
     @PostMapping("/getListByTypeCode/{code}")
     @ApiOperation(value = "根据类型code获取字典数据", notes = "")
     @Throws(Exception::class)
-    fun getListByTypeCode(@PathVariable code: String): JsonResult<DictionaryData> {
+    fun getListByTypeCode(@PathVariable code: String): JsonResult<DictionaryTypeData> {
         val queryMap: MutableMap<String, String> = HashMap()
         queryMap["typeCode"] = code
-        val list = dictionaryDataService.getDtoListByParams(queryMap)
+        val list = dictionaryTypeDataService.getDtoListByParams(queryMap)
         return jsonResult.success(list,"查询成功！")
     }
 
@@ -44,7 +44,7 @@ class DictionaryDataController(var dictionaryDataService: DictionaryDataService,
     fun getDictionaryDataByCode(@PathVariable code: String): JsonResult<Any> {
         val queryMap: MutableMap<String, String?> = HashMap()
         queryMap["typeCode"] = code
-        val dto = dictionaryDataService.getByParams(queryMap)
+        val dto = dictionaryTypeDataService.getByParams(queryMap)
         return JsonResult.success(dto,"查询成功")
     }
 }

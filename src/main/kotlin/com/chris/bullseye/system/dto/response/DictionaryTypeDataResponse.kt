@@ -7,13 +7,16 @@ import java.time.LocalDateTime
  * @author Chris
  * @date 2020 12 08 11:59
  */
-data class DictionaryDataResponse(
+data class DictionaryTypeDataResponse(
 
         @ApiModelProperty(name = "唯一标识")
         var id: String? = null,
 
         @ApiModelProperty(name = "类型标识")
         var typeId: String? = null,
+
+        @ApiModelProperty(name = "类型名称")
+        var typeName: String? = null,
 
         @ApiModelProperty(name = "字典编码")
         var code: String? = null,

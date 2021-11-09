@@ -15,17 +15,13 @@ import java.time.LocalDateTime
 @TableName(value = "b_navigation")
 open class Navigation(
 
-        @TableId(type = IdType.ASSIGN_ID)
+        @TableId(type = IdType.ASSIGN_UUID)
         @ApiModelProperty(name = "唯一标识")
         var id: String? = null,
 
         @ApiModelProperty(name = "名称")
         @TableField(value = "name")
         var name: String? = null,
-
-        @ApiModelProperty(name = "级别")
-        @TableField(value = "level")
-        var level: Int? = null,
 
         @ApiModelProperty(name = "父标识")
         @TableField(value = "parent_id")

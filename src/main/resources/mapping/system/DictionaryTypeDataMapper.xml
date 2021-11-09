@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.chris.bullseye.system.mapper.DictionaryDataMapper">
-    <resultMap id="BaseResultMap" type="com.chris.bullseye.system.pojo.DictionaryData">
+<mapper namespace="com.chris.bullseye.system.mapper.DictionaryTypeDataMapper">
+    <resultMap id="BaseResultMap" type="com.chris.bullseye.system.pojo.DictionaryTypeData">
         <id column="id" jdbcType="VARCHAR" property="id" />
         <result column="type_id" jdbcType="VARCHAR" property="typeId" />
+        <result column="type_name" jdbcType="VARCHAR" property="typeName" />
         <result column="code" jdbcType="VARCHAR" property="code" />
         <result column="name" jdbcType="VARCHAR" property="name" />
         <result column="remark" jdbcType="VARCHAR" property="remark" />
@@ -15,22 +16,19 @@
 
     </resultMap>
 
-    <resultMap id="BaseResultMapDto" type="com.chris.bullseye.system.dto.response.DictionaryDataResponse" extends="BaseResultMap">
+    <resultMap id="BaseResultMapDto" type="com.chris.bullseye.system.dto.response.DictionaryTypeDataResponse" extends="BaseResultMap">
 
     </resultMap>
 
     <sql id="basic_list">
-        a.id, a.type_id, a.code, a.name, a.remark, a.sort, a.status, a.create_time, a.creator_id
+        a.id, a.type_id,a.type_name, a.code, a.name, a.remark, a.sort, a.status, a.create_time, a.creator_id
     </sql>
 
 
     <select id="getListByParams" resultMap="BaseResultMapDto" parameterType="map">
         SELECT
-        <include refid="basic_list"/>,staff.name as userName,dt.name as typeName
-        FROM b_dictionary_data a
-        left join b_dictionary_type dt on a.type_id = dt.id
-        left join b_account act on act.id = a.creator_id
-        left join b_staff staff on staff.id = act.staff_id
+        <include refid="basic_list"/>
+        FROM b_dictionary_type_data a
         <where>
             <if test="id!=null and id!='' ">
                 and a.id=#{ id }
@@ -44,9 +42,6 @@
             <if test="name!=null and name!='' ">
                 and a.name LIKE CONCAT('%', #{ name }, '%')
             </if>
-            <if test="sequence!=null and sequence!='' ">
-                and a.sort LIKE CONCAT('%', #{ sequence }, '%')
-            </if>
             <if test="status!=null and status!='' ">
                 and a.status = #{ status }
             </if>
@@ -59,11 +54,8 @@
 
     <select id="getDtoListByParams" resultMap="BaseResultMapDto" parameterType="map">
         SELECT
-        <include refid="basic_list"/>,staff.name as userName,dt.name as typeName
-        FROM b_dictionary_data a
-        left join b_dictionary_type dt on a.type_id = dt.id
-        left join b_account act on act.id = a.creator_id
-        left join b_staff staff on staff.id = act.staff_id
+        <include refid="basic_list"/>
+        FROM b_dictionary_type_data a
         <where>
             <if test="id!=null and id!='' ">
                 and a.id=#{ id }
@@ -89,11 +81,9 @@
 
     <select id="getByParams" resultMap="BaseResultMapDto" parameterType="map">
         SELECT
-        <include refid="basic_list"/>,staff.name as userName,dt.name as typeName
-        FROM b_dictionary_data a
+        <include refid="basic_list"/>,dt.name as typeName
+        FROM b_dictionary_type_data a
         left join b_dictionary_type dt on a.type_id = dt.id
-        left join b_account act on act.id = a.creator_id
-        left join b_staff staff on staff.id = act.staff_id
         <where>
             <if test="id!=null and id!='' ">
                 and a.id=#{ id }

@@ -16,7 +16,7 @@ import com.baomidou.mybatisplus.annotation.TableName
 @TableName(value = "b_role_menu_function")
 open class RoleMenuFunction(
         
-        @TableId(type = IdType.ASSIGN_ID)
+        @TableId(type = IdType.ASSIGN_UUID)
         @ApiModelProperty(name = "唯一标识")
         var id: String? = null,
 

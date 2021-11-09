@@ -15,7 +15,7 @@ import java.time.LocalDateTime
 @TableName(value = "b_login_record")
 open class LoginRecord (
 
-        @TableId(type = IdType.ASSIGN_ID)
+        @TableId(type = IdType.ASSIGN_UUID)
         @ApiModelProperty(name = "访问ID")
         var id: String? = null,
 
