@@ -44,9 +44,8 @@
 
     <select id="getListByParams" resultMap="BaseResultMapDto" parameterType="map">
         SELECT
-        <include refid="basic_list"/>,m.name as majorName
+        <include refid="basic_list"/>
         FROM b_staff a
-        left join b_majors m on m.id = a.major_id
         left join b_organization org on org.id = a.organization_id
         <where>
             <if test="id!=null and id!='' ">
@@ -96,9 +95,8 @@
 
     <select id="getByParams" resultMap="BaseResultMapDto" parameterType="map">
         SELECT
-        <include refid="basic_list"/>,m.name as majorName
+        <include refid="basic_list"/>
         FROM b_staff a
-        left join b_majors m on m.id = a.major_id
         left join b_organization org on org.id = a.organization_id
         <where>
             <if test="id!=null and id!='' ">
