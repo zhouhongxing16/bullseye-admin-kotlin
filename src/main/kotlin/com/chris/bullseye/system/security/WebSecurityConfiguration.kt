@@ -23,11 +23,6 @@ class WebSecurityConfiguration: WebSecurityConfigurerAdapter() {
         http.csrf().disable() // 开启跨域
                 .cors().and().authorizeRequests()
                 .antMatchers("/unauth").permitAll()
-                .antMatchers("/login/**").permitAll()
-                .antMatchers("/imagevcode").permitAll()
-                .antMatchers("/file/view/**").permitAll()
-                .antMatchers("/file/download/**").permitAll()
-                .antMatchers("/api/file/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .addFilter(JWTAuthenticationFilter(authenticationManager()))

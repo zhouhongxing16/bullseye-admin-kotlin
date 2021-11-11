@@ -37,10 +37,10 @@ class TencentConfig {
             req.fileIds = arrayOf(id)
             val resp = client.DescribeMediaInfos(req)
             println(DescribeMediaInfosResponse.toJsonString(resp))
-            if(resp.mediaInfoSet.isNullOrEmpty()){
-                return null
+            return if(resp.mediaInfoSet.isNullOrEmpty()){
+                null
             }else{
-                return resp.mediaInfoSet[0].metaData
+                resp.mediaInfoSet[0].metaData
             }
         } catch (e: TencentCloudSDKException) {
             println(e.toString())
@@ -61,10 +61,10 @@ class TencentConfig {
             req.fileIds = arrayOf(id)
             val resp = client.DescribeMediaInfos(req)
             println(DescribeMediaInfosResponse.toJsonString(resp))
-            if(resp.mediaInfoSet.isNullOrEmpty()){
-                return null
+            return if(resp.mediaInfoSet.isNullOrEmpty()){
+                null
             }else{
-                return resp.mediaInfoSet[0].basicInfo.mediaUrl
+                resp.mediaInfoSet[0].basicInfo.mediaUrl
             }
         } catch (e: TencentCloudSDKException) {
             println(e.toString())
