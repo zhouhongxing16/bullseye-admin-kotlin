@@ -155,7 +155,6 @@ class LoginController(
                 user.loginType = loginType
 
                 var loginResponse = LoginResponse()
-                loginResponse.token = UUID.randomUUID().toString()
                 loginResponse.roleCode = currentRole.code
                 loginResponse.token = token
 

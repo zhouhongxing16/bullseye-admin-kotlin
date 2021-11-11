@@ -1,6 +1,7 @@
 package com.chris.bullseye
 
 import org.jasypt.util.text.BasicTextEncryptor
+import org.springframework.security.crypto.factory.PasswordEncoderFactories
 
 /**
  * @author Chris
@@ -18,9 +19,10 @@ fun main(args: Array<String>) {
 //        var url = textEncryptor.decrypt("");
 //        var name = textEncryptor.decrypt("");
 //        var password = textEncryptor.decrypt("EbfYkitspO235lKFNXI50JMXoaxZTKJ0");
-
-
     println(url + "----------------");
     println(name + "----------------");
     println(password + "----------------");
+    var newPwd  = PasswordEncoderFactories.createDelegatingPasswordEncoder().encode("123")
+
+    println(newPwd + ":密码----------------");
 }
