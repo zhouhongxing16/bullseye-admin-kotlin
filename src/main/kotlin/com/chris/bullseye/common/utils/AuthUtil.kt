@@ -1,10 +1,9 @@
 package com.chris.bullseye.common.utils
 
-import com.alibaba.fastjson.JSON
-import com.alibaba.fastjson.JSONObject
 import com.chris.bullseye.common.utils.DateUtils.Companion.getDurationMinute
 import com.chris.bullseye.system.dto.Constants
 import com.chris.bullseye.system.dto.User
+import com.google.gson.Gson
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Component
@@ -52,8 +51,9 @@ class AuthUtil {
                 null
             } else {
                 userStr as String
-                val loginUser: User = JSON.parseObject(userStr, User::class.java)
-                // 验证登录失效时间(距离失效时间小于15分钟时,重新设置用户redis信息)
+                // val loginUser: User = JSON.parseObject(userStr, User::class.java)
+                val loginUser: User = Gson().fromJson(userStr, User::class.java)
+                        // 验证登录失效时间(距离失效时间小于15分钟时,重新设置用户redis信息)
                 if (loginUser.expireTime != null &&
                         getDurationMinute(LocalDateTime.now(), loginUser.expireTime) <= LOGIN_OUT_TIME_MINUTE) {
                     // 更新Redis中保存的用户信息(token有效期增加2小时)
@@ -97,7 +97,7 @@ class AuthUtil {
             loginUser.token = token
         }
         loginUser.expireTime = loginUser.expireTime!!.plusHours(2)
-        redisUtil.setEx(LOGIN_USER_TOKEN_PREFIX + token, JSONObject.toJSONString(loginUser), REDIS_OUT_TIME, TimeUnit.MINUTES)
+        redisUtil.setEx(LOGIN_USER_TOKEN_PREFIX + token, Gson().toJson(loginUser), REDIS_OUT_TIME, TimeUnit.MINUTES)
     }
 
     /***
@@ -110,7 +110,7 @@ class AuthUtil {
         if (loginUser.token.isNullOrEmpty()) {
             loginUser.token = token
         }
-        redisUtil!!.setEx(LOGIN_USER_TOKEN_PREFIX + token, JSON.toJSONString(loginUser), REDIS_OUT_TIME, TimeUnit.MINUTES)
+        redisUtil!!.setEx(LOGIN_USER_TOKEN_PREFIX + token, Gson().toJson(loginUser), REDIS_OUT_TIME, TimeUnit.MINUTES)
     }
 
     /***

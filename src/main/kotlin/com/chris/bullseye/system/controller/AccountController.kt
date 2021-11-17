@@ -7,6 +7,8 @@ import com.chris.bullseye.system.dto.request.AccountRequest
 import com.chris.bullseye.system.dto.request.LoginRequest
 import com.chris.bullseye.system.dto.response.AccountResponse
 import com.chris.bullseye.system.pojo.Account
+import com.chris.bullseye.system.pojo.AccountRole
+import com.chris.bullseye.system.service.AccountRoleService
 import com.chris.bullseye.system.service.AccountService
 import com.chris.bullseye.system.service.RoleService
 import com.chris.bullseye.system.service.StaffService
@@ -25,6 +27,7 @@ import org.springframework.web.bind.annotation.*
 @OperationLog("账号管理")
 class AccountController(
         val accountService: AccountService,
+        val accountRoleService: AccountRoleService,
         var staffService: StaffService,
         var roleService: RoleService,
         var jsonResult: JsonResult<Account>
@@ -97,11 +100,32 @@ class AccountController(
         return JsonResultRsuccess(pageInfo, "查询成功！")
     }*/
 
+    @ApiOperation(value = "获取我的个人信息", notes = "获取我的个人信息")
+    @OperationLog("获取我的个人信息")
+    @GetMapping("/getMyAccountInfo")
+    fun getMyAccountInfo(): JsonResult<Any>? {
+        var user = AuthUtil.getCurrentUser()
+        val account: Account = accountService.getById(user!!.id)
+        var params: MutableMap<String, Any?> = HashMap(4)
+        params["avatar"] = account.avatar
+        params["name"] = account.nickName
+
+        val queryMap = mapOf("account_id" to user!!.id)
+        var accountRoleList: List<AccountRole> = accountRoleService.selectByMap(queryMap)
+        var roleList = mutableListOf<String?>()
+        for (accountRole in accountRoleList) {
+            roleList.add(accountRole.roleId)
+        }
+
+        params["roles"] = roleList
+        return JsonResult.success(params, "")
+    }
+
 
     @ApiOperation(value = "获取我的个人信息", notes = "获取我的个人信息")
     @OperationLog("获取我的个人信息")
-    @GetMapping("/getMyUserInfo")
-    fun getMyUserInfo(): JsonResult<Any>? {
+    @GetMapping("/getMyStaffInfo")
+    fun getMyStaffInfo(): JsonResult<Any>? {
         var user = AuthUtil.getCurrentUser()
         var queryMap: MutableMap<String, String?> = HashMap(2)
         queryMap["staffId"] = user!!.staffId

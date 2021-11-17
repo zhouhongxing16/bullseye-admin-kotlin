@@ -1,12 +1,9 @@
 package com.chris.bullseye.system.pojo
 
-import java.util.Date
 import com.baomidou.mybatisplus.annotation.IdType
 import com.baomidou.mybatisplus.annotation.TableField
 import com.baomidou.mybatisplus.annotation.TableId
 import com.baomidou.mybatisplus.annotation.TableName
-import java.io.Serializable
-import com.fasterxml.jackson.annotation.JsonFormat
 import io.swagger.annotations.ApiModelProperty
 import java.time.LocalDateTime
 
@@ -17,7 +14,7 @@ import java.time.LocalDateTime
  */
 @TableName(value = "b_menu")
 open class Menu(
-        
+
         @TableId(type = IdType.ASSIGN_UUID)
         @ApiModelProperty(name = "唯一标识")
         var id: String? = null,
@@ -26,11 +23,23 @@ open class Menu(
         @TableField(value = "parent_id")
         var parentId: String? = null,
 
-        @ApiModelProperty(name = "代码")
-        @TableField(value = "code")
-        var code: String? = null,
+        @ApiModelProperty(name = "路径")
+        @TableField(value = "path")
+        var path: String? = null,
 
-        @ApiModelProperty(name = "名称")
+        @ApiModelProperty(name = "路由的名字")
+        @TableField(value = "name")
+        var name: String? = null,
+
+        @ApiModelProperty(name = "文件路径")
+        @TableField(value = "component")
+        var component: String? = null,
+
+        @ApiModelProperty(name = "面包屑导航")
+        @TableField(value = "redirect")
+        var redirect: String? = null,
+
+        @ApiModelProperty(name = "标题")
         @TableField(value = "title")
         var title: String? = null,
 
@@ -38,9 +47,33 @@ open class Menu(
         @TableField(value = "icon")
         var icon: String? = null,
 
-        @ApiModelProperty(name = "路径")
-        @TableField(value = "path")
-        var path: String? = null,
+        @ApiModelProperty(name = "侧边栏隐藏")
+        @TableField(value = "hidden")
+        var hidden: Boolean? = null,
+
+        @ApiModelProperty(name = "一直显示该路由")
+        @TableField(value = "always_show")
+        var alwaysShow: Boolean? = null,
+
+        @ApiModelProperty(name = "固定在tags")
+        @TableField(value = "affix")
+        var affix: Boolean? = null,
+
+        @ApiModelProperty(name = "页面缓存")
+        @TableField(value = "no_cache")
+        var noCache: Boolean? = null,
+
+        @ApiModelProperty(name = "面包屑中显示")
+        @TableField(value = "breadcrumb")
+        var breadcrumb: Boolean? = null,
+
+        @ApiModelProperty(name = "高亮相对应地址")
+        @TableField(value = "active_menu")
+        var activeMenu: Boolean? = null,
+
+        @ApiModelProperty(name = "代码")
+        @TableField(value = "code")
+        var code: String? = null,
 
         @ApiModelProperty(name = "创建人ID")
         @TableField(value = "creator_id")

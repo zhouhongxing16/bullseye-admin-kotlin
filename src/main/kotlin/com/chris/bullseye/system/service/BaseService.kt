@@ -47,4 +47,8 @@ abstract class BaseService<T> {
     fun getByParams(params: MutableMap<String,String?>): T {
         return getMapper().getByParams(params)
     }
+
+    fun selectByMap(params: Map<String, String?>): List<T> {
+        return getMapper().selectByMap(params)
+    }
 }

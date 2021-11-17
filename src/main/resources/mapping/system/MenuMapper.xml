@@ -4,16 +4,24 @@
     <resultMap id="BaseResultMap" type="com.chris.bullseye.system.pojo.Menu">
         <id column="id" jdbcType="VARCHAR" property="id" />
         <result column="parent_id" jdbcType="VARCHAR" property="parentId" />
-        <result column="code" jdbcType="VARCHAR" property="code" />
+        <result column="path" jdbcType="VARCHAR" property="path" />
+        <result column="name" jdbcType="VARCHAR" property="name" />
+        <result column="component" jdbcType="VARCHAR" property="component" />
+        <result column="redirect" jdbcType="VARCHAR" property="redirect" />
         <result column="title" jdbcType="VARCHAR" property="title" />
         <result column="icon" jdbcType="VARCHAR" property="icon" />
-        <result column="path" jdbcType="VARCHAR" property="path" />
-        <result column="status" jdbcType="INTEGER" property="status" />
-        <result column="sort" jdbcType="INTEGER" property="sort" />
+        <result column="hidden" jdbcType="BIT" property="hidden" />
+        <result column="always_show" jdbcType="BIT" property="alwaysShow" />
+        <result column="affix" jdbcType="BIT" property="affix" />
+        <result column="no_cache" jdbcType="BIT" property="noCache" />
+        <result column="breadcrumb" jdbcType="BIT" property="breadcrumb" />
+        <result column="active_menu" jdbcType="VARCHAR" property="activeMenu" />
+        <result column="code" jdbcType="VARCHAR" property="code" />
         <result column="creator_id" jdbcType="VARCHAR" property="creatorId" />
         <result column="creator_name" jdbcType="VARCHAR" property="creatorName" />
+        <result column="status" jdbcType="INTEGER" property="status" />
+        <result column="sort" jdbcType="INTEGER" property="sort" />
         <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
-
     </resultMap>
 
 
@@ -26,7 +34,26 @@
 
 
     <sql id="basic_list">
-        a.id, a.parent_id, a.code, a.title, a.icon, a.path, a.creator_id, a.status, a.sort, a.create_time
+        a.id,
+        a.parent_id,
+        a.path,
+        a.name,
+        a.component,
+        a.redirect,
+        a.title,
+        a.icon,
+        a.hidden,
+        a.always_show,
+        a.affix,
+        a.no_cache,
+        a.breadcrumb,
+        a.active_menu,
+        a.code,
+        a.creator_id,
+        a.creator_name,
+        a.status,
+        a.sort,
+        a.create_time
     </sql>
 
     <select id="getListByParams" resultMap="BaseResultMapDto" parameterType="map">
@@ -98,37 +125,37 @@
   		SELECT DISTINCT
         <include refid="basic_list"/>
 		FROM
-			b_menu m
-		LEFT JOIN b_role_menu rm ON rm.menu_id = m.id
+			b_menu a
+		LEFT JOIN b_role_menu rm ON rm.menu_id = a.id
 		WHERE
 			rm.role_id IN ( SELECT DISTINCT ar.role_id FROM b_account_role ar where ar.account_id = #{accountId})
 
-		order BY m.sort desc
+		order BY a.sort desc
     </select>
 
     <select id="getMenusByRoleId" parameterType="String" resultMap="BaseResultMapDto">
   		SELECT
         <include refid="basic_list"/>
 		FROM
-			b_menu m
-		LEFT JOIN b_role_menu rm ON rm.menu_id = m.id
+			b_menu a
+		LEFT JOIN b_role_menu rm ON rm.menu_id = a.id
 		WHERE
 			rm.role_id = #{roleId}
-		ORDER BY m.sort desc
+		ORDER BY a.sort desc
   </select>
 
     <select id="getAllMenus" parameterType="String" resultMap="BaseResultMapDto">
   		SELECT
-        <include refid="basic_list"/>,m.id as menu_key,m.id as menu_value
+        <include refid="basic_list"/>,a.id as menu_key,a.id as menu_value
 		FROM
-			b_menu m
+			b_menu a
 		ORDER BY
 			m.sort asc
   </select>
 
     <select id="getOrganizationAuthMenus" parameterType="String" resultMap="BaseResultMapDto">
-        select <include refid="basic_list"/>,m.id as menu_key,m.id as menu_value from b_organization_menu om
-        left join b_menu m on m.id = om.menu_id
+        select <include refid="basic_list"/>,a.id as menu_key,a.id as menu_value from b_organization_menu om
+        left join b_menu a on m.id = om.menu_id
 
         <where>
             <if test="id!=null and id!='' ">
@@ -150,6 +177,6 @@
                 and a.status = #{ status }
             </if>
         </where>
-        order by m.sort ASC
+        order by a.sort ASC
     </select>
 </mapper>

@@ -36,7 +36,7 @@ class MenuService(var menuMapper: MenuMapper): BaseService<Menu>() {
         }
 
         val menus: List<MenuResponse> = menuMapper.getMenusByAccountId(map)
-        val menuList: MutableList<MenuResponse> = ArrayList<MenuResponse>()
+        /*val menuList: MutableList<MenuResponse> = ArrayList<MenuResponse>()
         // 先找到所有的一级菜单
         for (menu in menus) {
             // 一级菜单没有pId
@@ -47,8 +47,8 @@ class MenuService(var menuMapper: MenuMapper): BaseService<Menu>() {
         // 为一级菜单设置子菜单，getChild是递归调用的
         for (menu in menuList) {
             menu.children = menu.id?.let { getChild(it, menus) }
-        }
-        return menuList
+        }*/
+        return menus
     }
 
     fun getMenusByRoleId(roleId: String): List<MenuResponse> {
