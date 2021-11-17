@@ -23,7 +23,7 @@ class MenuController(var menuService: MenuService,
 
 
 
-    @OperationLog("获取所有菜单(树形)")
+    /*@OperationLog("获取所有菜单(树形)")
     @GetMapping("/getAllMenuByTree")
     @ApiOperation(value = "获取所有菜单(树形)", notes = "获取所有菜单(树形)")
     fun getAllMenuByTree(): JsonResult<Menu?> {
@@ -56,7 +56,7 @@ class MenuController(var menuService: MenuService,
         obj.creatorId = user!!.id
         obj.creatorName = user!!.name
         return menuService.add(obj)
-    }
+    }*/
 
 
 

@@ -25,7 +25,7 @@ class AccountRoleController(var accountRoleService: AccountRoleService,
                             var roleService: RoleService,
                             var jsonResult: JsonResult<AccountRole>) {
 
-    @ApiOperation(value = "(admin)删除机构管理员", notes = "参数：accountId")
+  /*  @ApiOperation(value = "(admin)删除机构管理员", notes = "参数：accountId")
     @OperationLog("(admin)删除机构管理员")
     @GetMapping("/deleteOrganizationAdmin/{accountId}")
     fun deleteOrganizationAdmin(@PathVariable accountId: String): JsonResult<AccountResponse> {
@@ -75,6 +75,6 @@ class AccountRoleController(var accountRoleService: AccountRoleService,
     @PostMapping("/saveAccountRoles/{accountId}")
     fun saveAccountRoles(@RequestBody list: List<String>, @PathVariable accountId: String): JsonResult<Any> {
         return accountRoleService.saveAccountRoles(accountId, list)
-    }
+    }*/
 
 }

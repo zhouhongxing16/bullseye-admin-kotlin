@@ -24,7 +24,7 @@ import org.springframework.web.bind.annotation.RestController
 class OrganizationController(var organizationService: OrganizationService){
 
 
-    @OperationLog("(web)获取登录页面组织选择")
+    /*@OperationLog("(web)获取登录页面组织选择")
     @PostMapping("/getWebOrganizations")
     @ApiOperation(value = "(web)获取登录页面组织选择", notes = "(web)获取登录页面组织选择")
     fun getWebOrganizations(): JsonResult<Any>{
@@ -45,5 +45,5 @@ class OrganizationController(var organizationService: OrganizationService){
         obj.creatorId = user!!.id
         obj.creatorName = user!!.name
         return organizationService.add(obj)
-    }
+    }*/
 }

@@ -61,44 +61,6 @@ class AccountController(
         return accountService.resetPassword(accountId)
     }
 
-   /* @ApiOperation(value = "(admin)获取机构管理员", notes = "参数：organizationId")
-    @OperationLog("(admin)获取机构管理员")
-    @PostMapping("/getOrganizationAdmins/{organizationId}")
-    fun getOrganizationAdmins(@PathVariable organizationId: String): JsonResult<AccountDto> {
-        var result = JsonResult<AccountDto>()
-        var params: MutableMap<String, String?> = HashMap(2)
-        params["roleCode"] = "organizationAdmin"
-        if (params["pageNum"].isNullOrEmpty()) {
-            params["pageNum"] = "1"
-        }
-        if (params["pageSize"].isNullOrEmpty()) {
-            params["pageSize"] = "10"
-        }
-        PageHelper.startPage<AccountDto>(params)
-        val list = accountService.getDtoListByParams(params)
-        var pageInfo = PageInfo(list)
-        return result.success(pageInfo, "查询成功")
-    }*/
-
-   /* @ApiOperation(value = "(admin)获取机构非管理员用户和已授权用户", notes = "参数：organizationId")
-    @OperationLog("(admin)获取机构非管理员用户和已授权用户")
-    @PostMapping("/getNotAndAuthorizedUsers/{organizationId}")
-    fun getNotAndAuthorizedUsers(@PathVariable organizationId: String): JsonResult<Any> {
-        var result = JsonResult<AccountDto>()
-        result.status = HttpStatus.OK.value()
-        var params: MutableMap<String, String?> = HashMap(2)
-        params["organizationId"] = organizationId
-        if (params["pageNum"].isNullOrEmpty()) {
-            params["pageNum"] = "1"
-        }
-        if (params["pageSize"].isNullOrEmpty()) {
-            params["pageSize"] = "10"
-        }
-        PageHelper.startPage<AccountDto>(params)
-        val list = accountService.getNotInRoleCodeListByParams(params)
-        var pageInfo = PageInfo(list)
-        return JsonResultRsuccess(pageInfo, "查询成功！")
-    }*/
 
     @ApiOperation(value = "获取我的个人信息", notes = "获取我的个人信息")
     @OperationLog("获取我的个人信息")
@@ -139,10 +101,8 @@ class AccountController(
     @PostMapping("/getDtoListByPage")
     @ApiOperation(value = "(admin)分页获取延展数据", notes = "(admin)分页获取延展数据)分页获取延展数据")
     fun getDtoListByPage(@RequestBody account: AccountRequest): JsonResult<AccountResponse> {
-        var result = JsonResult<AccountResponse>()
-
         var page = accountService.getDtoListByPage(account)
-        return result.success(page, "查询成功")
+        return JsonResult<AccountResponse>().success(page, "查询成功")
     }
 
 

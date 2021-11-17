@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.RestController
 class ConfigController(var aliConfig: AliConfig,var tencentConfig: TencentConfig) {
 
 
-    @GetMapping("/getAliConfig")
+ /*   @GetMapping("/getAliConfig")
     @ApiOperation(value = "阿里视频配置", notes = "阿里视频配置")
     fun getAliVideConfig(): JsonResult<Any> {
         return JsonResult.success(aliConfig,"获取成功！")
@@ -31,5 +31,5 @@ class ConfigController(var aliConfig: AliConfig,var tencentConfig: TencentConfig
     @ApiOperation(value = "腾讯配置", notes = "腾讯配置")
     fun getTencentConfig(): JsonResult<Any> {
         return JsonResult.success(tencentConfig,"获取成功！")
-    }
+    }*/
 }

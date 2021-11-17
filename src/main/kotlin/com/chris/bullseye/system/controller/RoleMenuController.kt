@@ -19,10 +19,10 @@ import org.springframework.web.bind.annotation.*
 class RoleMenuController( val roleMenuService: RoleMenuService ) {
 
 
-    @OperationLog("角色菜单授权")
+  /*  @OperationLog("角色菜单授权")
     @ApiOperation(value = "角色菜单授权")
     @PostMapping("/createRoleMenu/{roleId}")
     fun createRoleMenu(@RequestBody list: List<String?>, @PathVariable roleId: String): JsonResult<RoleMenu> {
         return roleMenuService.createRoleMenu(list, roleId)
-    }
+    }*/
 }

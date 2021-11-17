@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.RestController
 class MenuFunctionController(var menuFunctionService: MenuFunctionService)  {
 
 
-
+/*
     //增加
     @ApiOperation(value = "创建方法", notes = "创建")
     @OperationLog("创建方法")
@@ -33,5 +33,5 @@ class MenuFunctionController(var menuFunctionService: MenuFunctionService)  {
         obj.creatorId = user!!.id
         obj.creatorName = user!!.name
         return menuFunctionService.add(obj)
-    }
+    }*/
 }

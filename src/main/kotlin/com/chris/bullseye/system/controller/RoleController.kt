@@ -33,7 +33,7 @@ class RoleController(var roleService: RoleService){
     //增加
     @ApiOperation(value = "创建方法", notes = "创建")
     @OperationLog("创建方法")
-    @PostMapping("/remove/{id}")
+    @DeleteMapping("/remove/{id}")
      fun remove(@PathVariable id: String): JsonResult<Any> {
         var role = roleService.getById(id)
         return if(role.code=="organizationAdmin" || role.code=="superAdmin" || role.code=="generalUser" || role.code=="courseAdmin"){

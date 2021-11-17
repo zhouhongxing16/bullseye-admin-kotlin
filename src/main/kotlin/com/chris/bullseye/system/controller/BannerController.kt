@@ -24,7 +24,7 @@ class BannerController(
 ) {
 
 
-    @OperationLog("获取首页banner")
+  /*  @OperationLog("获取首页banner")
     @GetMapping("/getWebBanners")
     @ApiOperation(value = "获取首页banner", notes = "获取首页banner")
     fun getWebBanners(): JsonResult<Banner>{
@@ -44,5 +44,5 @@ class BannerController(
         var user  = AuthUtil.getCurrentUser()
         obj.creatorId = user!!.id
         return bannerService.add(obj)
-    }
+    }*/
 }

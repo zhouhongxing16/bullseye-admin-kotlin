@@ -33,14 +33,14 @@ class NavigationController( val navigationService: NavigationService){
         return JsonResult.success(list, "查询成功！")
     }
 
-    //增加
-    @ApiOperation(value = "创建方法", notes = "创建")
-    @OperationLog("创建方法")
-    @PostMapping("/create")
-    fun create(@RequestBody obj: Navigation): JsonResult<Navigation> {
-        var user  = AuthUtil.getCurrentUser()
-        obj.creatorId = user!!.id
-        obj.creatorName = user!!.name
-        return navigationService.add(obj)
-    }
+    /* //增加
+     @ApiOperation(value = "创建方法", notes = "创建")
+     @OperationLog("创建方法")
+     @PostMapping("/create")
+     fun create(@RequestBody obj: Navigation): JsonResult<Navigation> {
+         var user  = AuthUtil.getCurrentUser()
+         obj.creatorId = user!!.id
+         obj.creatorName = user!!.name
+         return navigationService.add(obj)
+     }*/
 }

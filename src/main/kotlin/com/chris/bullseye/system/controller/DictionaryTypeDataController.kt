@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.*
 @RequestMapping("/dictionarydata")
 class DictionaryTypeDataController(var dictionaryTypeDataService: DictionaryTypeDataService, val jsonResult: JsonResult<DictionaryTypeData>){
 
-    @PostMapping("/create")
+ /*   @PostMapping("/create")
     @ApiOperation(value = "创建方法", notes = "")
     fun create(@RequestBody obj: DictionaryTypeData): JsonResult<DictionaryTypeData> {
         val user = AuthUtil.getCurrentUser()
@@ -46,5 +46,5 @@ class DictionaryTypeDataController(var dictionaryTypeDataService: DictionaryType
         queryMap["typeCode"] = code
         val dto = dictionaryTypeDataService.getByParams(queryMap)
         return JsonResult.success(dto,"查询成功")
-    }
+    }*/
 }
