@@ -15,7 +15,7 @@ import org.apache.ibatis.annotations.Mapper
 interface MenuMapper:MPBaseMapper<Menu> {
     fun getAllMenus(): List<MenuResponse>
 
-    fun getMenusByAccountId(map: Map<String, String?>): List<MenuResponse>
+    fun getMenusByAccountId(map: Map<String, String?>): List<Menu>
 
     fun getMenusByRoleId(map: Map<String, String?>): List<MenuResponse>
 

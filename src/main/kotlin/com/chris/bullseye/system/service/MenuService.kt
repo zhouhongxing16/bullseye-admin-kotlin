@@ -29,26 +29,52 @@ class MenuService(var menuMapper: MenuMapper): BaseService<Menu>() {
 
     fun getMenusByAccountId(): List<MenuResponse> {
         val user = AuthUtil.getCurrentUser()
-        val map: MutableMap<String, String?> = HashMap(2)
+        var map: MutableMap<String, String?> = HashMap(2)
         if (user != null) {
             map["accountId"] = user.id
             map["organizationId"] = user.organizationId
         }
 
-        val menus: List<MenuResponse> = menuMapper.getMenusByAccountId(map)
-        /*val menuList: MutableList<MenuResponse> = ArrayList<MenuResponse>()
+        var menus: List<Menu> = menuMapper.getMenusByAccountId(map)
+        var menuResponseList: MutableList<MenuResponse> = ArrayList<MenuResponse>()
+
+
+        var menuList: MutableList<MenuResponse> = ArrayList<MenuResponse>()
         // 先找到所有的一级菜单
         for (menu in menus) {
             // 一级菜单没有pId
+            var m = MenuResponse()
+            m.id = menu.id
+            m.parentId = menu.parentId
+            m.path = menu.path
+            m.name = menu.name
+            m.component = menu.component
+            m.redirect = menu.redirect
+            m.meta?.title = menu.title
+            m.meta?.icon = menu.icon
+            m.meta?.hidden = menu.hidden
+            m.meta?.alwaysShow = menu.alwaysShow
+            m.meta?.affix = menu.affix
+            m.meta?.noCache = menu.noCache
+            m.meta?.breadcrumb = menu.breadcrumb
+            m.meta?.activeMenu = menu.activeMenu
+            m.code = menu.code
+            m.creatorId = menu.creatorId
+            m.creatorName = menu.creatorName
+            m.status = menu.status
+            m.sort = menu.sort
+            m.createTime = menu.createTime
+
+            menuResponseList.add(m)
             if (StringUtils.isEmpty(menu.parentId)) {
-                menuList.add(menu)
+                menuList.add(m)
             }
         }
         // 为一级菜单设置子菜单，getChild是递归调用的
         for (menu in menuList) {
-            menu.children = menu.id?.let { getChild(it, menus) }
-        }*/
-        return menus
+            menu.children = menu.id?.let { getChild(it, menuResponseList) }
+        }
+        return menuList
     }
 
     fun getMenusByRoleId(roleId: String): List<MenuResponse> {
