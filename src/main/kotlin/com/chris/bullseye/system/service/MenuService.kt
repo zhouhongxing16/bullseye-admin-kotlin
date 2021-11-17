@@ -5,6 +5,7 @@ import com.chris.bullseye.system.dto.response.MenuResponse
 import com.chris.bullseye.system.mapper.MenuMapper
 import com.chris.bullseye.system.pojo.Menu
 import com.chris.bullseye.common.utils.AuthUtil
+import com.chris.bullseye.system.dto.response.MenuMataResponse
 import org.apache.commons.lang3.StringUtils
 import org.springframework.stereotype.Service
 import java.util.*
@@ -35,44 +36,29 @@ class MenuService(var menuMapper: MenuMapper): BaseService<Menu>() {
             map["organizationId"] = user.organizationId
         }
 
-        var menus: List<Menu> = menuMapper.getMenusByAccountId(map)
-        var menuResponseList: MutableList<MenuResponse> = ArrayList<MenuResponse>()
-
+        var menus: List<MenuResponse> = menuMapper.getMenusByAccountId(map)
 
         var menuList: MutableList<MenuResponse> = ArrayList<MenuResponse>()
         // 先找到所有的一级菜单
         for (menu in menus) {
             // 一级菜单没有pId
-            var m = MenuResponse()
-            m.id = menu.id
-            m.parentId = menu.parentId
-            m.path = menu.path
-            m.name = menu.name
-            m.component = menu.component
-            m.redirect = menu.redirect
-            m.meta?.title = menu.title
-            m.meta?.icon = menu.icon
-            m.meta?.hidden = menu.hidden
-            m.meta?.alwaysShow = menu.alwaysShow
-            m.meta?.affix = menu.affix
-            m.meta?.noCache = menu.noCache
-            m.meta?.breadcrumb = menu.breadcrumb
-            m.meta?.activeMenu = menu.activeMenu
-            m.code = menu.code
-            m.creatorId = menu.creatorId
-            m.creatorName = menu.creatorName
-            m.status = menu.status
-            m.sort = menu.sort
-            m.createTime = menu.createTime
-
-            menuResponseList.add(m)
+            var meta = MenuMataResponse()
+            meta.title = menu.title
+            meta.icon = menu.icon
+            meta.hidden = menu.hidden
+            meta.alwaysShow = menu.alwaysShow
+            meta.affix = menu.affix
+            meta.noCache = menu.noCache
+            meta.breadcrumb = menu.breadcrumb
+            meta.activeMenu = menu.activeMenu
+            menu.meta = meta
             if (StringUtils.isEmpty(menu.parentId)) {
-                menuList.add(m)
+                menuList.add(menu)
             }
         }
         // 为一级菜单设置子菜单，getChild是递归调用的
         for (menu in menuList) {
-            menu.children = menu.id?.let { getChild(it, menuResponseList) }
+            menu.children = menu.id?.let { getChild(it, menus) }
         }
         return menuList
     }

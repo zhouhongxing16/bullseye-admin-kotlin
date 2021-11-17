@@ -121,7 +121,7 @@
         order by a.sort desc
     </select>
 
-    <select id="getMenusByAccountId" parameterType="map" resultMap="BaseResultMap">
+    <select id="getMenusByAccountId" parameterType="map" resultMap="BaseResultMapDto">
   		SELECT DISTINCT
         <include refid="basic_list"/>
 		FROM
