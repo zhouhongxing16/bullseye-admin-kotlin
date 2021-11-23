@@ -69,7 +69,7 @@ open class Menu(
 
         @ApiModelProperty(name = "高亮相对应地址")
         @TableField(value = "active_menu")
-        var activeMenu: Boolean? = null,
+        var activeMenu: String? = null,
 
         @ApiModelProperty(name = "代码")
         @TableField(value = "code")
