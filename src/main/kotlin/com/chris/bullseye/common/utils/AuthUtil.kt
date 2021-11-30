@@ -3,6 +3,7 @@ package com.chris.bullseye.common.utils
 import com.chris.bullseye.common.utils.DateUtils.Companion.getDurationMinute
 import com.chris.bullseye.system.dto.Constants
 import com.chris.bullseye.system.dto.User
+import com.fasterxml.jackson.databind.ObjectMapper
 import com.google.gson.Gson
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.security.core.context.SecurityContextHolder
@@ -97,7 +98,7 @@ class AuthUtil {
             loginUser.token = token
         }
         loginUser.expireTime = loginUser.expireTime!!.plusHours(2)
-        redisUtil.setEx(LOGIN_USER_TOKEN_PREFIX + token, Gson().toJson(loginUser), REDIS_OUT_TIME, TimeUnit.MINUTES)
+        redisUtil.setEx(LOGIN_USER_TOKEN_PREFIX + token, ObjectMapper().writeValueAsString(loginUser), REDIS_OUT_TIME, TimeUnit.MINUTES)
     }
 
     /***
