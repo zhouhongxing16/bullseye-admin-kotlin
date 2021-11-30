@@ -1,6 +1,5 @@
 package com.chris.bullseye.system.controller
 
-import com.chris.bullseye.common.utils.AuthUtil
 import com.chris.bullseye.system.dto.response.MenuResponse
 import com.chris.bullseye.system.dto.JsonResult
 import com.chris.bullseye.system.dto.OperationLog
@@ -23,7 +22,7 @@ class MenuController(var menuService: MenuService,
 
 
 
-    /*@OperationLog("获取所有菜单(树形)")
+    @OperationLog("获取所有菜单(树形)")
     @GetMapping("/getAllMenuByTree")
     @ApiOperation(value = "获取所有菜单(树形)", notes = "获取所有菜单(树形)")
     fun getAllMenuByTree(): JsonResult<Menu?> {
@@ -47,7 +46,7 @@ class MenuController(var menuService: MenuService,
         return JsonResult.success(menuList, "获取成功")
     }
 
-    //增加
+    /*//增加
     @ApiOperation(value = "创建方法", notes = "创建")
     @OperationLog("创建方法")
     @PostMapping("/create")
