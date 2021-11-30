@@ -25,5 +25,5 @@ data class MenuMataResponse(
     var breadcrumb: Boolean? = null,
 
     @ApiModelProperty(name = "高亮相对应地址的侧边栏，如/article/list")
-    var activeMenu: Boolean? = null,
+    var activeMenu: String? = null,
 )

@@ -72,7 +72,7 @@ data class MenuResponse(
         var breadcrumb: Boolean? = null,
 
         @ApiModelProperty(name = "高亮相对应地址")
-        var activeMenu: Boolean? = null,
+        var activeMenu: String? = null,
 
         @ApiModelProperty(name = "创建人ID")
         var creatorId: String? = null,

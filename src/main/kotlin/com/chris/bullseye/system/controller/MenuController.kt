@@ -21,6 +21,14 @@ class MenuController(var menuService: MenuService,
                     var jsonResult: JsonResult<Menu?>)  {
 
 
+    @OperationLog("获取登录用户菜单")
+    @GetMapping("/getMenusByAccountId")
+    @ApiOperation(value = "获取登录用户菜单", notes = "获取登录用户菜单")
+    fun getMenusByAccountId(): JsonResult<Any> {
+        val menuList: List<MenuResponse> = menuService.getMenusByAccountId()
+        return JsonResult.success(menuList, "获取成功")
+    }
+
 
     @OperationLog("获取所有菜单(树形)")
     @GetMapping("/getAllMenuByTree")
@@ -30,13 +38,7 @@ class MenuController(var menuService: MenuService,
         return jsonResult.success(menuList, "获取成功")
     }
 
-    @OperationLog("获取登录用户菜单")
-    @GetMapping("/getMenusByAccountId")
-    @ApiOperation(value = "获取登录用户菜单", notes = "获取登录用户菜单")
-    fun getMenusByAccountId(): JsonResult<Any> {
-        val menuList: List<MenuResponse> = menuService.getMenusByAccountId()
-        return JsonResult.success(menuList, "获取成功")
-    }
+
 
     @OperationLog("根据角色获取菜单")
     @GetMapping("/getMenusByRoleId/{roleId}")
